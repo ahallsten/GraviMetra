@@ -1,0 +1,28 @@
+# PlatformIO build products and local metadata
+.pio/
+.pioenvs/
+.piolibdeps/
+.cache/
+
+# Native build products
+build/
+out/
+*.o
+*.obj
+*.elf
+*.bin
+*.hex
+*.map
+
+# Editor and operating-system noise
+.vscode/
+.idea/
+*.user
+*.suo
+.DS_Store
+Thumbs.db
+
+# Python environments used only to host local tooling
+.venv/
+venv/
+
