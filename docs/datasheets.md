@@ -6,11 +6,11 @@ For new parts, add a row with the manufacturer URL and revision instead of commi
 | Part | Use | Local file | Manufacturer URL | Rev / date checked |
 |---|---|---|---|---|
 | STM32G491 | MCU candidate | STM32G491_Datasheet.pdf, STM32G4_RM0440_Reference_Manual.pdf, STM32G4_AN5093_Hardware_Development.pdf | — | Aug 2026 copy; DS13122 **Rev 4** used for the pin budget |
-| ADS1262 | Precision ADC (Config E) | ADS1262_Datasheet.pdf | — | Aug 2026 copy |
-| LTC6655 | Reference | LTC6655_Datasheet.pdf | — | Aug 2026 copy |
+| ADS1262 / ADS1263 | Precision ADC (Config E); ADS1263 proposed (D-064) | ADS1262_Datasheet.pdf (covers both) | — | Aug 2026 copy = **SBAS661C, May 2021**; Table 8-1/8-3 noise, INL 3/12 ppm FSR, gain drift 0.5/4 ppm/K used 2026-11-22 |
+| LTC6655 | Reference | LTC6655_Datasheet.pdf | — | Aug 2026 copy; B grade 2 ppm/°C max, 0.25 ppm p-p, LS8 hysteresis 30 ppm, 20 ppm/kHr used 2026-11-22 |
 | LT3045 | Low-noise LDO | LT3045_Datasheet.pdf | — | Aug 2026 copy |
-| OPA2388 / OPA593 | Precision op amp / coil driver (OPA593 out of stock, OI-04) | OPA2388_Datasheet.pdf, OPA593_Datasheet.pdf | — | Aug 2026 copy |
-| VCS1625ZP / Y1606 | Foil shunt | VPG_VCS1625ZP_Y1606_Datasheet.pdf | — | Aug 2026 copy |
+| OPA2388 / OPA593 | Precision op amp (now also the coil driver, D-066) / former coil driver (not needed) | OPA2388_Datasheet.pdf, OPA593_Datasheet.pdf | — | Aug 2026 copy; OPA2388 ISC ±60 mA used 2026-11-22 |
+| VCS1625ZP / Y1606 | Foil shunt (**superseded for the coil**: 0.3–10 Ω range; the ~10 mA coil needs ~150 Ω, D-064) | VPG_VCS1625ZP_Y1606_Datasheet.pdf | — | Aug 2026 copy; TCR ±0.05 ppm/K typ (0–60 °C), PCR 5 ppm at rated power used as family values |
 | TMP117 | Temperature sensors (magnet/coil/ambient) | TMP117_Datasheet.pdf | — | Aug 2026 copy |
 | TMC2209 | Stepper drivers (×3) | TMC2209_Datasheet.pdf | — | Aug 2026 copy (Rev 1.08, 2022-05-25) |
 | Mean Well IRM-20 / IRM-30 | Mains modules (owned) | MeanWell_IRM-20_Datasheet.pdf, MeanWell_IRM-30_Datasheet.pdf | — | Aug 2026 copy |

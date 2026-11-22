@@ -92,3 +92,53 @@ Format: ID · date · decision · status · alternatives considered · evidence.
   - REJECTED: electromagnet (22–180 W in the cell vs a 6 mW coil budget); magnet + trim winding (≤ 104 mW and still needs the temperature); a second coil to cancel drift (both coils share B).
 
   · **PROPOSED (Gate B)** · evidence: `analysis/magnet_coil.out.txt` §12, `docs/phase2/MAGNET_COIL.md` §13.
+
+## Phase 2, 2026-11-22 (servo and measurand study, `docs/phase2/SERVO_MEASURAND.md`)
+
+- **D-063** 2026-11-22 · EMFC position loop is **digital in the STM32G491**.
+  - 10 kHz, TIM-triggered ADC1+ADC2 simultaneous on the optical sensor halves (ratiometric).
+  - PID + lead + low-pass + notch slot. 25 Hz crossover, PM 46°, GM 15 dB, coil-bracket mode −44 dB.
+  - Output: DAC1 with 2nd-order sigma-delta at 50 kHz by DMA, into the V-I driver.
+  - Built analog, the same law gains only 1.3° of phase. Digital wins on retune and notch, acquisition, anti-windup and host testing. Matches the stated preference in the Nov-2026 handoff (§5).
+  - The precision path stays on B4; the loop's position and command signals cross to B2 as buffered analog.
+  - Rejected: analog PID with firmware supervision (the Aug-2026 candidate); hybrid analog PD + digital I.
+
+  · **PROPOSED (Gate B)** · evidence: `analysis/servo_measurand.out.txt` §3, §9.
+- **D-064** 2026-11-22 · Measurand = **ADS1263** ADC1 at 1200 SPS across a **~150 Ω foil shunt**, with an LTC6655B-2.5 reference. ADC2 measures the coil voltage in the background. The ADS1263 is pin-compatible with the ADS1262 [DS SBAS661C].
+  - Noise 0.034 mg/√Hz, negligible.
+  - INL 3 ppm FSR typ / 12 max = 9.6 / 38 ppm of span against MET-04's 3.85 ppm, so a ≥ 3-point linearity adjustment is required (OI-34).
+  - Rejected: ±I0 PWM through the coil (±0.42 N square-wave force; audible; 27 mH reversal; a 20 kHz version needs a ~21-turn, 350 mA coil).
+  - Rig fallback: precision PWM-DAC duty (inherently linear).
+  - Supersedes the VCS1625ZP 1.5 Ω shunt candidate.
+
+  · **PROPOSED (Gate B)** · evidence: §7.
+- **D-065** 2026-11-22 · Coil wound **4 × AWG 37 in hand** (~292 turns each). A+B in series form the force winding: 114 Ω, Kf 33.3 N/A, Km 3.13. C+D form a non-inductive hairpin heater, driven bipolar at ≥ 25 kHz.
+  - Constant total power P0 = 18 mW (Recoma 28) / 35 mW (TC16).
+  - All four in series (Km 4.42) stays available for rig A/B tests.
+  - Implements D-058 and supersedes D-057's single AWG 34 winding.
+
+  · **PROPOSED (Gate B)** · evidence: §1.
+- **D-066** 2026-11-22 · Coil driver = a zero-drift op-amp (OPA2388 class) driving the coil directly over −20 … +120 % FS (−2.1 … +12.5 mA), on a single 5 V analog rail with a ~1.0 V return node.
+  - Pan removal keeps the null; a negative reading means pan absent.
+  - Hardware current limit; COIL_EN gated by SAFE.
+  - **On SAFE the command ramps to zero over ~0.5 s (RC soft-off) instead of an instant cut.** A hard cut at full load hits the stop at 3.9 mm/s (8.5 kg-equivalent on a stiff stop); soft-off gives 1.0 mm/s.
+  - Closes OI-04: no OPA593.
+  - The soft-off changes how SAF-02/03 "coil disabled" is met, so it needs the user's confirmation (OI-33).
+
+  · **PROPOSED (Gate B)** · evidence: §4, §8.
+- **D-067** 2026-11-22 · Interface requirements from the servo study.
+  - Optical sensor: fine channel ≥ ±50 µm linear at ≤ 1 nm/√Hz; coarse monotonic channel over the full stop range (±0.6 mm at the vane); bandwidth ≥ 5 kHz. OPR2100 outer cells are the candidate for the coarse channel.
+  - Mechanics: non-collocated modes (coil bracket, vane mount) ≥ 500 Hz with Q ≤ 50. Elastomer-faced lever stops, ≤ 33 kN/m at the coil radius with soft-off (≤ 2 kN/m without), so the peak stays ≤ 1 kg-equivalent (MET-11).
+
+  · **PROPOSED (Gate B)** · evidence: §4.
+- **D-068** 2026-11-22 · Readout and servo behaviour.
+  - Dispensing profile: sinc² × 100 ms (0.1 s latency, SD 0.24 mg at 10 g, 20 Hz output).
+  - Settling profile: sinc³ × 0.33 s (settles 1.14 s; SD 0.03 mg at 10 g, 0.17 mg at 500 g in the assumed environment).
+  - Stable flag: |slope| < 0.5 d/s and 1 s SD < 0.5 d.
+  - Servo modes: OFF / ACQUIRE (coarse channel, ramped setpoint; null in 0.25–0.61 s) / TRACK (coarse takeover beyond ±75 µm) / FAULT.
+  - Controller parameters are computed from measured plant data. They stay invalid until measured, and the servo refuses to start without them.
+  - Finding: a steady falling stream reads the mass already released (impact force = weight in flight), so dosing needs no in-flight correction.
+
+  · **PROPOSED (Gate B)** · evidence: §4, §6.
+- **D-069** 2026-11-22 · No HRTIM needed: the measurand is DC (D-064), and the PWM-DAC fallback reaches sub-ppm with sigma-delta on a standard 170 MHz timer. **STM32G491VET6 stays.** Closes the HRTIM part of OI-03; the stock check remains · **PROPOSED (Gate B)**.
+

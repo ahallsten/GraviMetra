@@ -4,9 +4,9 @@
 |---|---|---|---|---|
 | OI-01 | ~~Display variant~~ → RESOLVED by D-034 (MCUFRIEND RM68140 8-bit parallel shield). Verify the controller ID against the panel at bring-up | CLOSED | — | — |
 | OI-02 | Span tempco closure at full coil load. Preload doesn't help (D-051). Magnet/coil study: standard Sm2Co17 is −336 ppm/K net → needs α to 0.6 %, a lag-compensated magnet temperature (~3.5 ppm lag at 2 K/h), constant coil power (D-058) and auto-adjust at ΔT ≥ 0.5 K. A TC grade (≈ +4 ppm/K) relaxes this 50× (D-059, OI-27) → error-budget study | UNRESOLVED · top risk | Gate B | Phase 2 |
-| OI-03 | MCU: STM32G491RET6 stock (0 at Digi-Key, 53 at LCSC); evaluate G474 (HRTIM) for the PWM-measurand option | UNRESOLVED | Gate B | Phase 2 |
-| OI-04 | Coil driver: OPA593 out of stock everywhere; choose an alternate architecture | UNRESOLVED | Gate B | Phase 2 |
-| OI-05 | Reference (LTC6655LNB-2.5 candidate) and shunt (VCS1625Z drop-in, stock unknown) | UNRESOLVED | Gate D | Phase 2/4 |
+| OI-03 | MCU stock: STM32G491VET6 (D-040). The HRTIM / G474 question is closed by D-069 (DC measurand; PWM-DAC fallback works on a standard timer) | UNRESOLVED (stock only) | Gate B | Phase 2 (sourcing) |
+| OI-04 | ~~Coil driver: OPA593 out of stock~~ → RESOLVED by D-066: a zero-drift op-amp drives the 10–12.5 mA coil directly; no power stage | CLOSED (PROPOSED design) | — | — |
+| OI-05 | Reference LTC6655B-2.5 (candidate) and shunt: **~150 Ω VPG foil, TCR ≤ 0.2 ppm/K, PCR ≤ 5 ppm at rated power** (VCS1625Z 1.5 Ω superseded by D-064). Pick part numbers and check stock, including the ADS1263 | UNRESOLVED | Gate D | Phase 4 |
 | OI-06 | TMC2209-LA availability (21 at LCSC) | UNRESOLVED | Gate D | Phase 4 |
 | OI-07 | Internal check mass: 200 g on a receptor kinematic seat, geared-stepper lift (D-052) | PROPOSED | Gate B | Phase 2 |
 | OI-08 | Board count and partition: 4 boards PROPOSED (D-042), B2/B3 merge open | PROPOSED | Gate B | Phase 2 |
@@ -32,3 +32,9 @@
 | OI-28 | Pot steel: SendCutSend mild-steel grade (CR 1008/1010 vs A36), thicknesses 3/16 and 1/4 in, cut-diameter tolerance, B-H data or cert. Sets the clearance and the B-H assumption | UNRESOLVED | Gate B | Phase 2 (sourcing) |
 | OI-29 | SmCo disc sourcing, Ø31.75 × 12.7 mm (1¼ × ½ in) Sm2Co17 axial (fallback Ø25.4 × 12.7): stock and price | UNRESOLVED | Gate C | Phase 3 (rig purchase) |
 | OI-30 | Passive temperature-compensator shunt experiment: Carpenter Temperature Compensator 30 strip across the pot (D-062). Get the datasheet curves (Type 1/2/3) and a small-quantity source, then measure k = d(shunt flux)/dT and the residual tempco on the rig | UNRESOLVED | Gate C | Phase 3 rig |
+| OI-31 | Optical position sensor detail: OPR2100 fine (centre cells) + coarse (outer cells) channels, TIAs, LED drive. Datasheet, stock and a noise/drift test against D-067 (≤ 1 nm/√Hz, ±50 µm fine, ±0.6 mm coarse) | UNRESOLVED | Gate C | Phase 3 rig |
+| OI-32 | Garage floor vibration: 500 g SD reaches 1.7 mg at 10× the assumed floor level. Measure on the rig (EMFC at 520 g as seismometer); decide isolation feet or a longer high-load window | UNRESOLVED | Gate C | Phase 3 rig |
+| OI-33 | Coil soft-off on SAFE (0.5 s RC) instead of an instant cut, plus elastomer-faced lever stops (D-066/D-067). Needs user confirmation (changes how SAF-02/03 is met) and a rig impact test | UNRESOLVED | Gate B (decision) / Gate C (test) | User + rig |
+| OI-34 | MET-04 linearity path: measure the ADS1263 INL on the rig, then a 3-point linearity adjustment with CAL-03 masses; PWM-DAC duty measurand as the fallback (D-064) | UNRESOLVED | Gate C | Phase 3 rig |
+| OI-35 | Coil manufacture: 4 × AWG 37 in hand on the Al bobbin (winding jig), hairpin joint, residual heater force and coupling at 25 kHz, slit vs solid bobbin (ζ 0 vs 2.6) | UNRESOLVED | Gate C | Phase 3 rig |
+| OI-36 | Structural modes: coil bracket and vane mount ≥ 500 Hz, Q ≤ 50 (D-067). Design check in Phase 4, swept-sine on the rig | UNRESOLVED | Gate C | Phase 3/4 |

@@ -36,7 +36,7 @@ flowchart LR
   TRK --> PAN["conductive pan<br/>in draft shield"]
 
   RS232 -- "Config S: straight F-F DE-9 cable" --> SCALE["Bought balance<br/>A&D FX-i first"]
-  CTRL -- "Config E: shielded digital cable<br/>SPI, I2C, 12 V, enables" --> EMFC["B4 EMFC precision module<br/>ADS1262, ref, shunt, coil driver,<br/>position sensor, TMP117 ×2"]
+  CTRL -- "Config E: shielded cable<br/>SPI, I2C, 12 V, enables,<br/>buffered loop analog" --> EMFC["B4 EMFC precision module<br/>ADS1263, ref, shunt, coil driver,<br/>heater driver, position sensor, TMP117 ×2"]
   PAN -.-> SCALE
   PAN -.-> EMFC
   PE --- PAN
@@ -51,7 +51,7 @@ flowchart LR
 | **B1 Mains** | 2 (mains-rated creepage, slot under the barrier) | IRM-30-12, IRM-20-5, one T fuse per module, PE stud. Inlet fuse and switch sit in the panel-mount C14 | Confines mains to a grounded metal compartment (SAF-05). The IRM modules meet EN55032 Class B **without extra parts** [IRM-20/30 DS], so no on-board EMI filter is planned. The fuses must be **time-lag**: cold-start inrush is 20 A (IRM-20) and 25 A (IRM-30) typical at 115 VAC [DS] |
 | **B2 Controller** | 4 | MCU, safety chain, 3× TMC2209, motor eFuse, 3V3 regulator, RS-232, USB-C, TMP117, connectors | One low-noise digital/motor board. Motor-switching return currents stay off the precision module |
 | **B3 Display carrier** | 2 | Uno-pattern female headers for the shield, an IDC to B2, and an optional level translator (OI-21) | Lets B2 sit where thermal and EMC want it rather than behind the front panel. 2 layers is enough: no analog content, ground-interleaved ribbon, series-terminated at B2 |
-| **B4 EMFC module** (Config E) | 4 | ADS1262, reference, Kelvin shunt, coil driver, position-sensor front end, TMP117 (magnet, coil), local LT3045-class LDOs from 12 V, check-mass actuator driver | Keeps µV-level analog physically and thermally away from motors and switchers (PCB requirements). Config S builds don't pay for it |
+| **B4 EMFC module** (Config E) | 4 | ADS1263, LTC6655B reference, ~150 Ω foil shunt, op-amp coil driver with soft-off, heater H-bridge, optical-sensor TIAs (fine + coarse) and LED driver, TMP117 (magnet, board), local LT3045-class LDOs from 12 V, check-mass actuator driver (`SERVO_MEASURAND.md`) | Keeps µV-level analog physically and thermally away from motors and switchers (PCB requirements). Config S builds don't pay for it |
 
 Alternative kept open: merge B3 into B2 by mounting B2 directly behind the display. That is one board fewer, but it fixes B2's location at the front panel, near the pan. Decide at Gate B after the enclosure layout sketch.
 
@@ -117,8 +117,8 @@ Why: the 1 mg cell is sensitive to temperature gradients and vibration, so mains
 
 | Item | Study |
 |---|---|
-| Analog / digital / hybrid position loop, and the EMFC control line list | Servo study (`/effort max`) |
-| Measurand: shunt + ADS1262 vs PWM duty (G474 HRTIM, OI-03) | Servo / measurand study |
+| ~~Analog / digital / hybrid position loop, and the EMFC control line list~~ → digital loop (D-063), lines in `CONTROLLER_IO.md` | Done: `SERVO_MEASURAND.md` |
+| ~~Measurand: shunt + ADS1262 vs PWM duty~~ → ADS1263 + shunt (D-064), PWM-DAC as rig fallback, no HRTIM | Done: `SERVO_MEASURAND.md` |
 | Rail currents and IRM derating; eFuse limits | Power budget (OI-09) |
-| Coil driver part (OI-04), reference and shunt (OI-05) | EMFC electronics study |
+| ~~Coil driver architecture (OI-04)~~ → op-amp direct (D-066); reference and shunt part numbers (OI-05) | Phase 4 EMFC electronics |
 | Check-mass value and actuator (OI-07) | EMFC mechanics study |

@@ -1,20 +1,20 @@
 # Controller I/O list and MCU pin budget (Phase 2, OI-18)
 
-Rev 1 · 2026-11-22 (LCD bus moved to 5 V-tolerant pins, D-056) · Source of numbers: `analysis/pin_budget.py` → `analysis/pin_budget.out.txt`; pin data extracted from DS13122 Rev 4, Tables 12–13 (`analysis/tools/extract_g4_pins.py`).
+Rev 2 · 2026-11-22 (EMFC lines fixed by the servo study, D-063..D-069; LCD bus on 5 V-tolerant pins, D-056) · Source of numbers: `analysis/pin_budget.py` → `analysis/pin_budget.out.txt`; pin data extracted from DS13122 Rev 4, Tables 12–13 (`analysis/tools/extract_g4_pins.py`).
 
 ## Result
 
-| Package (STM32G491) | Usable I/O* | Config S only (39) | S + E (54) | S + E + Rev-B reserved (61) |
+| Package (STM32G491) | Usable I/O* | Config S only (39) | S + E (59) | S + E + Rev-B reserved (66) |
 |---|---|---|---|---|
-| LQFP64 (RET6, current FW-04 candidate) | 43 | fits, **+4** | **−11** | −18 |
-| LQFP80 (MET6) | 57 | +18 | +3 | −4 |
-| LQFP100 (VET6) | 77 | +38 | +23 | **+16** (solved map below) |
+| LQFP64 (RET6, superseded by D-040) | 43 | fits, **+4** | **−16** | −23 |
+| LQFP80 (MET6) | 57 | +18 | **−2** | −9 |
+| LQFP100 (VET6, CONFIRMED D-040) | 77 | +38 | +18 | **+11** (solved map below) |
 
 \*After reserving USB (PA11/12), SWD (PA13/14), SWO (PB3), HSE crystal (PF0/1), BOOT0 (PB8) and NRST.
 
-**Contradiction:** FW-04 lists STM32G491**RET6** (LQFP64), but LQFP64 can't carry Config E's interface alongside the parallel display (D-034) without an I/O expander. Either the MCU package changes or the I/O does.
+**Contradiction (resolved by D-040):** FW-04 listed STM32G491**RET6** (LQFP64), which can't carry Config E's interface alongside the parallel display (D-034) without an I/O expander.
 
-**Recommendation (PROPOSED for Gate B): move to LQFP100, STM32G491VET6.** It uses the same die, flash, SRAM and firmware, and leaves 16 spare pins after every Rev-B net. Why: the display alone takes 13 pins, and an I/O expander would put safety and actuator lines behind an I²C bus, which conflicts with SAF-03 (defined pin states through reset or a crash). G474VET6 stays open as the HRTIM alternative until the measurand study closes OI-03. Pin compatibility between G474 and G491 in LQFP100 is [U] until checked in CubeMX.
+**Recommendation (PROPOSED for Gate B): move to LQFP100, STM32G491VET6.** It uses the same die, flash, SRAM and firmware, and leaves 11 spare pins after every Rev-B net and the final EMFC lines. Why: the display alone takes 13 pins, and an I/O expander would put safety and actuator lines behind an I²C bus, which conflicts with SAF-03 (defined pin states through reset or a crash). G474VET6 stays open as the HRTIM alternative until the measurand study closes OI-03. Pin compatibility between G474 and G491 in LQFP100 is [U] until checked in CubeMX.
 - Rejected: LQFP80 has only +3 spare pins for Config E and can't carry the Rev-B nets.
 - Rejected: LQFP64 plus an expander.
 
@@ -56,8 +56,8 @@ The sourcing check (OI-03) has to be redone by a person or with the sourcing age
 | Temperature | I2C SCL/SDA | 1 | TMP117 ambient (controller) plus magnet/coil (EMFC module) on one bus, 4 addresses available |
 | Safety | ESTOP_MON, LID_MON, SAFE_CHAIN_OK (EXTI); WDG_KICK; VM_SENSE (ADC) | 1 | Monitoring only; hardware does the cutting (SAF-01) |
 | Housekeeping | V12, V5, BOARD_NTC (ADC); BUZZER (timer); STATUS_LED | 1 | 3V3 via VREFINT |
-| ADS1262 | SPI SCK/MISO/MOSI, CS, DRDY (EXTI), START, RESET | 2 | Digital only crosses to the EMFC module |
-| EMFC control | COIL_EN, COIL_FAULT (EXTI), SERVO_MODE, POS_MON (ADC), EMFC_DAC, CM_STEP (timer), CM_DIR, CM_HOME (EXTI) | 2 | **Placeholder until the servo study**; check-mass actuator per OI-07 |
+| ADS1263 (D-064) | SPI SCK/MISO/MOSI, CS, DRDY (EXTI), START, RESET | 2 | Precision path stays on B4; the loop's position and command signals cross as buffered analog (inside the loop, not precision) |
+| EMFC control | COIL_EN, COIL_FAULT (EXTI), EMFC_DAC (DAC1, coil command), POS_A / POS_B (ADC1 + ADC2 simultaneous, optical sensor halves), POS_COARSE (ADC, acquisition channel), LED_EN, HEAT_IN1/IN2 (two channels of one timer, heater H-bridge), HEAT_ISENSE (ADC), CM_STEP (timer), CM_DIR, CM_HOME (EXTI) | 2 | Fixed by the servo study (`SERVO_MEASURAND.md`, D-063..D-068). SERVO_MODE and POS_MON removed (digital loop) |
 | Optional | PAN_DET | 3 | Pan presence is detected from weight by default (both configs) |
 | Rev-B reserved | CAN TX/RX, RS-485 TX/RX/DE, BATT_SENSE | 3 | IF-03: footprints only. No protocol (CLAUDE.md) |
 
@@ -71,7 +71,7 @@ The sourcing check (OI-03) has to be redone by a person or with the sourcing age
 
 ## Candidate LQFP100 map (CANDIDATE, solver output; confirm in CubeMX before schematic capture)
 
-Peripherals: USART2 = scale RS-232, USART3 = TMC bus, I2C1, SPI1 = ADS1262, USART1 = RS-485 (DNP), FDCAN1 (DNP). Timers: TIM1/TIM2/TIM3 = STEP1–3, TIM8 = buzzer, TIM20 = check-mass step. LCD D0–D7 = PE8–PE15. The full table is in `analysis/pin_budget.out.txt`. Spare pins (16): PA2 PB0 PB1 PB2 PB6 PB11 PB14 PB15 PC0–PC3 PC15 PD12–PD14.
+Peripherals: USART2 = scale RS-232, USART3 = TMC bus, I2C1, SPI1 = ADS1262, USART1 = RS-485 (DNP), FDCAN1 (DNP). Timers: TIM1/TIM2/TIM3 = STEP1–3, TIM8 = buzzer, TIM20 = check-mass step, TIM15 CH1/CH2 = heater H-bridge. ADC1+ADC2 dual simultaneous = POS_A (PB12) / POS_B (PC4); DAC1_OUT1 (PA4) = coil command. LCD D0–D7 = PE8–PE15. The full table is in `analysis/pin_budget.out.txt`. Spare pins (11): PB2 PB6 PB15 PC0–PC3 PC15 PD12–PD14.
 
 Points the CubeMX pass must check:
 - DMA request mapping (DMAMUX makes this flexible).
@@ -82,4 +82,4 @@ Points the CubeMX pass must check:
 
 1. **Shield logic level [DEFERRED to Phase 4, OI-21].** The shield was driven by an Arduino Uno (5 V) and carries 2× 74HC245. The data bus is now on 5 V-tolerant PE8–PE15 (D-056), so a 5 V read can't damage the MCU. What's left matters only if the 245s run at 5 V: 3.3 V drive is then below the guaranteed HC V_IH (~3.5 V), which usually works but isn't guaranteed. Most such shields run the 245s at 3.3 V (they drop the Uno's 5 V to the 3.3 V panel), and then the STM32 matches directly. DMM check before B3 layout; if VCC = 5 V, B3 gets a 74HCT/LVC translator footprint.
 2. **OI-03 stock** for G491VET6 and G474VET6: re-check before Gate B.
-3. **EMFC control lines** are placeholders until the servo study fixes analog / digital / hybrid.
+3. ~~EMFC control lines are placeholders~~ → fixed by the servo study (digital loop, D-063). LQFP80 no longer fits Config E (−2).

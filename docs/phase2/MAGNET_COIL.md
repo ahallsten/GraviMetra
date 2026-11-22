@@ -81,7 +81,7 @@ Selection rule: the highest Km with coil ≤ 15 g and pot OD ≤ 60 mm, while th
 | Stray field at 50 / 100 / 140 mm | 2.6 / 0.28 / 0.11 mT. Forces on 1095 blades and the check mass ~1e-11 N (negligible). **Non-magnetic fasteners within ~100 mm** |
 | Coil dipole in a 20 µT horizontal field (unshielded bound) | 2.4 ppm of FS torque; up to 4.8 ppm span change if the balance is turned 180° → treat as span; auto-adjust after moving |
 
-**Winding (PROPOSED: AWG 34; the measurand study may change the gauge).** N ≈ 585, R 57 Ω, Kf 33 N/A, I_FS 10.4 mA, V_FS 0.59 V, L ≈ 27 mH (estimate), L/R 0.48 ms. Fill factor 0.55 is ASSUMED (random hand winding). Orthocyclic winding would give +13 % Km.
+**Winding: SUPERSEDED by D-065** (4 × AWG 37 in hand: two in series for force, two as a non-inductive heater; Km 3.13, see `SERVO_MEASURAND.md` §2). The single-winding numbers below remain the all-series reference. **Original proposal: AWG 34.** N ≈ 585, R 57 Ω, Kf 33 N/A, I_FS 10.4 mA, V_FS 0.59 V, L ≈ 27 mH (estimate), L/R 0.48 ms. Fill factor 0.55 is ASSUMED (random hand winding). Orthocyclic winding would give +13 % Km.
 
 | AWG | N | R Ω | Kf N/A | I_FS mA | V_FS V |
 |---|---|---|---|---|---|

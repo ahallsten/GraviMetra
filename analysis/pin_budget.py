@@ -22,7 +22,11 @@ Assumptions (each one is a design choice made here, see docs/phase2/CONTROLLER_I
       are low-drive (DS13122 Table 12 note 2) and are used only for slow inputs/LED.
   A9  Interrupt inputs need distinct EXTI line numbers (EXTI line n is shared by all PxN pins).
   A10 Each pulse output (STEP1..3, CM_STEP, BUZZER) gets its own timer instance, because channels of
-      one timer share its period (ARR), which would couple their frequencies.
+      one timer share its period (ARR), which would couple their frequencies.  The heater H-bridge is the
+      exception: HEAT_IN1/IN2 are two channels of ONE timer (same period, phase-shifted 3-level drive),
+      and that timer is kept away from every pulse output.
+  A12 POS_A on an ADC1 channel and POS_B on an ADC2 channel for dual simultaneous sampling (ratiometric
+      (A-B)/(A+B) of the optical sensor, SERVO_MEASURAND.md).
   A11 LCD D0..D7 only on 5 V-tolerant (FT*) pins. Why: if the shield's 74HC245s run at 5 V (OI-21, unmeasured),
       a bus read drives 5 V into the MCU; TT pins are 3.6 V max (DS13122 Table 12 I/O structure column).
 Sanity check: every assignment is re-validated against the AF/ADC tables after solving.
@@ -99,10 +103,11 @@ FUNCS = [
     # Config E: ADS1262 on the EMFC module (A5)
     ("ADC_SCK", "af:ADCSPI:SCK", 2), ("ADC_MISO", "af:ADCSPI:MISO", 2), ("ADC_MOSI", "af:ADCSPI:MOSI", 2),
     ("ADC_CS", "out", 2), ("ADC_DRDY", "exti", 2), ("ADC_START", "out", 2), ("ADC_RESET", "out", 2),
-    # Config E: EMFC module control (A5; servo study may change)
-    ("COIL_EN", "out", 2), ("COIL_FAULT", "exti", 2), ("SERVO_MODE", "out", 2),
-    ("POS_MON", "adc", 2), ("EMFC_DAC", "dac", 2), ("CM_STEP", "tim", 2), ("CM_DIR", "out", 2),
-    ("CM_HOME", "exti", 2),
+    # Config E: EMFC module control (A5, fixed by the servo study, docs/phase2/SERVO_MEASURAND.md)
+    ("COIL_EN", "out", 2), ("COIL_FAULT", "exti", 2), ("EMFC_DAC", "dac", 2),
+    ("POS_A", "adc1", 2), ("POS_B", "adc2", 2), ("POS_COARSE", "adc", 2), ("LED_EN", "out", 2),
+    ("HEAT_IN1", "af:HEAT:CH1", 2), ("HEAT_IN2", "af:HEAT:CH2", 2), ("HEAT_ISENSE", "adc", 2),
+    ("CM_STEP", "tim", 2), ("CM_DIR", "out", 2), ("CM_HOME", "exti", 2),
     # Optional sensor
     ("PAN_DET", "slow", 3),
     # Rev-B reserved (A6)
@@ -117,7 +122,9 @@ GROUP_INSTANCES = {
     "I2C": ["I2C1", "I2C2", "I2C3"],
     "ADCSPI": ["SPI1", "SPI2", "SPI3"],
     "CAN": ["FDCAN1", "FDCAN2"],
+    "HEAT": ["TIM15", "TIM4", "TIM5", "TIM2", "TIM3"],   # two channels of one timer (heater H-bridge)
 }
+TIMER_GROUPS = ("HEAT",)
 UART_GROUPS = ("SCALE", "TMC", "RS485")
 
 
@@ -136,6 +143,10 @@ def candidates(func_kind, p, inst):
         return True
     if func_kind == "adc":
         return has_adc(p)
+    if func_kind == "adc1":   # ADC1 channel (dual simultaneous mode with adc2)
+        return bool(re.search(r"ADC1\d*_IN|ADC12_IN", PINS[p]["additional"]))
+    if func_kind == "adc2":
+        return bool(re.search(r"ADC2_IN|ADC12_IN", PINS[p]["additional"]))
     if func_kind == "dac":
         return has_dac(p)
     if func_kind == "tim":
@@ -149,7 +160,7 @@ def candidates(func_kind, p, inst):
 def cost(func_kind, p):
     """Prefer spending plain pins on plain functions (keep ADC/DAC/timer-rich pins free)."""
     c = 0
-    if func_kind not in ("adc",) and has_adc(p):
+    if func_kind not in ("adc", "adc1", "adc2") and has_adc(p):
         c += 3
     if func_kind != "dac" and has_dac(p):
         c += 5
@@ -182,7 +193,7 @@ def solve(pkg, funcs, bus):
             uarts = [inst[g] for g in UART_GROUPS if g in inst]
             if len(set(uarts)) != len(uarts):
                 continue
-            res = _bt(funcs, inst, set(free0), {}, set(), set())
+            res = _bt(funcs, inst, set(free0), {}, set(), {inst[g] for g in TIMER_GROUPS if g in inst})
             if res is not None:
                 lcd = {f"LCD_D{i}": p for i, p in enumerate(bus_pins)}
                 return {**lcd, **res}, inst
@@ -255,7 +266,7 @@ def describe(name, p, mapping, inst, kinds):
         note.append(f"{inst[grp]}_{sig} (AF{af_of(p, inst[grp] + '_' + sig)})")
     if name + "#tim" in mapping:
         note.append(mapping[name + "#tim"])
-    if k in ("adc",):
+    if k in ("adc", "adc1", "adc2"):
         note.append(re.findall(r"ADC\d+_IN\d+", PINS[p]["additional"])[0])
     if k == "dac":
         note.append(re.findall(r"DAC\d_OUT\d", PINS[p]["additional"])[0])

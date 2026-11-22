@@ -6,7 +6,7 @@ The current tree is a portable, deterministic firmware core plus an intentionall
 
 ```text
 target HAL adapters (pending released board map)
-  -> register drivers: ADS1262, TMP117, TMC2209
+  -> register drivers: ADS1263 (Config E, D-064), TMP117, TMC2209
   -> measurement: conversion -> temperature compensation -> tare -> stability
   -> policy: dispense planner / check-mass controller
   -> actuators: auger manager / check-mass adapter
@@ -35,6 +35,21 @@ Drivers own register protocols and device verification, not dispensing or calibr
 - No hardware-dependent numeric value becomes usable merely because it is default constructed. Configuration and calibration records must be explicitly validated and accepted.
 - Profile changes invalidate old measurement readiness; motion policy must consume data from the requested, verified ADC profile only after its settling boundary.
 - Invalid, stale, clipped, nonfinite, or diagnostically faulted measurements fail closed.
+
+## EMFC servo (Config E, PROPOSED in `docs/phase2/SERVO_MEASURAND.md`, D-063..D-068)
+
+```text
+TIM trigger 10 kHz -> ADC1+ADC2 simultaneous (POS_A, POS_B) -> ratio (A-B)/(A+B), coarse takeover
+  -> servo controller (PID + lead + low-pass + notch; modes OFF / ACQUIRE / TRACK / FAULT)
+  -> 2nd-order sigma-delta -> DAC1 by DMA at 50 kHz -> V-I coil driver (hardware soft-off on SAFE)
+ADS1263 DRDY 1200 SPS (coil current) -> readout profile (dispensing sinc^2 100 ms | settling sinc^3 0.33 s)
+  -> span/temperature model (magnet and electronics coefficients, learned in situ) -> EmfcScaleSource
+10-100 Hz: heater power P0 - I^2 R_coil (TIM15 H-bridge), coil R from ADC2, health checks -> FAULT = coil soft-off
+```
+
+- Controller parameters are computed from measured plant data (J, K, Kf, sensor slope). These are calibration records, invalid until measured, and the servo refuses to start without them.
+- The servo ISR is the highest-priority non-safety interrupt. Its timing reaches the plant only through hardware-triggered ADC/DAC, so ISR jitter doesn't.
+- `EmfcScaleSource` implements the same `ScaleSource` interface as the Config S drivers (`SCALE_DRIVER_SPEC.md`).
 
 ## Persistence boundary
 
