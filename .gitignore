@@ -26,3 +26,18 @@ Thumbs.db
 .venv/
 venv/
 
+
+# Python analysis
+__pycache__/
+*.pyc
+
+# KiCad local/backup files
+*-backups/
+fp-info-cache
+*.kicad_prl
+_autosave-*
+*.lck
+~*.lck
+
+# CAD scratch
+mech/**/scratch/

@@ -70,4 +70,4 @@ Before compiling a motion-capable image:
 - Capture noisy settling, slow drift, underfill, overshoot, power-source transitions, driver faults, ADC loss, and E-stop traces.
 - Enable successively finer configured stages only after each preceding stage and fault path is repeatable.
 
-Record each completed gate, firmware commit, board revision, instruments, configuration CRC/version, and raw logs in the engineering test record. Update `AGENTS.md` with durable conclusions and remaining blockers.
+Record each completed gate, firmware commit, board revision, instruments, configuration CRC/version, and raw logs in the engineering test record. Update `docs/00_STATE.md` and `docs/02_DECISIONS.md` with durable conclusions and remaining blockers.

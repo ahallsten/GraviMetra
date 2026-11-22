@@ -62,4 +62,4 @@ The intended scheduling priorities are safety input and timer shutdown first, ac
 - **Target compiled** means every production translation unit compiled for STM32G491RET6; garbage collection may remove modules not instantiated by the inert entry point.
 - **Hardware verified** requires a recorded board revision, released pin map, instruments, configuration version/CRC, raw logs, and completed gates from `HARDWARE_BRINGUP.md`.
 
-Only the first two levels are available in this repository checkpoint. See root `AGENTS.md` for the exact last-known-good commands, counts, blockers, and next safe action.
+Only the first two levels are available in this repository checkpoint. See `docs/00_STATE.md` and the firmware section of root `CLAUDE.md` for last-known-good commands, blockers, and next safe action.
