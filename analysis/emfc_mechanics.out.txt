@@ -1,0 +1,132 @@
+0. Thermal-distortion figure of merit alpha/k (lower = less distortion per watt of heat flow)
+   Al 6061-T6 (SCS)       alpha  23.6 ppm/K  k   167 W/mK  alpha/k 0.141 um/W
+   MIC-6 cast Al (SCS)    alpha  23.9 ppm/K  k   142 W/mK  alpha/k 0.168 um/W
+   304 SS (SCS)           alpha  17.3 ppm/K  k    16 W/mK  alpha/k 1.068 um/W
+   Ti-6Al-4V (SCS)        alpha   8.6 ppm/K  k     7 W/mK  alpha/k 1.284 um/W
+   -> Aluminium has the lowest steady-state distortion per watt (high k beats low alpha); Ti/SS are 8-9x worse.
+
+1. Blade options (all hinges same t) at r = 15, a = 10 mm, vane radius 160 mm, blades 10 mm wide
+   blade                               t mm  K_tot mNm/rad  zero err / 100nm  sig@stop MPa fatigue ok  P_cr/P
+   1095 spring steel shim (buy)       0.025          12.50           0.08 mg             4        yes      44
+   1095 spring steel shim (buy)       0.050          48.22           0.31 mg             8        yes     353
+   1095 spring steel shim (buy)       0.075         138.42           0.88 mg            12        yes    1190
+   1095 spring steel shim (buy)       0.100         313.32           2.00 mg            15        yes    2821
+   301 SS full-hard shim (buy)        0.025          12.10           0.08 mg             4        yes      42
+   301 SS full-hard shim (buy)        0.050          45.97           0.29 mg             7        yes     332
+   301 SS full-hard shim (buy)        0.075         130.94           0.83 mg            11        yes    1121
+   301 SS full-hard shim (buy)        0.100         295.62           1.88 mg            14        yes    2656
+   BeCu C17200 HT (buy)               0.025           9.76           0.06 mg             2        yes      28
+   BeCu C17200 HT (buy)               0.050          33.69           0.21 mg             5        yes     220
+   BeCu C17200 HT (buy)               0.075          90.40           0.58 mg             7        yes     743
+   BeCu C17200 HT (buy)               0.100         199.71           1.27 mg            10        yes    1762
+   1075 blue temper 0.381 mm (SCS)    0.381       16731.76         106.64 mg            59        yes  156042
+   allocation: <= 0.3 mg per 100 nm of optical-null drift (full load, tension-stiffened)
+   -> SendCutSend 1075 (0.381 mm, its only spring stock) is 347x stiffer than 0.05 mm shim: 107 mg per 100 nm. REJECTED for the measuring hinges; thin shim blades must be bought.
+
+1b. Guide roll (y-eccentric moment carried by the guide; coupling made roll-compliant)
+   guide t = 0.05 mm: K_roll  136.7 N*m/rad, roll at 520 g x 25 mm  0.93 mrad; lever carries 0.0078 % of the roll moment -> 0.103 mg at 175 g with 3 mrad axis skew
+   guide t = 0.10 mm: K_roll 1093.3 N*m/rad, roll at 520 g x 25 mm  0.12 mrad; lever carries 0.0010 % of the roll moment -> 0.013 mg at 175 g with 3 mrad axis skew
+   -> Guide blades 0.10 mm (roll 0.12 mrad), pivots 0.05 mm; the guide is then 33 % of K_tot (reflected by (a/L)^2).
+      Coupling = two blades in series at 90 deg (one passes lever pitch, one releases roll): roll moment stays in the guide.
+   Shim thickness +/-5 % -> blade stiffness +/-15 % -> roll-stiffness centre offset up to 4.5 mm:
+      the y adjuster needs >= +/-5 mm range as well as sub-um resolution.
+
+2. Lever-ratio trade (pivots 1095 0.05 mm, guide 0.10 mm; full load 520 g; coil power P = (F/Km)^2)
+      r   b mm  F_coil N   P mW at Km 0.9/1.6/2.5  m_cw g  zero/100nm mg  f_n empty/full Hz
+      5     50     1.020             1284/406/166      21           1.11     3.36 / 3.02
+      8     80     0.637               502/159/65      60           0.74     2.07 / 2.05
+     10    100     0.510               321/102/42      91           0.61     1.64 / 1.66
+     12    120     0.425                223/71/29     126           0.52     1.35 / 1.39
+     15    150     0.340                143/45/18     187           0.42     1.06 / 1.10
+     20    200     0.255                 80/25/10     310           0.33     0.76 / 0.80
+     25    250     0.204                  51/16/7     460           0.27     0.59 / 0.62
+     30    300     0.170                  36/11/5     636           0.23     0.47 / 0.50
+   Selection r = 15 (b = 150 mm), CONDITIONAL on the magnet/coil study reaching Km >= 1.6 N/sqrt(W)
+   (P = 45 mW at full load). If Km < 1.2, go to r = 20. r < 10 costs > 100 mW even at Km 1.6; r > 20 makes the
+   lever > 200 mm (enclosure, lever modes) for little gain.
+   Km plausibility [VCM]: B 0.5 T, copper 452 mm^3 (dia 30 x 4 x 2 mm coil, 60 % fill) -> Km = 2.6 N/sqrt(W), copper ~4 g. 1.6 looks reachable (FEMM to confirm).
+
+2b. Closing the zero-drift allocation at r = 15 (baseline 0.42 mg per 100 nm vs 0.3 mg)
+    Tension stiffening sets a floor K -> sqrt(E*I*P) per blade that blade length cannot remove; t, b and P can.
+    baseline: pivots 0.05 x 10, guide 0.10       K  66.1 mN*m/rad -> 0.42 mg/100 nm, worst roll 0.12 mrad
+    pivots 0.04 x 10, guide 0.10                 K  48.4 mN*m/rad -> 0.31 mg/100 nm, worst roll 0.12 mrad
+    pivots 0.05 x 6, guide 0.075                 K  39.8 mN*m/rad -> 0.25 mg/100 nm, worst roll 0.28 mrad
+    pivots 0.04 x 8, guide 0.075, light lever    K  32.1 mN*m/rad -> 0.20 mg/100 nm, worst roll 0.28 mrad
+    -> Thinner/narrower pivots plus a truss-pocketed lever close the allocation; guide 0.075 mm keeps roll ~0.3 mrad.
+       Fix the final set in Phase 4 from the measured optical-null drift (100 nm per cycle is a conservative ASSUMED value).
+
+3. Eccentric load [VW]
+   MET-09 allocation 1.0 mg at 175 g, e = 25 mm -> dW/W <= 5.7 ppm
+   x: hinge-spacing mismatch dh <= 0.96 um   (cut geometry alone: up to 254 um, 265x too large)
+   y: coupling offset from the guide roll-stiffness centre dy <= 0.41 um
+   unadjusted x error at 175 g, e = 25 mm: 265 mg
+   dosing case (10 g charge, centroid within 5 mm): unadjusted 3.0 mg; needs dh <= 25 um for 0.3 mg (a coarse adjust is enough)
+   -> Two fine corner adjusters (x: fixed-side hinge height; y: coupling lateral position) are mandatory for MET-09.
+   Adjuster: M3x0.35 fine screw (or purchased 1/4-80 adjuster) through a 50:1 flexure-lever reducer cut from plate -> 7 um/rev, 0.10 um per 5 deg: resolution meets x (1.0 um) and y (0.4 um). Lock-in stability is the open risk.
+
+4. Residual hinge angle theta0 at null x tension stiffening [BCOL]
+   theta0 =  0.2 mrad: span term     25.5 ppm (calibrated out), end-point nonlinearity   0.15 mg (alloc 0.5)
+   theta0 =  0.5 mrad: span term     63.7 ppm (calibrated out), end-point nonlinearity   0.36 mg (alloc 0.5)
+   theta0 =  1.0 mrad: span term    127.4 ppm (calibrated out), end-point nonlinearity   0.73 mg (alloc 0.5)
+   theta0 =  3.0 mrad: span term    382.2 ppm (calibrated out), end-point nonlinearity   2.19 mg (alloc 0.5)
+   span sensitivity 127 ppm per mrad of theta0 -> d(theta0)/dT <= 3.9 urad/K for 0.5 ppm/K
+   a 0.1 K top-bottom gradient change bends the Al lever ~7 urad (mean slope) -> 0.9 ppm span shift:
+   vertical gradients in the lever must stay stable to a few tens of mK (thermal symmetry, coil heat path, enclosure).
+   Set theta0 ~ 0 by clamping the blades with the lever pinned at null in an assembly jig (~0.3 mrad), then trim
+   electronically: the servo setpoint (optical null offset) is an adjuster with no mechanical work; theta0 = 0 is where
+   the nonlinearity changes sign between two setpoints (Phase 7 characterization).
+
+5. Gravitational stiffness K_g = F * dz (vertical offset of a force line from the fulcrum plane)
+   full load at the coupling: 6.0 mN*m/rad per mm of offset vs K_tot 59.0 mN*m/rad
+   keep |K_g| <= 20 % of K_tot -> coupling line within +/-1972 um of the fulcrum plane;
+   lever system (285 g incl. counterweight): centre of mass within +/-4215 um.
+   -> A height adjuster on the counterweight sets the net K_g, i.e. the open-loop stiffness the servo sees;
+      measure it on the rig as the coil-current vs null-offset slope.
+
+6. Lever bending, lever thermal gradient, clamp slip
+   lever tip deflection at full coil force 0.67 um -> 3.0 mg, ~linear in load (span, calibrated);
+   the 11 % K(P) change over the range leaves ~0.08 mg nonlinearity. Vane at the coil, lever deep.
+   coil heat Km 0.9: 143 mW x 3.8 K/W x 0.5 (half flows along the lever, ASSUMED) -> 269 mK arm-to-arm -> ratio 6.35 ppm at full load, ~0.83 mg nonlinearity (P ~ W^2)
+   coil heat Km 1.6: 45 mW x 3.8 K/W x 0.5 (half flows along the lever, ASSUMED) -> 85 mK arm-to-arm -> ratio 2.01 ppm at full load, ~0.26 mg nonlinearity (P ~ W^2)
+   -> A constant-power coil drive turns this into a calibrated constant. Ti/SS levers would be 8-9x worse (alpha/k).
+   clamp slip along x at the fulcrum changes the ratio by slip/a: 1 ppm = 10 nm -> clamps must not slip:
+   preload >= 100x (shear / mu), bonded + bolted blade clamps, no shear path through dowel clearance.
+   Steel blades in Al clamps (documented material mix): 12.6 ppm/K mismatch is taken as blade strain (mN-level), no slip.
+
+7. Counterweight (OI-15)
+   coil-side moment 8271 g*mm (coil, vane, lever plate 81 g) vs load-side tare 900 g*mm
+   option U (trim tare, +2 % FS margin): 187 g at 40 mm on the load side
+   option B (preload W/2, bipolar coil): 249 g at 40 mm  (mass penalty small thanks to the lever)
+   Tared reading from magnet tempco: m_hat(W) - m_hat(0) = W*(1 - alpha*dT) for ANY preload; preload only adds
+   zero drift W_pre*alpha*dT: option B at alpha 4e-4/K -> 104 mg/K of zero drift vs ~0 for U.
+   Peak coil power at Km 1.6: U 45 mW, B 11 mW.
+   -> Recommend U: dosing sits near zero coil force; preload buys only peak power, which Km and constant-power drive handle.
+   Lighter lever (laser-cut truss pockets) cuts both the counterweight and the inertia; refine in Phase 4.
+
+8. Internal check mass (OI-07): span-adjust uncertainty vs mass value
+    100 g (value known to 0.10 mg by transfer from E2/F1, ASSUMED): span u =  3.3 ppm -> 1.72 mg at 520 g
+    200 g (value known to 0.15 mg by transfer from E2/F1, ASSUMED): span u =  1.7 ppm -> 0.91 mg at 520 g
+    500 g (value known to 0.30 mg by transfer from E2/F1, ASSUMED): span u =  0.9 ppm -> 0.45 mg at 520 g
+   -> 200 g CANDIDATE: span u ~1.7 ppm (0.9 mg at Max), lifter handles 2 N, matches the D-030 E2 200 g reference.
+   Non-magnetic austenitic stainless (or OIML-style) slug on a 3-ball kinematic seat on the load receptor (so it also
+   checks the lever ratio); a geared stepper (CM_STEP/DIR/HOME) lowers it with a fork that then retracts >= 1 mm clear;
+   motor de-energized and gear-held while weighing; interlocked by SAFE (D-043).
+
+9. Overload (MET-11: >= 1 kg static on the pan)
+   lever stops at +/-3 mrad (coil +/-0.45 mm, pan +/-30 um)
+   fulcrum blade at the stop with 1 kg on the pan: bending 8 MPa + axial 14 MPa vs yield 1300 MPa -> factor 60
+   receptor stops (+/-20 um beyond the lever-stop travel) take overload straight to the base; transport lock clamps the receptor.
+
+10. Plant estimates at r = 15 (servo study input; all to be measured)
+   J empty 13407 g*cm^2, full 13927 g*cm^2;  K_tot empty 59.0, full 66.1 mN*m/rad (tension stiffening), plus the adjustable K_g
+   open-loop f_n empty 1.06 Hz, full 1.10 Hz; vane at 160 mm (1 urad = 160 nm)
+   coil force per pan mg: 0.654 uN -> 131 nA at Kf 5 N/A; full scale 68 mA
+   Soft plant (~1 Hz): the servo supplies nearly all stiffness; null acquisition at power-up starts from a lever stop.
+
+Sanity checks
+   - Blade K by hand E*b*t^3/(12L) = 10.677 mN*m/rad matches the function. PASS
+   - Beam-column K(P->0) -> E*I/L (coth limit). PASS
+   - k*L in a fulcrum blade at full load = 0.92: not << 1, so the exact coth form is used. INFO
+   - 520 g weighs 5.0995 N. PASS
+   - Counterweight closes the empty-pan moment balance to the +2 % FS trim. PASS
+   - Open-loop f_n 1.06 Hz is in the expected ~Hz range for a soft flexure balance. PASS

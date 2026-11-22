@@ -1,0 +1,132 @@
+EMFC magnet/coil first-order study (OI-24).  Inputs tagged [DS]/[MECH]/[ASSUMED]/[STD] in the script.
+
+0. Requirement
+   FS coil force F_FS = (520 g x 1.02 trim) x g / r15 = 0.3468 N;  with 1.2x headroom F_max = 0.4161 N
+   Km target (D-050, OI-24): >= 1.6 N/W⁰⋅⁵  ->  P_FS = F_FS^2/Km^2 = 47.0 mW
+
+1. Solver validation
+   1a bare magnet Ø25.4x12.7, Br 1 T, on axis 1 mm above: FV 0.3274 T vs closed form 0.3274 T (-0.02 %)
+   1a bare magnet Ø25.4x12.7, Br 1 T, on axis 5 mm above: FV 0.2230 T vs closed form 0.2231 T (-0.02 %)
+   1a bare magnet Ø25.4x12.7, Br 1 T, on axis 15 mm above: FV 0.0729 T vs closed form 0.0729 T (-0.05 %)
+      PASS (< 1 %)
+   1b air coil 1 A-turn, centre field: FV 42.482 uT vs closed form 42.494 uT (-0.03 %)
+      self-inductance per turn^2: FV 39.88 nH vs Wheeler multilayer 41.13 nH (-3.0 %; Wheeler is a ~1-3 % approximation)
+      PASS
+   1c pot, Lorentz integral 0.03962 N/A-turn vs d(lambda)/dz 0.03961 N/A-turn (+0.02 %)
+      PASS
+
+2. Magnet grades [DS]
+   grade                         Br T  Br min  mu_rec  a(Br) ppm/K  source
+   Recoma 28 (Sm2Co17)          1.100   1.040   1.094         -350  Arnold Recoma 28 sheet (Recoma-Combined-160301.pdf): Br 1.10/1.04 T, HcB 800 kA/m, a(Br) -0.035 %/K (20-150 C)
+   Recoma 2:17 Stab '0' (TC)    0.830     -     1.048            0  Arnold Recoma Stab sheet 23.01.2020: Sm2Co17, 0.83 T, HcB 630 kA/m, RTC ~0 ppm/K (-60..+100 C); custom grade
+   EEC 2:17-TC16 (TC)           0.825   0.785   1.057          -10  EEC TC material sheet: 8.25/7.85 kG, Hc 7.8/7.4 kOe, RTC -0.001 %/C typ (-50..150 C); table extraction misaligned, mapped by (BH)max check - CONFIRM
+   Recoma 22 (SmCo5)            0.940   0.900   1.025         -450  Arnold Recoma 22 sheet: 0.94/0.90 T, a(Br) -0.045 %/K
+   NdFeB is ~3x worse in a(Br) (about -0.11 %/K) and is excluded (SmCo CONFIRMED in CLAUDE.md).
+   Arnold's Stab sheet: 'SmCo [is] the material of choice in measuring systems such as electronic
+   balances'; TC grades are made to order ('according to specific customer requirements').
+
+3. Pot sweep (linear steel mu_r 1000, Recoma 28 nominal Br; coil height and axial position optimised for Km)
+   fixed: radial clearance 0.35 mm/side, Al bobbin 0.30 mm, fill 0.55, cavity 4 mm, base/wall sized for 1.1 T mean; plates [3.18, 4.76, 6.35, 9.53, 12.7] mm [ASSUMED]
+   Km_TC = Km x Br_min(TC16)/Br_nom(R28) = x0.714 (linear scaling, conservative)
+   magnet         tp   tc   gap    hc  B coil     Km  Km TC  coil g  pot OD  pot g  B rim  ok
+   Ø19.05x9.53 4.76  3.5  4.50  9.52   0.258   2.30   1.64    14.1      40    122   0.53  yes
+   Ø19.05x9.53 3.18  4.0  5.00  7.95   0.261   2.30   1.64    13.6      42    122   0.66  yes
+   Ø19.05x9.53 6.35  3.5  4.50  9.52   0.256   2.28   1.63    14.1      40    133   0.45  yes
+   Ø19.05x9.53 3.18  3.5  4.50  7.95   0.279   2.27   1.62    11.8      40    110   0.67  yes
+   Ø25.40x9.53 3.18  3.5  4.50  7.95   0.356   3.26   2.33    14.9      50    218   0.80  yes
+   Ø25.40x9.53 4.76  3.5  4.50  7.14   0.374   3.25   2.32    13.4      50    237   0.65  yes
+   Ø25.40x9.53 6.35  3.5  4.50  7.94   0.354   3.24   2.31    14.9      50    256   0.55  yes
+   Ø25.40x9.53 3.18  4.0  5.00  6.36   0.363   3.21   2.29    13.8      50    211   0.79  yes
+   Ø25.40x12.70 3.18  3.5  4.50  7.95   0.372   3.41   2.44    14.9      50    245   0.83  yes
+   Ø25.40x12.70 4.76  3.5  4.50  7.14   0.388   3.38   2.41    13.4      50    264   0.66  yes
+   Ø25.40x12.70 3.18  4.0  5.00  6.36   0.381   3.37   2.40    13.8      50    237   0.81  yes
+   Ø25.40x12.70 6.35  3.5  4.50  7.94   0.366   3.35   2.39    14.9      50    283   0.56  yes
+   Ø30.00x10.00 4.76  3.0  4.00  7.14   0.464   3.98   2.84    13.2      54    292   0.75  yes
+   Ø30.00x10.00 6.35  3.0  4.00  7.94   0.439   3.97   2.83    14.6      54    315   0.64  yes
+   Ø30.00x10.00 3.18  3.0  4.00  7.95   0.438   3.96   2.83    14.6      54    269   0.92  yes
+   Ø30.00x10.00 6.35  2.5  3.50  9.52   0.439   3.94   2.81    14.5      54    324   0.66  yes
+   Ø31.75x12.70 4.76  3.0  4.00  7.14   0.503   4.42   3.16    13.8      56    348   0.80  yes
+   Ø31.75x12.70 3.18  3.5  4.50  6.36   0.488   4.41   3.15    14.5      58    346   0.96  yes
+   Ø31.75x12.70 3.18  3.0  4.00  6.36   0.523   4.35   3.10    12.3      56    324   0.98  yes
+   Ø31.75x12.70 4.76  3.5  4.50  5.95   0.494   4.32   3.08    13.5      58    372   0.77  yes
+   (630 coil/pot combinations; 176 rejected for rim B > 1.5 T, coil > 15 g or pot OD > 60 mm; top 4 per magnet shown)
+
+   Selection rule: highest Km with coil <= 15 g, pot OD <= 60 mm and Km(TC16, min Br) >= 1.6 x 1.25.
+   SELECTED: magnet Ø31.75 x 12.70 mm, pole/top plate 4.76 mm, coil radial build 3.0 mm x height 7.14 mm, gap 4.00 mm, Km 4.42
+   ALTERNATIVE (1 x 1/2 in, the most common SmCo disc): Ø25.40 x 12.70, tp 3.18, tc 3.5, hc 7.95 mm, Km 3.41, coil 14.9 g, OD 50 mm
+
+4. Selected design, non-linear steel [ASSUMED B-H], 300 mm domain
+   Recoma 28 (Sm2Co17)          Br nom 1.100 T: Kf/turn 0.0570 N/A, Km 4.43 N/sqrt(W)  (non-linear iterations 25; linear-steel Km was 4.42)
+   Recoma 28 (Sm2Co17)          Br min 1.040 T: Kf/turn 0.0539 N/A, Km 4.19 N/sqrt(W)  (non-linear iterations 13; linear-steel Km was 4.18)
+   EEC 2:17-TC16 (TC)           Br nom 0.825 T: Kf/turn 0.0431 N/A, Km 3.35 N/sqrt(W)  (non-linear iterations 12; linear-steel Km was 3.32)
+   EEC 2:17-TC16 (TC)           Br min 0.785 T: Kf/turn 0.0410 N/A, Km 3.18 N/sqrt(W)  (non-linear iterations 12; linear-steel Km was 3.16)
+   flux: magnet 725 uWb, gap 290 uWb -> leakage factor sigma 2.50; mean gap B 0.542 T; mean B: pole rim 0.80 T, base 1.18 T, wall 0.95 T
+   steel cells: 95th percentile |B| 1.16 T, 99th 1.31 T (local corner peaks above this are expected)
+   pot: OD 56 mm, height 23.8 mm (base 6.35 + magnet 12.70 + top 4.76), steel 265 g + magnet 83 g
+   coil: r 16.53..19.52 mm, height 7.14 mm, centre -0.01 mm from the top-plate mid-plane (Kf maximum), mass 13.8 g (plant assumed 15 g)
+   Kf(x)/Kf(0) at coil offsets (mm): -0.45: 0.99375, -0.20: 0.99878, -0.05: 0.99990, +0.00: 1.00000, +0.05: 0.99989, +0.20: 0.99876, +0.45: 0.99369
+   curvature d2Kf/dz2 / Kf = -0.0877 /mm^2.  With the coil set within +/-0.05 mm of the maximum, a 100 nm null drift changes Kf by 0.4112 ppm (negligible).
+   stop-to-stop (+/-0.45 mm) Kf change -0.63 % -> servo authority unaffected.
+
+5. Winding options (selected geometry, Recoma 28 nominal, non-linear steel)
+   inductance per turn^2 78.81 nH (frozen secant mu, an estimate; small-signal L is lower), dL/dz per turn^2 -2.706 uH/m
+    AWG   d mm     N   R ohm  Kf N/A  I_FS mA  V_FS V I_max mA   L mH  L/R ms
+     30  0.255   231     8.9   13.19     26.3    0.23     31.6   4.22   0.476
+     32  0.202   368    22.4   20.97     16.5    0.37     19.8  10.66   0.476
+     34  0.160   585    56.7   33.34     10.4    0.59     12.5  26.96   0.476
+     36  0.127   930   143.3   53.02      6.5    0.94      7.8  68.16   0.476
+     38  0.101  1479   362.4   84.30      4.1    1.49      4.9 172.34   0.476
+   P_FS = F_FS^2/Km^2 = 6.1 mW for every gauge; P at F_max 8.8 mW. Orthocyclic fill 0.70 would raise Km x1.13.
+   reluctance force 1/2 I^2 dL/dz at FS (AWG 34): -50.05 uN = 144.3 ppm of FS force, quadratic in load with linear drive; constant with +/-I0 PWM (I^2 constant).
+
+6. Power and thermal
+   FS (linear drive, full load): P 6.1 mW -> coil rise 58 mK over the pot (gap 79.4 + convection 6.1 + mount 20 mW/K); pot/magnet rise ~49 mK at R_pot 8.0 K/W
+   constant power at F_max: P 8.8 mW -> coil rise 84 mK over the pot (gap 79.4 + convection 6.1 + mount 20 mW/K); pot/magnet rise ~71 mK at R_pot 8.0 K/W
+   Linear drive: magnet temperature follows load. 0 -> 520 g changes coil power by 6 mW; ~75 % reaches the pot -> magnet +37 mK -> span error at 520 g 6.7 mg (Recoma 28) / 0.19 mg (TC16), with a thermal time constant of minutes (creep-like).
+   -> constant coil power is required at full range (it is optional for dosing loads of a few grams).
+   Constant-power options (implementation chosen in the servo/measurand study):
+     a) +/-I0 bipolar PWM in one winding: P = I0^2 R constant = 9 mW; force ~ (2D-1); Km unchanged; measurand is duty x I0.
+     b) split winding, 80 % force + 20 % non-inductive bifilar heater: Km x0.894 = 3.96; heater tops total power up to 11 mW.
+     b) split winding, 70 % force + 30 % non-inductive bifilar heater: Km x0.837 = 3.71; heater tops total power up to 13 mW.
+     c) separate heater resistor on the bobbin: Km unchanged, but heat enters at another spot (residual
+        load-dependent gradient and a transient after each load step).
+
+7. Span temperature coefficient of Kf
+   Kf ~ Br x geometry. Geometric part ~+14 ppm/K [ASSUMED: Cu coil length +17 ppm/K, steel gap +12 ppm/K partly cancelling]; lever ratio is invariant to uniform temperature (all-Al lever).
+   Recoma 28 (Sm2Co17)          net   -336 ppm/K | 15 K garage swing    2621 mg at 520 g uncompensated | comp. to 2 ppm/K needs alpha to 0.6 % | sensor lag 3.54 ppm
+   EEC 2:17-TC16 (TC)           net     +4 ppm/K | 15 K garage swing      31 mg at 520 g uncompensated | comp. to 2 ppm/K needs alpha to 50.0 % | sensor lag 0.04 ppm
+   Recoma 22 (SmCo5)            net   -436 ppm/K | 15 K garage swing    3401 mg at 520 g uncompensated | comp. to 2 ppm/K needs alpha to 0.5 % | sensor lag 4.60 ppm
+   lag model: sensor on the base under the magnet, magnet conduction time constant 4h^2/(pi^2 a) = 19 s [DS k 10 W/mK, c 350 J/kgK], garage ramp 2 K/h [ASSUMED].
+   With Recoma 28 the closure of OI-02 rests on three things together: magnet-temperature compensation
+   (alpha learned from check-mass adjustments at different temperatures), auto internal adjustment at
+   dT >= 0.5 K (D-032), and constant coil power. A TC grade turns the same scheme from a 1 % problem into
+   a 20-50 % problem.
+
+8. Eddy-current damping from the Al bobbin
+   solid bobbin: c = 2 pi r sigma t int(B_r^2 dz) = 2.03 N s/m at the coil -> 45.7 mN m s/rad at the fulcrum; critical (open loop, empty) 17.8 -> zeta 2.6
+   a single axial slit in the bobbin removes it (zeta ~0). Choice goes to the servo study; both use the same part.
+   With a current-source drive the winding itself adds no damping (open-circuit for back-EMF).
+
+9. Moving coil vs moving magnet
+   moving coil                              moving     14 g, extra counterweight     52 g, J     3941 g cm^2 (  29 % of the plant J), fulcrum load +66 g
+   moving magnet (whole pot on the lever)   moving    348 g, extra counterweight   1307 g, J    99322 g cm^2 ( 741 % of the plant J), fulcrum load +1655 g
+   Moving magnet removes the two coil leads but multiplies J and fulcrum tension (blade stiffness grows with
+   tension, D-050) and puts the stray field on the moving part. Rejected. Moving coil with two flexible
+   leads crossing at the fulcrum axis:
+     AWG 40 lead, 10 mm free loop: ~23.37 uN m/rad each (0.079 % of K_tot)
+     AWG 44 lead, 10 mm free loop: ~3.66 uN m/rad each (0.012 % of K_tot)
+
+10. Stray field and external field
+   |B| at 50 mm from the pot axis, mid-plane: ~2583 uT (earth field ~50 uT)
+   |B| at 100 mm from the pot axis, mid-plane: ~279 uT (earth field ~50 uT)
+   |B| at 140 mm from the pot axis, mid-plane: ~113 uT (earth field ~50 uT)
+   140 mm is roughly where the coupling blade and the check mass sit; forces on 1095 shim blades there are
+   negligible (V chi B dB/dx / mu0 ~ 1e-11 N << 1 mg = 9.8e-6 N). Check mass must still be non-magnetic.
+   coil dipole at FS: N*I = 6.1 A-turn -> m = 6.21 mA m^2; in a 20 uT horizontal field (unshielded bound) torque 124 nN m = 2.39 ppm of FS torque; turning the balance 180 deg changes span by up to 4.8 ppm before pot shielding -> treat as a span term; re-adjust after moving the balance.
+
+11. Sanity checks
+   - Kf per turn / (2 pi r_mean) = average B in the winding 0.503 T, below mean gap B 0.542 T (overhung coil sees fringe) and below Br. PASS
+   - hand Km = B_gap sqrt(f V/rho): all copper at mean gap B 4.77 (upper bound), only the in-gap fraction 3.18 (lower bound); solver 4.43. PASS
+   - P_FS at the selected Km is 6 mW vs 47 mW at the 1.6 target (x0.13). PASS
+   - TC16 min-Br Km 3.18 vs Recoma 28 nominal 4.43: ratio 0.719 vs Br ratio 0.714 (less saturation helps). INFO
+   - Runtime 34 s.

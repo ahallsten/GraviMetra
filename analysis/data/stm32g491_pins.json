@@ -1,0 +1,2566 @@
+{
+ "PE2": {
+  "name": "PE2",
+  "io": "FT",
+  "pkg": {
+   "LQFP100": "1"
+  },
+  "additional": "-",
+  "af": [
+   "TRACECK",
+   "-",
+   "TIM3_CH1",
+   "SAI1_CK1",
+   "-",
+   "-",
+   "TIM20_CH1",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "SAI1_MCLK_A",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PE3": {
+  "name": "PE3",
+  "io": "FT",
+  "pkg": {
+   "LQFP100": "2"
+  },
+  "additional": "-",
+  "af": [
+   "TRACED0",
+   "-",
+   "TIM3_CH2",
+   "-",
+   "-",
+   "-",
+   "TIM20_CH2",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "SAI1_SD_B",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PE4": {
+  "name": "PE4",
+  "io": "FT",
+  "pkg": {
+   "LQFP100": "3"
+  },
+  "additional": "-",
+  "af": [
+   "TRACED1",
+   "-",
+   "TIM3_CH3",
+   "SAI1_D2",
+   "-",
+   "-",
+   "TIM20_CH1N",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "SAI1_FS_A",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PE5": {
+  "name": "PE5",
+  "io": "FT",
+  "pkg": {
+   "LQFP100": "4"
+  },
+  "additional": "-",
+  "af": [
+   "TRACED2",
+   "-",
+   "TIM3_CH4",
+   "SAI1_CK2",
+   "-",
+   "-",
+   "TIM20_CH2N",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "SAI1_SCK_A",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PE6": {
+  "name": "PE6",
+  "io": "FT",
+  "pkg": {
+   "LQFP100": "5"
+  },
+  "additional": "WKUP3,RTC_TAMP3",
+  "af": [
+   "TRACED3",
+   "-",
+   "-",
+   "SAI1_D1",
+   "-",
+   "-",
+   "TIM20_CH3N",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "SAI1_SD_A",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PC13": {
+  "name": "PC13",
+  "io": "FT",
+  "pkg": {
+   "UFQFPN48": "2",
+   "LQFP48": "2",
+   "WLCSP64": "C6",
+   "LQFP64": "2",
+   "UFBGA64": "B1",
+   "LQFP80": "2",
+   "LQFP100": "7"
+  },
+  "additional": "WKUP2,RTC_TAMP1,RTC_TS,RTC_OUT1",
+  "af": [
+   "-",
+   "-",
+   "TIM1_BKIN",
+   "-",
+   "TIM1_CH1N",
+   "-",
+   "TIM8_CH4N",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PC14": {
+  "name": "PC14- OSC32_IN",
+  "io": "FT",
+  "pkg": {
+   "UFQFPN48": "3",
+   "LQFP48": "3",
+   "WLCSP64": "C8",
+   "LQFP64": "3",
+   "UFBGA64": "C1",
+   "LQFP80": "3",
+   "LQFP100": "8"
+  },
+  "additional": "OSC32_IN",
+  "af": [
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PC15": {
+  "name": "PC15- OSC32_OUT",
+  "io": "FT",
+  "pkg": {
+   "UFQFPN48": "4",
+   "LQFP48": "4",
+   "WLCSP64": "D8",
+   "LQFP64": "4",
+   "UFBGA64": "D1",
+   "LQFP80": "4",
+   "LQFP100": "9"
+  },
+  "additional": "OSC32_OUT",
+  "af": [
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PF9": {
+  "name": "PF9",
+  "io": "FT",
+  "pkg": {
+   "LQFP100": "10"
+  },
+  "additional": "-",
+  "af": [
+   "-",
+   "-",
+   "TIM20_BKIN",
+   "TIM15_CH1",
+   "-",
+   "SPI2_SCK",
+   "-",
+   "-",
+   "-",
+   "-",
+   "QUADSPI1_BK1_IO1",
+   "-",
+   "-",
+   "SAI1_FS_B",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PF10": {
+  "name": "PF10",
+  "io": "FT",
+  "pkg": {
+   "LQFP100": "11"
+  },
+  "additional": "-",
+  "af": [
+   "-",
+   "-",
+   "TIM20_BKIN2",
+   "TIM15_CH2",
+   "-",
+   "SPI2_SCK",
+   "-",
+   "-",
+   "-",
+   "-",
+   "QUADSPI1_CLK",
+   "-",
+   "-",
+   "SAI1_D3",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PF0": {
+  "name": "PF0-OSC_IN",
+  "io": "FT_fa",
+  "pkg": {
+   "UFQFPN32": "2",
+   "UFQFPN48": "5",
+   "LQFP48": "5",
+   "WLCSP64": "E8",
+   "LQFP64": "5",
+   "UFBGA64": "E1",
+   "LQFP80": "5",
+   "LQFP100": "12"
+  },
+  "additional": "ADC1_IN10,OSC_IN",
+  "af": [
+   "-",
+   "-",
+   "-",
+   "-",
+   "I2C2_SDA",
+   "SPI2_NSS/I2S2_WS",
+   "TIM1_CH3N",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PF1": {
+  "name": "PF1- OSC_OUT",
+  "io": "FT_a",
+  "pkg": {
+   "UFQFPN32": "3",
+   "UFQFPN48": "6",
+   "LQFP48": "6",
+   "WLCSP64": "E7",
+   "LQFP64": "6",
+   "UFBGA64": "F1",
+   "LQFP80": "6",
+   "LQFP100": "13"
+  },
+  "additional": "ADC2_IN10,COMP3_INM,OSC_OUT",
+  "af": [
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "SPI2_SCK/I2S2_CK",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PG10": {
+  "name": "PG10-NRST",
+  "io": "NRST (4)",
+  "pkg": {
+   "UFQFPN32": "4",
+   "UFQFPN48": "7",
+   "LQFP48": "7",
+   "WLCSP64": "D7",
+   "LQFP64": "7",
+   "UFBGA64": "D2",
+   "LQFP80": "7",
+   "LQFP100": "14"
+  },
+  "additional": "NRST",
+  "af": [
+   "MCO",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PC0": {
+  "name": "PC0",
+  "io": "FT_a",
+  "pkg": {
+   "WLCSP64": "F8",
+   "LQFP64": "8",
+   "UFBGA64": "E2",
+   "LQFP80": "8",
+   "LQFP100": "15"
+  },
+  "additional": "ADC12_IN6,COMP3_INM",
+  "af": [
+   "-",
+   "LPTIM1_IN1",
+   "TIM1_CH1",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "LPUART1_RX",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PC1": {
+  "name": "PC1",
+  "io": "TT_a",
+  "pkg": {
+   "WLCSP64": "C7",
+   "LQFP64": "9",
+   "UFBGA64": "C3",
+   "LQFP80": "9",
+   "LQFP100": "16"
+  },
+  "additional": "ADC12_IN7,COMP3_INP",
+  "af": [
+   "-",
+   "LPTIM1_OUT",
+   "TIM1_CH2",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "LPUART1_TX",
+   "-",
+   "QUADSPI1_BK2_IO0",
+   "-",
+   "-",
+   "SAI1_SD_A",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PC2": {
+  "name": "PC2",
+  "io": "FT_a",
+  "pkg": {
+   "WLCSP64": "D6",
+   "LQFP64": "10",
+   "UFBGA64": "D3",
+   "LQFP80": "10",
+   "LQFP100": "17"
+  },
+  "additional": "ADC12_IN8",
+  "af": [
+   "-",
+   "LPTIM1_IN2",
+   "TIM1_CH3",
+   "COMP3_OUT",
+   "-",
+   "-",
+   "TIM20_CH2",
+   "-",
+   "-",
+   "-",
+   "QUADSPI1_BK2_IO1",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PC3": {
+  "name": "PC3",
+  "io": "FT_a",
+  "pkg": {
+   "WLCSP64": "E6",
+   "LQFP64": "11",
+   "UFBGA64": "G1",
+   "LQFP80": "11",
+   "LQFP100": "18"
+  },
+  "additional": "ADC12_IN9",
+  "af": [
+   "-",
+   "LPTIM1_ETR",
+   "TIM1_CH4",
+   "SAI1_D1",
+   "-",
+   "-",
+   "TIM1_BKIN2",
+   "-",
+   "-",
+   "-",
+   "QUADSPI1_BK2_IO2",
+   "-",
+   "-",
+   "SAI1_SD_A",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PF2": {
+  "name": "PF2",
+  "io": "FT",
+  "pkg": {
+   "LQFP100": "19"
+  },
+  "additional": "-",
+  "af": [
+   "-",
+   "-",
+   "TIM20_CH3",
+   "-",
+   "I2C2_SMBA",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PA0": {
+  "name": "PA0",
+  "io": "TT_a",
+  "pkg": {
+   "UFQFPN32": "5",
+   "UFQFPN48": "8",
+   "LQFP48": "8",
+   "WLCSP64": "G8",
+   "LQFP64": "12",
+   "UFBGA64": "F2",
+   "LQFP80": "12",
+   "LQFP100": "20"
+  },
+  "additional": "ADC12_IN1,COMP1_INM,COMP3_INP,RTC_TAMP2,WKUP1",
+  "af": [
+   "-",
+   "TIM2_CH1",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "USART2_CTS",
+   "COMP1_OUT",
+   "TIM8_BKIN",
+   "TIM8_ETR",
+   "-",
+   "-",
+   "-",
+   "TIM2_ETR",
+   "EVENTOUT"
+  ]
+ },
+ "PA1": {
+  "name": "PA1",
+  "io": "TT_a",
+  "pkg": {
+   "UFQFPN32": "6",
+   "UFQFPN48": "9",
+   "LQFP48": "9",
+   "WLCSP64": "F7",
+   "LQFP64": "13",
+   "UFBGA64": "E3",
+   "LQFP80": "13",
+   "LQFP100": "21"
+  },
+  "additional": "ADC12_IN2,COMP1_INP,OPAMP1_VINP,OPAMP3_VINP,OPAMP6_VINM",
+  "af": [
+   "RTC_REFIN",
+   "TIM2_CH2",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "USART2_RTS_DE",
+   "-",
+   "TIM15_CH1N",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PA2": {
+  "name": "PA2",
+  "io": "TT_a",
+  "pkg": {
+   "UFQFPN32": "7",
+   "UFQFPN48": "10",
+   "LQFP48": "10",
+   "WLCSP64": "D5",
+   "LQFP64": "14",
+   "UFBGA64": "F3",
+   "LQFP80": "14",
+   "LQFP100": "22"
+  },
+  "additional": "ADC1_IN3,COMP2_INM,OPAMP1_VOUT,WKUP4/LSCO",
+  "af": [
+   "-",
+   "TIM2_CH3",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "USART2_TX",
+   "COMP2_OUT",
+   "TIM15_CH1",
+   "QUADSPI1_BK1_NCS",
+   "-",
+   "LPUART1_TX",
+   "-",
+   "UCPD1_FRSTX",
+   "EVENTOUT"
+  ]
+ },
+ "PA3": {
+  "name": "PA3",
+  "io": "TT_a",
+  "pkg": {
+   "UFQFPN32": "8",
+   "UFQFPN48": "11",
+   "LQFP48": "11",
+   "WLCSP64": "F6",
+   "LQFP64": "17",
+   "UFBGA64": "H2",
+   "LQFP80": "17",
+   "LQFP100": "25"
+  },
+  "additional": "ADC1_IN4,COMP2_INP,OPAMP1_VINM/OPAMP1_VINP",
+  "af": [
+   "-",
+   "TIM2_CH4",
+   "-",
+   "SAI1_CK1",
+   "-",
+   "-",
+   "-",
+   "USART2_RX",
+   "-",
+   "TIM15_CH2",
+   "QUADSPI1_CLK",
+   "-",
+   "LPUART1_RX",
+   "SAI1_MCLK_A",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PA4": {
+  "name": "PA4",
+  "io": "TT_a",
+  "pkg": {
+   "UFQFPN32": "9",
+   "UFQFPN48": "12",
+   "LQFP48": "12",
+   "WLCSP64": "E5",
+   "LQFP64": "18",
+   "UFBGA64": "D4",
+   "LQFP80": "18",
+   "LQFP100": "26"
+  },
+  "additional": "ADC2_IN17,DAC1_OUT1,COMP1_INM",
+  "af": [
+   "-",
+   "-",
+   "TIM3_CH2",
+   "-",
+   "-",
+   "SPI1_NSS",
+   "SPI3_NSS/I2S3_WS",
+   "USART2_CK",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "SAI1_FS_B",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PA5": {
+  "name": "PA5",
+  "io": "TT_a",
+  "pkg": {
+   "UFQFPN32": "10",
+   "UFQFPN48": "13",
+   "LQFP48": "13",
+   "WLCSP64": "E4",
+   "LQFP64": "19",
+   "UFBGA64": "E4",
+   "LQFP80": "19",
+   "LQFP100": "27"
+  },
+  "additional": "ADC2_IN13,DAC1_OUT2,COMP2_INM,OPAMP2_VINM",
+  "af": [
+   "-",
+   "TIM2_CH1",
+   "TIM2_ETR",
+   "-",
+   "-",
+   "SPI1_SCK",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "UCPD1_FRSTX",
+   "EVENTOUT"
+  ]
+ },
+ "PA6": {
+  "name": "PA6",
+  "io": "TT_a",
+  "pkg": {
+   "UFQFPN32": "11",
+   "UFQFPN48": "14",
+   "LQFP48": "14",
+   "WLCSP64": "H7",
+   "LQFP64": "20",
+   "UFBGA64": "G3",
+   "LQFP80": "20",
+   "LQFP100": "28"
+  },
+  "additional": "ADC2_IN3,OPAMP2_VOUT",
+  "af": [
+   "-",
+   "TIM16_CH1",
+   "TIM3_CH1",
+   "-",
+   "TIM8_BKIN",
+   "SPI1_MISO",
+   "TIM1_BKIN",
+   "-",
+   "COMP1_OUT",
+   "-",
+   "QUADSPI1_BK1_IO3",
+   "-",
+   "LPUART1_CTS",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PA7": {
+  "name": "PA7",
+  "io": "TT_a",
+  "pkg": {
+   "UFQFPN32": "12",
+   "UFQFPN48": "15",
+   "LQFP48": "15",
+   "WLCSP64": "F5",
+   "LQFP64": "21",
+   "UFBGA64": "H3",
+   "LQFP80": "21",
+   "LQFP100": "29"
+  },
+  "additional": "ADC2_IN4,COMP2_INP,OPAMP1_VINP,OPAMP2_VINP",
+  "af": [
+   "-",
+   "TIM17_CH1",
+   "TIM3_CH2",
+   "-",
+   "TIM8_CH1N",
+   "SPI1_MOSI",
+   "TIM1_CH1N",
+   "-",
+   "COMP2_OUT",
+   "-",
+   "QUADSPI1_BK1_IO2",
+   "-",
+   "-",
+   "-",
+   "UCPD1_FRSTX",
+   "EVENTOUT"
+  ]
+ },
+ "PC4": {
+  "name": "PC4",
+  "io": "FT_fa",
+  "pkg": {
+   "UFQFPN48": "16",
+   "WLCSP64": "G6",
+   "LQFP64": "22",
+   "UFBGA64": "D5",
+   "LQFP80": "22",
+   "LQFP100": "30"
+  },
+  "additional": "ADC2_IN5",
+  "af": [
+   "-",
+   "-",
+   "TIM1_ETR",
+   "-",
+   "I2C2_SCL",
+   "-",
+   "-",
+   "USART1_TX",
+   "-",
+   "-",
+   "QUADSPI1_BK2_IO3",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PC5": {
+  "name": "PC5",
+  "io": "TT_a",
+  "pkg": {
+   "WLCSP64": "F4",
+   "LQFP64": "23",
+   "UFBGA64": "F4",
+   "LQFP80": "23",
+   "LQFP100": "31"
+  },
+  "additional": "ADC2_IN11,OPAMP1_VINM,OPAMP2_VINM,WKUP5",
+  "af": [
+   "-",
+   "-",
+   "TIM15_BKIN",
+   "SAI1_D3",
+   "-",
+   "-",
+   "TIM1_CH4N",
+   "USART1_RX",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PB0": {
+  "name": "PB0",
+  "io": "TT_a",
+  "pkg": {
+   "UFQFPN32": "13",
+   "UFQFPN48": "17",
+   "LQFP48": "16",
+   "WLCSP64": "F3",
+   "LQFP64": "24",
+   "UFBGA64": "E5",
+   "LQFP80": "24",
+   "LQFP100": "32"
+  },
+  "additional": "ADC1_IN15/ADC3_IN12,COMP4_INP,OPAMP2_VINP,OPAMP3_VINP",
+  "af": [
+   "-",
+   "-",
+   "TIM3_CH3",
+   "-",
+   "TIM8_CH2N",
+   "-",
+   "TIM1_CH2N",
+   "-",
+   "-",
+   "-",
+   "QUADSPI1_BK1_IO1",
+   "-",
+   "-",
+   "-",
+   "UCPD1_FRSTX",
+   "EVENTOUT"
+  ]
+ },
+ "PB1": {
+  "name": "PB1",
+  "io": "TT_a",
+  "pkg": {
+   "UFQFPN48": "18",
+   "LQFP48": "17",
+   "WLCSP64": "H6",
+   "LQFP64": "25",
+   "UFBGA64": "F5",
+   "LQFP80": "25",
+   "LQFP100": "33"
+  },
+  "additional": "ADC1_IN12/ADC3_IN1,COMP1_INP,OPAMP3_VOUT,OPAMP6_VINM",
+  "af": [
+   "-",
+   "-",
+   "TIM3_CH4",
+   "-",
+   "TIM8_CH3N",
+   "-",
+   "TIM1_CH3N",
+   "-",
+   "COMP4_OUT",
+   "-",
+   "QUADSPI1_BK1_IO0",
+   "-",
+   "LPUART1_RTS_DE",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PB2": {
+  "name": "PB2",
+  "io": "TT_a",
+  "pkg": {
+   "UFQFPN48": "19",
+   "LQFP48": "18",
+   "WLCSP64": "G4",
+   "LQFP64": "26",
+   "UFBGA64": "H4",
+   "LQFP80": "26",
+   "LQFP100": "34"
+  },
+  "additional": "ADC2_IN12,COMP4_INM,OPAMP3_VINM",
+  "af": [
+   "RTC_OUT2",
+   "LPTIM1_OUT",
+   "-",
+   "TIM20_CH1",
+   "I2C3_SMBA",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "QUADSPI1_BK2_IO1",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PE7": {
+  "name": "PE7",
+  "io": "TT_a",
+  "pkg": {
+   "LQFP80": "30",
+   "LQFP100": "38"
+  },
+  "additional": "ADC3_IN4,COMP4_INP",
+  "af": [
+   "-",
+   "-",
+   "TIM1_ETR",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "SAI1_SD_B",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PE8": {
+  "name": "PE8",
+  "io": "FT_a",
+  "pkg": {
+   "LQFP80": "31",
+   "LQFP100": "39"
+  },
+  "additional": "ADC3_IN6,COMP4_INM",
+  "af": [
+   "-",
+   "-",
+   "TIM1_CH1N",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "SAI1_SCK_B",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PE9": {
+  "name": "PE9",
+  "io": "FT_a",
+  "pkg": {
+   "LQFP80": "32",
+   "LQFP100": "40"
+  },
+  "additional": "ADC3_IN2",
+  "af": [
+   "-",
+   "-",
+   "TIM1_CH1",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "SAI1_FS_B",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PE10": {
+  "name": "PE10",
+  "io": "FT_a",
+  "pkg": {
+   "LQFP80": "33",
+   "LQFP100": "41"
+  },
+  "additional": "ADC3_IN14",
+  "af": [
+   "-",
+   "-",
+   "TIM1_CH2N",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "QUADSPI1_CLK",
+   "-",
+   "-",
+   "SAI1_MCLK_B",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PE11": {
+  "name": "PE11",
+  "io": "FT_a",
+  "pkg": {
+   "LQFP80": "34",
+   "LQFP100": "42"
+  },
+  "additional": "ADC3_IN15",
+  "af": [
+   "-",
+   "-",
+   "TIM1_CH2",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "QUADSPI1_BK1_NCS",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PE12": {
+  "name": "PE12",
+  "io": "FT_a",
+  "pkg": {
+   "LQFP80": "35",
+   "LQFP100": "43"
+  },
+  "additional": "ADC3_IN16",
+  "af": [
+   "-",
+   "-",
+   "TIM1_CH3N",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "QUADSPI1_BK1_IO0",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PE13": {
+  "name": "PE13",
+  "io": "FT_a",
+  "pkg": {
+   "LQFP80": "36",
+   "LQFP100": "44"
+  },
+  "additional": "ADC3_IN3",
+  "af": [
+   "-",
+   "-",
+   "TIM1_CH3",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "QUADSPI1_BK1_IO1",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PE14": {
+  "name": "PE14",
+  "io": "FT",
+  "pkg": {
+   "LQFP80": "37",
+   "LQFP100": "45"
+  },
+  "additional": "-",
+  "af": [
+   "-",
+   "-",
+   "TIM1_CH4",
+   "-",
+   "-",
+   "-",
+   "TIM1_BKIN2",
+   "-",
+   "-",
+   "-",
+   "QUADSPI1_BK1_IO2",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PE15": {
+  "name": "PE15",
+  "io": "FT",
+  "pkg": {
+   "LQFP80": "38",
+   "LQFP100": "46"
+  },
+  "additional": "-",
+  "af": [
+   "-",
+   "-",
+   "TIM1_BKIN",
+   "-",
+   "-",
+   "-",
+   "TIM1_CH4N",
+   "USART3_RX",
+   "-",
+   "-",
+   "QUADSPI1_BK1_IO3",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PB10": {
+  "name": "PB10",
+  "io": "TT_a",
+  "pkg": {
+   "UFQFPN48": "22",
+   "LQFP48": "22",
+   "WLCSP64": "H2",
+   "LQFP64": "30",
+   "UFBGA64": "H6",
+   "LQFP80": "39",
+   "LQFP100": "47"
+  },
+  "additional": "OPAMP3_VINM",
+  "af": [
+   "-",
+   "TIM2_CH3",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "USART3_TX",
+   "LPUART1_RX",
+   "-",
+   "QUADSPI1_CLK",
+   "-",
+   "TIM1_BKIN",
+   "-",
+   "SAI1_SCK_A",
+   "EVENTOUT"
+  ]
+ },
+ "PB11": {
+  "name": "PB11",
+  "io": "TT_a",
+  "pkg": {
+   "UFQFPN48": "24",
+   "LQFP48": "25",
+   "WLCSP64": "H3",
+   "LQFP64": "33",
+   "UFBGA64": "H7",
+   "LQFP80": "42",
+   "LQFP100": "50"
+  },
+  "additional": "ADC12_IN14,OPAMP6_VOUT",
+  "af": [
+   "-",
+   "TIM2_CH4",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "USART3_RX",
+   "LPUART1_TX",
+   "-",
+   "QUADSPI1_BK1_NCS",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PB12": {
+  "name": "PB12",
+  "io": "TT_a",
+  "pkg": {
+   "UFQFPN48": "25",
+   "LQFP48": "26",
+   "WLCSP64": "G3",
+   "LQFP64": "34",
+   "UFBGA64": "G8",
+   "LQFP80": "43",
+   "LQFP100": "51"
+  },
+  "additional": "ADC1_IN11,OPAMP6_VINP",
+  "af": [
+   "-",
+   "-",
+   "-",
+   "-",
+   "I2C2_SMBA",
+   "SPI2_NSS/I2S2_WS",
+   "TIM1_BKIN",
+   "USART3_CK",
+   "LPUART1_RTS_DE",
+   "FDCAN2_RX",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PB13": {
+  "name": "PB13",
+  "io": "TT_a",
+  "pkg": {
+   "UFQFPN48": "26",
+   "LQFP48": "27",
+   "WLCSP64": "G1",
+   "LQFP64": "35",
+   "UFBGA64": "G6",
+   "LQFP80": "44",
+   "LQFP100": "52"
+  },
+  "additional": "ADC3_IN5,OPAMP3_VINP,OPAMP6_VINP",
+  "af": [
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "SPI2_SCK/I2S2_CK",
+   "TIM1_CH1N",
+   "USART3_CTS",
+   "LPUART1_CTS",
+   "FDCAN2_TX",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PB14": {
+  "name": "PB14",
+  "io": "TT_a",
+  "pkg": {
+   "UFQFPN48": "27",
+   "LQFP48": "28",
+   "WLCSP64": "F2",
+   "LQFP64": "36",
+   "UFBGA64": "F8",
+   "LQFP80": "45",
+   "LQFP100": "53"
+  },
+  "additional": "ADC1_IN5,OPAMP2_VINP",
+  "af": [
+   "-",
+   "TIM15_CH1",
+   "-",
+   "-",
+   "-",
+   "SPI2_MISO",
+   "TIM1_CH2N",
+   "USART3_RTS_DE",
+   "COMP4_OUT",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PB15": {
+  "name": "PB15",
+  "io": "FT_a",
+  "pkg": {
+   "UFQFPN48": "28",
+   "LQFP48": "29",
+   "WLCSP64": "F1",
+   "LQFP64": "37",
+   "UFBGA64": "F7",
+   "LQFP80": "46",
+   "LQFP100": "54"
+  },
+  "additional": "ADC2_IN15",
+  "af": [
+   "RTC_REFIN",
+   "TIM15_CH2",
+   "TIM15_CH1N",
+   "COMP3_OUT",
+   "TIM1_CH3N",
+   "SPI2_MOSI/I2S2_SD",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PD8": {
+  "name": "PD8",
+  "io": "FT_a",
+  "pkg": {
+   "LQFP80": "47",
+   "LQFP100": "55"
+  },
+  "additional": "-",
+  "af": [
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "USART3_TX",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PD9": {
+  "name": "PD9",
+  "io": "TT_a",
+  "pkg": {
+   "LQFP80": "48",
+   "LQFP100": "56"
+  },
+  "additional": "OPAMP6_VINP",
+  "af": [
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "USART3_RX",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PD10": {
+  "name": "PD10",
+  "io": "FT_a",
+  "pkg": {
+   "LQFP80": "49",
+   "LQFP100": "57"
+  },
+  "additional": "ADC3_IN7",
+  "af": [
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "USART3_CK",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PD11": {
+  "name": "PD11",
+  "io": "FT_a",
+  "pkg": {
+   "LQFP100": "58"
+  },
+  "additional": "ADC3_IN8",
+  "af": [
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "USART3_CTS",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PD12": {
+  "name": "PD12",
+  "io": "FT_a",
+  "pkg": {
+   "LQFP100": "59"
+  },
+  "additional": "ADC3_IN9",
+  "af": [
+   "-",
+   "-",
+   "TIM4_CH1",
+   "-",
+   "-",
+   "-",
+   "-",
+   "USART3_RTS_DE",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PD13": {
+  "name": "PD13",
+  "io": "FT_a",
+  "pkg": {
+   "LQFP100": "60"
+  },
+  "additional": "ADC3_IN10",
+  "af": [
+   "-",
+   "-",
+   "TIM4_CH2",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PD14": {
+  "name": "PD14",
+  "io": "TT_a",
+  "pkg": {
+   "LQFP100": "61"
+  },
+  "additional": "ADC3_IN11,OPAMP2_VINP",
+  "af": [
+   "-",
+   "-",
+   "TIM4_CH3",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PD15": {
+  "name": "PD15",
+  "io": "FT",
+  "pkg": {
+   "LQFP100": "62"
+  },
+  "additional": "-",
+  "af": [
+   "-",
+   "-",
+   "TIM4_CH4",
+   "-",
+   "-",
+   "-",
+   "SPI2_NSS",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PC6": {
+  "name": "PC6",
+  "io": "FT",
+  "pkg": {
+   "UFQFPN48": "29",
+   "WLCSP64": "E3",
+   "LQFP64": "38",
+   "UFBGA64": "E8",
+   "LQFP80": "52",
+   "LQFP100": "65"
+  },
+  "additional": "-",
+  "af": [
+   "-",
+   "-",
+   "TIM3_CH1",
+   "-",
+   "TIM8_CH1",
+   "-",
+   "I2S2_MCK",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PC7": {
+  "name": "PC7",
+  "io": "FT",
+  "pkg": {
+   "WLCSP64": "E1",
+   "LQFP64": "39",
+   "UFBGA64": "E7",
+   "LQFP80": "53",
+   "LQFP100": "66"
+  },
+  "additional": "-",
+  "af": [
+   "-",
+   "-",
+   "TIM3_CH2",
+   "-",
+   "TIM8_CH2",
+   "-",
+   "I2S3_MCK",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PC8": {
+  "name": "PC8",
+  "io": "FT_f",
+  "pkg": {
+   "WLCSP64": "E2",
+   "LQFP64": "40",
+   "UFBGA64": "F6",
+   "LQFP80": "54",
+   "LQFP100": "67"
+  },
+  "additional": "-",
+  "af": [
+   "-",
+   "-",
+   "TIM3_CH3",
+   "-",
+   "TIM8_CH3",
+   "-",
+   "TIM20_CH3",
+   "-",
+   "I2C3_SCL",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PC9": {
+  "name": "PC9",
+  "io": "FT_f",
+  "pkg": {
+   "WLCSP64": "D3",
+   "LQFP64": "41",
+   "UFBGA64": "D8",
+   "LQFP80": "55",
+   "LQFP100": "68"
+  },
+  "additional": "-",
+  "af": [
+   "-",
+   "-",
+   "TIM3_CH4",
+   "-",
+   "TIM8_CH4",
+   "I2SCKIN",
+   "TIM8_BKIN2",
+   "-",
+   "I2C3_SDA",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PA8": {
+  "name": "PA8",
+  "io": "FT_f",
+  "pkg": {
+   "UFQFPN32": "18",
+   "UFQFPN48": "30",
+   "LQFP48": "30",
+   "WLCSP64": "D2",
+   "LQFP64": "42",
+   "UFBGA64": "E6",
+   "LQFP80": "56",
+   "LQFP100": "69"
+  },
+  "additional": "-",
+  "af": [
+   "MCO",
+   "-",
+   "I2C3_SCL",
+   "-",
+   "I2C2_SDA",
+   "I2S2_MCK",
+   "TIM1_CH1",
+   "USART1_CK",
+   "-",
+   "-",
+   "TIM4_ETR",
+   "-",
+   "SAI1_CK2",
+   "-",
+   "SAI1_SCK_A",
+   "EVENTOUT"
+  ]
+ },
+ "PA9": {
+  "name": "PA9",
+  "io": "FT_fd",
+  "pkg": {
+   "UFQFPN32": "19",
+   "UFQFPN48": "31",
+   "LQFP48": "31",
+   "WLCSP64": "D1",
+   "LQFP64": "43",
+   "UFBGA64": "D7",
+   "LQFP80": "57",
+   "LQFP100": "70"
+  },
+  "additional": "UCPD1_DBCC1",
+  "af": [
+   "-",
+   "-",
+   "I2C3_SMBA",
+   "-",
+   "I2C2_SCL",
+   "I2S3_MCK",
+   "TIM1_CH2",
+   "USART1_TX",
+   "-",
+   "TIM15_BKIN",
+   "TIM2_CH3",
+   "-",
+   "-",
+   "-",
+   "SAI1_FS_A",
+   "EVENTOUT"
+  ]
+ },
+ "PA10": {
+  "name": "PA10",
+  "io": "FT_d a",
+  "pkg": {
+   "UFQFPN32": "20",
+   "UFQFPN48": "32",
+   "LQFP48": "32",
+   "WLCSP64": "C2",
+   "LQFP64": "44",
+   "UFBGA64": "D6",
+   "LQFP80": "58",
+   "LQFP100": "71"
+  },
+  "additional": "UCPD1_DBCC2,PVD_IN",
+  "af": [
+   "-",
+   "TIM17_BKIN",
+   "-",
+   "USB_CRS_SYNC",
+   "I2C2_SMBA",
+   "SPI2_MISO",
+   "TIM1_CH3",
+   "USART1_RX",
+   "-",
+   "-",
+   "TIM2_CH4",
+   "TIM8_BKIN",
+   "SAI1_D1",
+   "-",
+   "SAI1_SD_A",
+   "EVENTOUT"
+  ]
+ },
+ "PA11": {
+  "name": "PA11",
+  "io": "FT_u",
+  "pkg": {
+   "UFQFPN32": "21",
+   "UFQFPN48": "33",
+   "LQFP48": "33",
+   "WLCSP64": "C1",
+   "LQFP64": "45",
+   "UFBGA64": "C8",
+   "LQFP80": "59",
+   "LQFP100": "72"
+  },
+  "additional": "USB_DM",
+  "af": [
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "SPI2_MOSI/I2S2_SD",
+   "TIM1_CH1N",
+   "USART1_CTS",
+   "COMP1_OUT",
+   "FDCAN1_RX",
+   "TIM4_CH1",
+   "TIM1_CH4",
+   "TIM1_BKIN2",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PA12": {
+  "name": "PA12",
+  "io": "FT_u",
+  "pkg": {
+   "UFQFPN32": "22",
+   "UFQFPN48": "34",
+   "LQFP48": "34",
+   "WLCSP64": "B1",
+   "LQFP64": "46",
+   "UFBGA64": "B8",
+   "LQFP80": "60",
+   "LQFP100": "73"
+  },
+  "additional": "USB_DP",
+  "af": [
+   "-",
+   "TIM16_CH1",
+   "-",
+   "-",
+   "-",
+   "I2SCKIN",
+   "TIM1_CH2N",
+   "USART1_RTS_DE",
+   "COMP2_OUT",
+   "FDCAN1_TX",
+   "TIM4_CH2",
+   "TIM1_ETR",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PA13": {
+  "name": "PA13",
+  "io": "FT_f",
+  "pkg": {
+   "UFQFPN32": "23",
+   "UFQFPN48": "36",
+   "LQFP48": "37",
+   "WLCSP64": "C3",
+   "LQFP64": "49",
+   "UFBGA64": "C7",
+   "LQFP80": "63",
+   "LQFP100": "76"
+  },
+  "additional": "-",
+  "af": [
+   "SWDIO-JTMS",
+   "TIM16_CH1N",
+   "-",
+   "-",
+   "I2C1_SCL",
+   "IR_OUT",
+   "-",
+   "USART3_CTS",
+   "-",
+   "-",
+   "TIM4_CH3",
+   "-",
+   "-",
+   "SAI1_SD_B",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PA14": {
+  "name": "PA14",
+  "io": "FT_f",
+  "pkg": {
+   "UFQFPN32": "24",
+   "UFQFPN48": "37",
+   "LQFP48": "38",
+   "WLCSP64": "C4",
+   "LQFP64": "50",
+   "UFBGA64": "C6",
+   "LQFP80": "64",
+   "LQFP100": "77"
+  },
+  "additional": "-",
+  "af": [
+   "SWCLK-JTCK",
+   "LPTIM1_OUT",
+   "-",
+   "-",
+   "I2C1_SDA",
+   "TIM8_CH2",
+   "TIM1_BKIN",
+   "USART2_TX",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "SAI1_FS_B",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PA15": {
+  "name": "PA15",
+  "io": "FT_f",
+  "pkg": {
+   "UFQFPN32": "25",
+   "UFQFPN48": "38",
+   "LQFP48": "39",
+   "WLCSP64": "B4",
+   "LQFP64": "51",
+   "UFBGA64": "A7",
+   "LQFP80": "65",
+   "LQFP100": "78"
+  },
+  "additional": "-",
+  "af": [
+   "JTDI",
+   "TIM2_CH1",
+   "TIM8_CH1",
+   "TIM20_ETR",
+   "I2C1_SCL",
+   "SPI1_NSS",
+   "SPI3_NSS/I2S3_WS",
+   "USART2_RX",
+   "UART4_RTS_DE",
+   "TIM1_BKIN",
+   "-",
+   "-",
+   "-",
+   "-",
+   "TIM2_ETR",
+   "EVENTOUT"
+  ]
+ },
+ "PC10": {
+  "name": "PC10",
+  "io": "FT",
+  "pkg": {
+   "UFQFPN48": "39",
+   "WLCSP64": "B3",
+   "LQFP64": "52",
+   "UFBGA64": "C5",
+   "LQFP80": "66",
+   "LQFP100": "79"
+  },
+  "additional": "-",
+  "af": [
+   "-",
+   "-",
+   "-",
+   "-",
+   "TIM8_CH1N",
+   "UART4_TX",
+   "SPI3_SCK/I2S3_CK",
+   "USART3_TX",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PC11": {
+  "name": "PC11",
+  "io": "FT_f",
+  "pkg": {
+   "UFQFPN48": "40",
+   "WLCSP64": "A2",
+   "LQFP64": "53",
+   "UFBGA64": "B6",
+   "LQFP80": "67",
+   "LQFP100": "80"
+  },
+  "additional": "-",
+  "af": [
+   "-",
+   "-",
+   "-",
+   "-",
+   "TIM8_CH2N",
+   "UART4_RX",
+   "SPI3_MISO",
+   "USART3_RX",
+   "I2C3_SDA",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PC12": {
+  "name": "PC12",
+  "io": "FT",
+  "pkg": {
+   "WLCSP64": "A3",
+   "LQFP64": "54",
+   "UFBGA64": "A6",
+   "LQFP80": "68",
+   "LQFP100": "81"
+  },
+  "additional": "-",
+  "af": [
+   "-",
+   "-",
+   "-",
+   "-",
+   "TIM8_CH3N",
+   "UART5_TX",
+   "SPI3_MOSI/I2S3_SD",
+   "USART3_CK",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "UCPD1_FRSTX",
+   "EVENTOUT"
+  ]
+ },
+ "PD0": {
+  "name": "PD0",
+  "io": "FT",
+  "pkg": {
+   "LQFP80": "69",
+   "LQFP100": "82"
+  },
+  "additional": "-",
+  "af": [
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "TIM8_CH4N",
+   "-",
+   "-",
+   "FDCAN1_RX",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PD1": {
+  "name": "PD1",
+  "io": "FT",
+  "pkg": {
+   "LQFP80": "70",
+   "LQFP100": "83"
+  },
+  "additional": "-",
+  "af": [
+   "-",
+   "-",
+   "-",
+   "-",
+   "TIM8_CH4",
+   "-",
+   "TIM8_BKIN2",
+   "-",
+   "-",
+   "FDCAN1_TX",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PD2": {
+  "name": "PD2",
+  "io": "FT",
+  "pkg": {
+   "WLCSP64": "A4",
+   "LQFP64": "55",
+   "UFBGA64": "B5",
+   "LQFP80": "71",
+   "LQFP100": "84"
+  },
+  "additional": "-",
+  "af": [
+   "-",
+   "-",
+   "TIM3_ETR",
+   "-",
+   "TIM8_BKIN",
+   "UART5_RX",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PD3": {
+  "name": "PD3",
+  "io": "FT",
+  "pkg": {
+   "LQFP100": "85"
+  },
+  "additional": "-",
+  "af": [
+   "-",
+   "-",
+   "TIM2_CH1/TIM2_ETR",
+   "-",
+   "-",
+   "-",
+   "-",
+   "USART2_CTS",
+   "-",
+   "-",
+   "QUADSPI1_BK2_NCS",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PD4": {
+  "name": "PD4",
+  "io": "FT",
+  "pkg": {
+   "LQFP100": "86"
+  },
+  "additional": "-",
+  "af": [
+   "-",
+   "-",
+   "TIM2_CH2",
+   "-",
+   "-",
+   "-",
+   "-",
+   "USART2_RTS_DE",
+   "-",
+   "-",
+   "QUADSPI1_BK2_IO0",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PD5": {
+  "name": "PD5",
+  "io": "FT",
+  "pkg": {
+   "LQFP100": "87"
+  },
+  "additional": "-",
+  "af": [
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "USART2_TX",
+   "-",
+   "-",
+   "QUADSPI1_BK2_IO1",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PD6": {
+  "name": "PD6",
+  "io": "FT",
+  "pkg": {
+   "LQFP100": "88"
+  },
+  "additional": "-",
+  "af": [
+   "-",
+   "-",
+   "TIM2_CH4",
+   "SAI1_D1",
+   "-",
+   "-",
+   "-",
+   "USART2_RX",
+   "-",
+   "-",
+   "QUADSPI1_BK2_IO2",
+   "-",
+   "-",
+   "SAI1_SD_A",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PD7": {
+  "name": "PD7",
+  "io": "FT",
+  "pkg": {
+   "LQFP100": "89"
+  },
+  "additional": "-",
+  "af": [
+   "-",
+   "-",
+   "TIM2_CH3",
+   "-",
+   "-",
+   "-",
+   "-",
+   "USART2_CK",
+   "-",
+   "-",
+   "QUADSPI1_BK2_IO3",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PB3": {
+  "name": "PB3",
+  "io": "FT",
+  "pkg": {
+   "UFQFPN32": "26",
+   "UFQFPN48": "41",
+   "LQFP48": "40",
+   "WLCSP64": "D4",
+   "LQFP64": "56",
+   "UFBGA64": "A5",
+   "LQFP80": "72",
+   "LQFP100": "90"
+  },
+  "additional": "-",
+  "af": [
+   "JTDO/TRACESWO",
+   "TIM2_CH2",
+   "TIM4_ETR",
+   "USB_CRS_SYNC",
+   "TIM8_CH1N",
+   "SPI1_SCK",
+   "SPI3_SCK/I2S3_CK",
+   "USART2_TX",
+   "-",
+   "-",
+   "TIM3_ETR",
+   "-",
+   "-",
+   "-",
+   "SAI1_SCK_B",
+   "EVENTOUT"
+  ]
+ },
+ "PB4": {
+  "name": "PB4",
+  "io": "FT_c",
+  "pkg": {
+   "UFQFPN32": "27",
+   "UFQFPN48": "42",
+   "LQFP48": "41",
+   "WLCSP64": "C5",
+   "LQFP64": "57",
+   "UFBGA64": "C4",
+   "LQFP80": "73",
+   "LQFP100": "91"
+  },
+  "additional": "UCPD1_CC2",
+  "af": [
+   "JTRST",
+   "TIM16_CH1",
+   "TIM3_CH1",
+   "-",
+   "TIM8_CH2N",
+   "SPI1_MISO",
+   "SPI3_MISO",
+   "USART2_RX",
+   "UART5_RTS_DE",
+   "-",
+   "TIM17_BKIN",
+   "-",
+   "-",
+   "-",
+   "SAI1_MCLK_B",
+   "EVENTOUT"
+  ]
+ },
+ "PB5": {
+  "name": "PB5",
+  "io": "FT_f",
+  "pkg": {
+   "UFQFPN32": "28",
+   "UFQFPN48": "43",
+   "LQFP48": "42",
+   "WLCSP64": "A5",
+   "LQFP64": "58",
+   "UFBGA64": "B4",
+   "LQFP80": "74",
+   "LQFP100": "92"
+  },
+  "additional": "-",
+  "af": [
+   "-",
+   "TIM16_BKIN",
+   "TIM3_CH2",
+   "TIM8_CH3N",
+   "I2C1_SMBA",
+   "SPI1_MOSI",
+   "SPI3_MOSI/I2S3_SD",
+   "USART2_CK",
+   "I2C3_SDA",
+   "FDCAN2_RX",
+   "TIM17_CH1",
+   "LPTIM1_IN1",
+   "SAI1_SD_B",
+   "-",
+   "UART5_CTS",
+   "EVENTOUT"
+  ]
+ },
+ "PB6": {
+  "name": "PB6",
+  "io": "FT_c",
+  "pkg": {
+   "UFQFPN32": "29",
+   "UFQFPN48": "44",
+   "LQFP48": "43",
+   "WLCSP64": "B5",
+   "LQFP64": "59",
+   "UFBGA64": "A4",
+   "LQFP80": "75",
+   "LQFP100": "93"
+  },
+  "additional": "UCPD1_CC1",
+  "af": [
+   "-",
+   "TIM16_CH1N",
+   "TIM4_CH1",
+   "-",
+   "-",
+   "TIM8_CH1",
+   "TIM8_ETR",
+   "USART1_TX",
+   "COMP4_OUT",
+   "FDCAN2_TX",
+   "TIM8_BKIN2",
+   "LPTIM1_ETR",
+   "-",
+   "-",
+   "SAI1_FS_B",
+   "EVENTOUT"
+  ]
+ },
+ "PB7": {
+  "name": "PB7",
+  "io": "FT_f",
+  "pkg": {
+   "UFQFPN32": "30",
+   "UFQFPN48": "45",
+   "LQFP48": "44",
+   "WLCSP64": "A6",
+   "LQFP64": "60",
+   "UFBGA64": "A3",
+   "LQFP80": "76",
+   "LQFP100": "94"
+  },
+  "additional": "-",
+  "af": [
+   "-",
+   "TIM17_CH1N",
+   "TIM4_CH2",
+   "-",
+   "I2C1_SDA",
+   "TIM8_BKIN",
+   "-",
+   "USART1_RX",
+   "COMP3_OUT",
+   "-",
+   "TIM3_CH4",
+   "LPTIM1_IN2",
+   "-",
+   "-",
+   "UART4_CTS",
+   "EVENTOUT"
+  ]
+ },
+ "PB8": {
+  "name": "PB8-BOOT0",
+  "io": "FT_f",
+  "pkg": {
+   "UFQFPN32": "31",
+   "UFQFPN48": "46",
+   "LQFP48": "45",
+   "WLCSP64": "B6",
+   "LQFP64": "61",
+   "UFBGA64": "B3",
+   "LQFP80": "77",
+   "LQFP100": "95"
+  },
+  "additional": "-",
+  "af": [
+   "-",
+   "TIM16_CH1",
+   "TIM4_CH3",
+   "SAI1_CK1",
+   "I2C1_SCL",
+   "-",
+   "-",
+   "USART3_RX",
+   "COMP1_OUT",
+   "FDCAN1_RX",
+   "TIM8_CH2",
+   "-",
+   "TIM1_BKIN",
+   "-",
+   "SAI1_MCLK_A",
+   "EVENTOUT"
+  ]
+ },
+ "PB9": {
+  "name": "PB9",
+  "io": "FT_f",
+  "pkg": {
+   "UFQFPN48": "47",
+   "LQFP48": "46",
+   "WLCSP64": "A7",
+   "LQFP64": "62",
+   "UFBGA64": "A2",
+   "LQFP80": "78",
+   "LQFP100": "96"
+  },
+  "additional": "-",
+  "af": [
+   "-",
+   "TIM17_CH1",
+   "TIM4_CH4",
+   "SAI1_D2",
+   "I2C1_SDA",
+   "-",
+   "IR_OUT",
+   "USART3_TX",
+   "COMP2_OUT",
+   "FDCAN1_TX",
+   "TIM8_CH3",
+   "-",
+   "TIM1_CH3N",
+   "-",
+   "SAI1_FS_A",
+   "EVENTOUT"
+  ]
+ },
+ "PE0": {
+  "name": "PE0",
+  "io": "FT",
+  "pkg": {
+   "LQFP100": "97"
+  },
+  "additional": "-",
+  "af": [
+   "-",
+   "-",
+   "TIM4_ETR",
+   "TIM20_CH4N",
+   "TIM16_CH1",
+   "-",
+   "TIM20_ETR",
+   "USART1_TX",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ },
+ "PE1": {
+  "name": "PE1",
+  "io": "FT",
+  "pkg": {
+   "LQFP100": "98"
+  },
+  "additional": "-",
+  "af": [
+   "-",
+   "-",
+   "-",
+   "-",
+   "TIM17_CH1",
+   "-",
+   "TIM20_CH4",
+   "USART1_RX",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "-",
+   "EVENTOUT"
+  ]
+ }
+}
