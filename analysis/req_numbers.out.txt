@@ -1,0 +1,28 @@
+=== Metrology scale of the problem ===
+Divisions Max/d            : 520,000
+Linearity as ppm of FS     : 3.85 ppm
+Repeatability as ppm of FS : 1.92 ppm
+
+=== Grain conversions ===
+Charge range               : 0.324 g .. 9.72 g
+0.02 gr display step       : 1.3 mg
+1 mg in grains             : 0.01543 gr_
+3-sigma repeatability      : 3 mg = 0.0463 gr_
+
+=== Span drift (per kelvin) ===
+Benchmark 2 ppm/K at Max   : 1.04 mg/K
+Benchmark 2 ppm/K at 150 gr: 0.0194 mg/K
+SmCo 0.03 %/K: raw 156 mg/K at Max, 3.0 mg/K at 10 g coil load; temp error for 1 mg: 6.4 mK (Max) / 333 mK (10 g)
+SmCo 0.05 %/K: raw 260 mg/K at Max, 5.0 mg/K at 10 g coil load; temp error for 1 mg: 3.8 mK (Max) / 200 mK (10 g)
+
+=== Verification masses vs +/-2 mg linearity (1/3 rule -> MPE <= 0.67 mg) ===
+  10 g  E2 0.06 mg OK          F1 0.20 mg OK
+  20 g  E2 0.08 mg OK          F1 0.25 mg OK
+  50 g  E2 0.10 mg OK          F1 0.30 mg OK
+ 100 g  E2 0.15 mg OK          F1 0.50 mg OK
+ 200 g  E2 0.30 mg OK          F1 1.00 mg TOO COARSE
+ 500 g  E2 0.75 mg TOO COARSE  F1 2.50 mg TOO COARSE
+OIML guidance: balances with >100,000 d call for E2-class test weights.
+
+=== Hopper ===
+1 lb resident powder       : 453.6 g = 7000 gr_
