@@ -6,6 +6,8 @@ No textbook index is in the repo, so **every method here is an outside method** 
 
 ## 1. Bottom line
 
+> **Update 2026-11-22 (D-057):** the magnet/coil study (`MAGNET_COIL.md`) reaches Km 4.4 N/√W (3.2 with a temperature-compensated grade), so the r = 15 condition (Km ≥ 1.6) is met with margin and full-scale coil power is ~6 mW, not 45 mW. Coil + bobbin is 13.8 g (15 g assumed here).
+
 1. **A DIY flat-part EMFC cell can reach AD520 class, but not with SendCutSend flexures.**
    - SendCutSend's only spring stock is 1075 at 0.381 mm [V, sendcutsend.com 2026-11-21]. As measuring hinges it is **~350× too stiff**: 107 mg of zero error per 100 nm of optical-null drift.
    - The hinges must be **purchased thin shim blades**: 1095 spring steel or 301 full-hard, 0.04–0.10 mm. That is "flexure stock", which the master prompt allows as a buy.

@@ -20,17 +20,17 @@ Pins needed, tier 1+2+3 (all incl. Rev-B reserved): 61  ->  LQFP64 margin -18, L
 
 == LQFP100, tiers (1, 2, 3): FEASIBLE
    peripheral instances: {'ADCSPI': 'SPI1', 'CAN': 'FDCAN1', 'I2C': 'I2C1', 'RS485': 'USART1', 'SCALE': 'USART2', 'TMC': 'USART3'}
-   spare pins (16): PB1 PB14 PB15 PB2 PB6 PC0 PC1 PC15 PC2 PC3 PD12 PD13 PD14 PE11 PE13 PE9
+   spare pins (16): PA2 PB0 PB1 PB11 PB14 PB15 PB2 PB6 PC0 PC1 PC15 PC2 PC3 PD12 PD13 PD14
 
    Function        Pin   LQFP100 # Note
-   LCD_D0          PE0   97        
-   LCD_D1          PE1   98        
-   LCD_D2          PE2   1         
-   LCD_D3          PE3   2         
-   LCD_D4          PE4   3         
-   LCD_D5          PE5   4         
-   LCD_D6          PE6   5         
-   LCD_D7          PE7   38        
+   LCD_D0          PE8   39        
+   LCD_D1          PE9   40        
+   LCD_D2          PE10  41        
+   LCD_D3          PE11  42        
+   LCD_D4          PE12  43        
+   LCD_D5          PE13  44        
+   LCD_D6          PE14  45        
+   LCD_D7          PE15  46        
    LCD_RD          PC11  80        
    LCD_WR          PB12  51        ADC1_IN11
    LCD_RS          PB13  52        ADC3_IN5
@@ -42,9 +42,9 @@ Pins needed, tier 1+2+3 (all incl. Rev-B reserved): 61  ->  LQFP64 margin -18, L
    MOT_DIR         PD2   84        
    MOT_SEL0        PD8   55        
    MOT_SEL1        PD9   56        
-   MOT_EN_REQ      PE15  46        
+   MOT_EN_REQ      PE6   5         
    TMC_UART        PC10  79        USART3_TX (AF7)
-   TMC_DIAG        PA1   21        EXTI1
+   TMC_DIAG        PE5   4         EXTI5
    SCALE_TX        PD5   87        USART2_TX (AF7)
    SCALE_RX        PD6   88        USART2_RX (AF7)
    SCALE_RTS       PD4   86        USART2_RTS (AF7)
@@ -52,36 +52,36 @@ Pins needed, tier 1+2+3 (all incl. Rev-B reserved): 61  ->  LQFP64 margin -18, L
    USB_VBUS_SENSE  PC9   68        
    I2C_SCL         PA15  78        I2C1_SCL (AF4)
    I2C_SDA         PB7   94        I2C1_SDA (AF4)
-   ESTOP_MON       PA2   22        EXTI2
-   LID_MON         PA3   25        EXTI3
+   ESTOP_MON       PF10  11        EXTI10
+   LID_MON         PF2   19        EXTI2
    WDG_KICK        PD1   83        
-   SAFE_CHAIN_OK   PA6   28        EXTI6
+   SAFE_CHAIN_OK   PF9   10        EXTI9
    VM_SENSE        PC5   31        ADC2_IN11
    V12_SENSE       PD10  57        ADC3_IN7
    V5_SENSE        PD11  58        ADC3_IN8
-   BOARD_NTC       PE10  41        ADC3_IN14
+   BOARD_NTC       PE7   38        ADC3_IN4
    BUZZER          PC7   66        TIM8_CH2
    STATUS_LED      PC13  7         
    ADC_SCK         PA5   27        SPI1_SCK (AF5)
    ADC_MISO        PB4   91        SPI1_MISO (AF5)
    ADC_MOSI        PB5   92        SPI1_MOSI (AF5)
    ADC_CS          PD15  62        
-   ADC_DRDY        PA7   29        EXTI7
+   ADC_DRDY        PA3   25        EXTI3
    ADC_START       PD7   89        
-   ADC_RESET       PE14  45        
-   COIL_EN         PF10  11        
-   COIL_FAULT      PB0   32        EXTI0
-   SERVO_MODE      PF2   19        
-   POS_MON         PE12  43        ADC3_IN16
+   ADC_RESET       PE0   97        
+   COIL_EN         PE1   98        
+   COIL_FAULT      PA6   28        EXTI6
+   SERVO_MODE      PE2   1         
+   POS_MON         PA0   20        ADC12_IN1
    EMFC_DAC        PA4   26        DAC1_OUT1
    CM_STEP         PC8   67        TIM20_CH3
-   CM_DIR          PF9   10        
-   CM_HOME         PB11  50        EXTI11
+   CM_DIR          PE3   2         
+   CM_HOME         PA7   29        EXTI7
    PAN_DET         PC14  8         
    CAN_TX          PB9   96        FDCAN1_TX (AF9)
    CAN_RX          PD0   82        FDCAN1_RX (AF9)
    RS485_TX        PA9   70        USART1_TX (AF7)
    RS485_RX        PA10  71        USART1_RX (AF7)
-   RS485_DE        PA0   20        
-   BATT_SENSE      PE8   39        ADC3_IN6
+   RS485_DE        PE4   3         
+   BATT_SENSE      PA1   21        ADC12_IN2
 

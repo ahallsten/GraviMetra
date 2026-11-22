@@ -3,7 +3,7 @@
 | # | Item | Status | Needed by | Owner |
 |---|---|---|---|---|
 | OI-01 | ~~Display variant~~ → RESOLVED by D-034 (MCUFRIEND RM68140 8-bit parallel shield). Verify the controller ID against the panel at bring-up | CLOSED | — | — |
-| OI-02 | Span tempco closure at full coil load. Phase 2 finding: preload doesn't help tared readings (D-051). Closure must come from compensated SmCo grade, auto internal adjust (D-052 check mass), constant-power coil drive and characterization → error-budget study | UNRESOLVED · top risk | Gate B | Phase 2 |
+| OI-02 | Span tempco closure at full coil load. Preload doesn't help (D-051). Magnet/coil study: standard Sm2Co17 is −336 ppm/K net → needs α to 0.6 %, a lag-compensated magnet temperature (~3.5 ppm lag at 2 K/h), constant coil power (D-058) and auto-adjust at ΔT ≥ 0.5 K. A TC grade (≈ +4 ppm/K) relaxes this 50× (D-059, OI-27) → error-budget study | UNRESOLVED · top risk | Gate B | Phase 2 |
 | OI-03 | MCU: STM32G491RET6 stock (0 at Digi-Key, 53 at LCSC); evaluate G474 (HRTIM) for the PWM-measurand option | UNRESOLVED | Gate B | Phase 2 |
 | OI-04 | Coil driver: OPA593 out of stock everywhere; choose an alternate architecture | UNRESOLVED | Gate B | Phase 2 |
 | OI-05 | Reference (LTC6655LNB-2.5 candidate) and shunt (VCS1625Z drop-in, stock unknown) | UNRESOLVED | Gate D | Phase 2/4 |
@@ -17,14 +17,17 @@
 | OI-13 | FMEA | RELEASE BLOCKER | Gate F | Phase 6 |
 | OI-14 | Trickler mechanics: concept PROPOSED (D-047, `docs/phase2/TRICKLER_CONCEPT.md`); tube speeds rest on an ASSUMED η·φ, to be measured on the Phase 3 rig | PROPOSED | Gate B (concept) / Gate C (measured) | Phase 2/3 |
 | OI-15 | Counterweight: option U, tare trim only (D-051) | PROPOSED | Gate B | Phase 2 |
-| OI-16 | Eccentric-load target basis. MET-09 at e = 25 mm needs sub-µm x/y adjusters (Δh ≤ 0.96 µm, Δy ≤ 0.41 µm). Dosing (e ≤ 5 mm) needs only ≤ 25 µm. Recommend: keep MET-09 as the full-range goal (Phase 7); Gate C rig exit uses the dosing case plus measured adjuster stability | PROPOSED | Gate B | User |
+| OI-16 | ~~Eccentric-load target basis~~ → RESOLVED by D-055: MET-09 stays the full-range goal (Phase 7); rig exit uses the dosing case plus OI-25 | CLOSED | — | — |
 | OI-17 | Which bought balance to buy for Config S bring-up (see `phase0/SCALE_SEARCH.md`) | UNRESOLVED | Phase 3 | User |
 | OI-18 | MCU pin budget: done (`docs/phase2/CONTROLLER_IO.md`). LQFP64 −11 for S+E → LQFP100 PROPOSED (D-040); CubeMX confirmation of the candidate map pending | PROPOSED | Gate B | Phase 2 |
 | OI-19 | Home repo migration: `v2-restructure` pushed; Claude opens the PR to `main` (D-049); **user merges** | IN PROGRESS | Before Phase 2 work lands | User |
 | OI-20 | GraviMetra firmware deltas: 520 g, 3 stages, Nextion → RM68140/LVGL, Config S scale drivers, SmCo multi-sensor compensation | UNRESOLVED | Phase 4 | Phase 4 |
-| OI-21 | Display shield: user reports it was driven by an **Arduino Uno (5 V)** and carries **2× 74HC245**. If the 245s run on 5 V, 3.3 V drive is below HC V_IH (≈3.5 V at 5 V) and a read puts 5 V on the bus. PE7 (LCD_D7 in the candidate map) is TT_a (3.6 V max). **Next check (user, DMM, shield on the Uno):** voltage on pin 20 (VCC) of each 245; what pin 1 (DIR) and pin 19 (OE) connect to. If VCC = 5 V, B3 gets a level translator with OE for the touch phase (Phase 4) | IN PROGRESS | Gate B | User |
+| OI-21 | Display shield: driven by an Arduino Uno (5 V), 2× 74HC245. LCD data now on 5 V-tolerant PE8–PE15 (D-056), so a 5 V read can't damage the MCU. Remaining question is V_IH margin only if the 245s run at 5 V (most such shields run them at 3.3 V to drive the 3.3 V panel). **DMM check before B3 layout:** pin 20 (VCC) of each 245, and what pins 1 (DIR) and 19 (OE) connect to | DEFERRED | Phase 4 (B3 layout) | User |
 | OI-22 | ~~Long-kernel tolerance contradiction~~ → RESOLVED by D-048 (per-profile tol + warning < 1.1 × kernel mass) | CLOSED | — | — |
 | OI-23 | Powder measurements per powder used: kernel d × L (20 kernels), mass of 100 kernels, bulk density (10 cm³ scoop). Replaces the ASSUMED inputs in `analysis/trickler_sizing.py` | UNRESOLVED | Gate C | User |
-| OI-24 | Magnet/coil must reach Km = Kf/√R ≥ 1.6 N/√W for r = 15 (45 mW at full load); first-order Km ≈ 2.6 for a Ø30×4×2 mm coil at 0.5 T; FEMM to confirm; includes the dKf/dx magnetic spring | UNRESOLVED | Gate B | Phase 2 (magnet/coil study) |
+| OI-24 | ~~Magnet/coil Km ≥ 1.6~~ → RESOLVED by D-057: Km 4.4 (Recoma 28) / 3.2 (TC16 min Br); 6 mW at FS; r = 15 kept. Confirm on the rig (gap B, Kf, L) | CLOSED (PROPOSED design) | — | — |
 | OI-25 | Corner-adjuster lock-in stability at the ~0.1–0.5 µm level after thermal cycling (empirical) | UNRESOLVED | Gate C | Phase 3 rig |
-| OI-26 | Shim blade sourcing: 1095 / 301 full-hard, 0.04–0.10 mm, cert with E/UTS; photo-etch quote for dog-bone blades (optional) | UNRESOLVED | Gate D | Phase 4 (sourcing) |
+| OI-26 | Shim blade sourcing: the user buys Precision Brand 1095 blue-tempered rolls (D-054). Remaining: thickness check with a micrometer (±5 % drives blade K ±15 %), optional cert with E/UTS, optional photo-etch quote for dog-bone blades | IN PROGRESS | Gate C (rig) | User |
+| OI-27 | Temperature-compensated SmCo quote: Ø31.75 × 12.7 and Ø25.4 × 12.7 axial discs in Arnold Recoma 2:17 Stab "0" / EEC 2:17-TC16. Need price, MOQ, lead time, RTC tolerance and Br min. Also confirm the EEC TC table values (extraction was misaligned) | UNRESOLVED | Gate C | User (vendor contact; Claude can draft the RFQ) |
+| OI-28 | Pot steel: SendCutSend mild-steel grade (CR 1008/1010 vs A36), thicknesses 3/16 and 1/4 in, cut-diameter tolerance, B-H data or cert. Sets the clearance and the B-H assumption | UNRESOLVED | Gate B | Phase 2 (sourcing) |
+| OI-29 | SmCo disc sourcing, Ø31.75 × 12.7 mm (1¼ × ½ in) Sm2Co17 axial (fallback Ø25.4 × 12.7): stock and price | UNRESOLVED | Gate C | Phase 3 (rig purchase) |

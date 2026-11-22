@@ -62,3 +62,25 @@ Format: ID · date · decision · status · alternatives considered · evidence.
 - **D-051** 2026-11-21 · Counterweight option U: trims the tare to +2 % FS coil force at an empty pan; no W/2 preload. A tared reading is W·(1−αΔT) for any preload, and preload adds W_pre·α·ΔT of zero drift (~104 mg/K). Resolves OI-15 · **PROPOSED (Gate B)** · evidence: §7 of the study. Supersedes the preload bullet in the requirements' top-risk note.
 - **D-052** 2026-11-21 · Internal check mass 200 g, non-magnetic, on a 3-ball kinematic seat on the load receptor; geared-stepper fork lift (TMC2209 #4, CM_STEP/DIR/HOME), de-energized while weighing, SAFE-interlocked. Span u ≈ 1.7 ppm. Resolves OI-07 · **PROPOSED (Gate B)**.
 - **D-053** 2026-11-21 · Designed-in adjusters: x and y corner load (50:1 flexure reducers, ~0.1 µm resolution), optical-null height, counterweight mass and height (sets K_g), coil centring, stops, 3-point level. Roll-released coupling (two blades at 90°). Constant-power coil drive recommended to the servo/measurand study · **PROPOSED (Gate B)**.
+
+## Phase 2, 2026-11-22 (user answers + magnet/coil study)
+
+- **D-054** 2026-11-22 · Hinge blades from purchased 1095 blue-tempered shim stock; the user buys it. Confirms the shim-blade part of D-050. Suggested buy: Precision Brand 3 in × 50 in rolls in 0.0015, 0.002, 0.003 and 0.004 in (pivots 0.04–0.05 mm, guide 0.075–0.10 mm), about $26–35 per roll at Zoro (one seller lists $77). Each roll makes hundreds of ~10 × 20 mm blades. Cut with a sharp shear, not snips · **CONFIRMED** · user · evidence: distributor listings in `docs/datasheets.md`.
+- **D-055** 2026-11-22 · Resolves OI-16. MET-09 (±2 mg at 1/3 Max, e = 25 mm) stays the full-range goal, verified in Phase 7. The Gate C rig exit uses the dosing case (e ≤ 5 mm, ≤ 25 µm adjust) plus measured adjuster stability (OI-25) · **CONFIRMED** · user.
+- **D-056** 2026-11-22 · LCD D0–D7 move to **PE8–PE15**, all 5 V-tolerant (FT/FT_a). New solver rule A11. Why: if the shield's 74HC245s run at 5 V, a bus read can't damage the MCU, so the OI-21 DMM check no longer blocks Gate B; it moves to before B3 layout (Phase 4). Rev A still has 16 spare pins · **PROPOSED (Gate B)** · evidence: DS13122 Table 12 I/O structure column, `analysis/pin_budget.out.txt`.
+- **D-057** 2026-11-22 · Resolves OI-24. EMFC motor = fixed SmCo pot with a moving coil.
+  - Magnet Ø31.75 × 12.7 mm Sm2Co17, axially magnetised (fallback Ø25.4 × 12.7).
+  - Laser-cut low-carbon steel: 4.76 mm pole piece and top plate, two 6.35 mm wall rings, 6.35 mm base. Gap 4.0 mm radial.
+  - Coil 3.0 × 7.14 mm on a 0.3 mm Al bobbin, AWG 34 (~585 turns, 57 Ω), centred at the Kf maximum.
+  - Km 4.4 N/√W (Recoma 28) / 3.2 (TC16 at min Br) vs 1.6 needed → 6 mW at full scale. **r = 15 kept.**
+  - Non-magnetic fasteners within ~100 mm of the pot.
+
+  Why: the pot is fixed, so its size is free; Km sets every thermal error · **PROPOSED (Gate B)** · evidence: `analysis/magnet_coil.out.txt`, `docs/phase2/MAGNET_COIL.md`.
+- **D-058** 2026-11-22 · Constant coil power is required for full-range weighing. With linear drive, the magnet temperature follows load: 6.7 mg at 520 g with Recoma 28. The implementation goes to the servo/measurand study: ±I0 bipolar PWM (Km unchanged, reluctance term constant, measurand = duty) or an 80/20 split winding with a bifilar heater (Km −11 %, linear measurand kept). Dosing loads don't need it · **PROPOSED (Gate B)**.
+- **D-059** 2026-11-22 · Magnet grade path.
+  - The Rev A rig uses an off-the-shelf 28–30 MGOe Sm2Co17 disc with magnet-temperature compensation.
+  - The pot is sized so a temperature-compensated Sm2Co17 (Arnold Recoma 2:17 Stab "0" or EEC 2:17-TC16) is a drop-in.
+  - Request quotes now (OI-27); decide after rig tempco data.
+
+  Why: standard Sm2Co17 needs α to 0.6 % and has ~3.5 ppm sensor lag at 2 K/h; TC needs ~50 % · **PROPOSED (Gate C)**.
+- **D-060** 2026-11-22 · Coil temperature is measured through winding resistance (+3930 ppm/K) by the coil drive, not by a sensor on the moving coil. Magnet and ambient keep TMP117s. This changes the method of the CONFIRMED "coil temperature sensing", so it needs the user's confirmation · **PROPOSED**.

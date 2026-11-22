@@ -1,6 +1,6 @@
 # Controller I/O list and MCU pin budget (Phase 2, OI-18)
 
-Rev 0 · 2026-11-21 · Source of numbers: `analysis/pin_budget.py` → `analysis/pin_budget.out.txt`; pin data extracted from DS13122 Rev 4, Tables 12–13 (`analysis/tools/extract_g4_pins.py`).
+Rev 1 · 2026-11-22 (LCD bus moved to 5 V-tolerant pins, D-056) · Source of numbers: `analysis/pin_budget.py` → `analysis/pin_budget.out.txt`; pin data extracted from DS13122 Rev 4, Tables 12–13 (`analysis/tools/extract_g4_pins.py`).
 
 ## Result
 
@@ -33,7 +33,8 @@ The sourcing check (OI-03) has to be redone by a person or with the sourcing age
 
 | Rule | Why | Source |
 |---|---|---|
-| LCD D0–D7 on 8 consecutive bits of one port (PE0–PE7) | One BSRR write per byte. LVGL flush speed (OI-12) | Design choice |
+| LCD D0–D7 on 8 consecutive bits of one port (PE8–PE15) | One BSRR write per byte. LVGL flush speed (OI-12) | Design choice |
+| LCD D0–D7 only on 5 V-tolerant (FT/FT_a) pins | If the shield's 74HC245s run at 5 V, a bus read drives 5 V into the MCU; TT pins are 3.6 V max (PE7 is TT_a) | DS13122 Table 12, I/O structure column (rule A11, D-056) |
 | LCD WR, RS and CS on ADC pins | 4-wire touch shares WR and RS (analog) with D6/D7 or D0/D1. CS covers shield variants | MCUFRIEND touch convention; verify on the shield |
 | Each STEP and buzzer on its own **timer instance** | Channels of one timer share its period, which would couple the frequencies | RM0440 timer architecture |
 | STEP from timer outputs only | CLAUDE.md firmware invariant | — |
@@ -70,7 +71,7 @@ The sourcing check (OI-03) has to be redone by a person or with the sourcing age
 
 ## Candidate LQFP100 map (CANDIDATE, solver output; confirm in CubeMX before schematic capture)
 
-Peripherals: USART2 = scale RS-232, USART3 = TMC bus, I2C1, SPI1 = ADS1262, USART1 = RS-485 (DNP), FDCAN1 (DNP). Timers: TIM1/TIM2/TIM3 = STEP1–3, TIM8 = buzzer, TIM20 = check-mass step. The full table is in `analysis/pin_budget.out.txt`. Spare pins: PB1 PB2 PB6 PB14 PB15 PC0–PC3 PC15 PD12–PD14 PE9 PE11 PE13.
+Peripherals: USART2 = scale RS-232, USART3 = TMC bus, I2C1, SPI1 = ADS1262, USART1 = RS-485 (DNP), FDCAN1 (DNP). Timers: TIM1/TIM2/TIM3 = STEP1–3, TIM8 = buzzer, TIM20 = check-mass step. LCD D0–D7 = PE8–PE15. The full table is in `analysis/pin_budget.out.txt`. Spare pins (16): PA2 PB0 PB1 PB2 PB6 PB11 PB14 PB15 PC0–PC3 PC15 PD12–PD14.
 
 Points the CubeMX pass must check:
 - DMA request mapping (DMAMUX makes this flexible).
@@ -79,6 +80,6 @@ Points the CubeMX pass must check:
 
 ## Open points raised here
 
-1. **Shield logic level [IN PROGRESS, OI-21].** Driven by an Arduino Uno (5 V) and carries 2× 74HC245. If their VCC is 5 V, 3.3 V drive is below HC V_IH and reads put 5 V on the bus. **PE7 is TT_a (3.6 V max)**, so either B3 isolates the bus with a translator (preferred) or LCD_D7 moves to an FT pin. Pending: the DMM check on the 245 VCC, DIR and OE pins.
+1. **Shield logic level [DEFERRED to Phase 4, OI-21].** The shield was driven by an Arduino Uno (5 V) and carries 2× 74HC245. The data bus is now on 5 V-tolerant PE8–PE15 (D-056), so a 5 V read can't damage the MCU. What's left matters only if the 245s run at 5 V: 3.3 V drive is then below the guaranteed HC V_IH (~3.5 V), which usually works but isn't guaranteed. Most such shields run the 245s at 3.3 V (they drop the Uno's 5 V to the 3.3 V panel), and then the STM32 matches directly. DMM check before B3 layout; if VCC = 5 V, B3 gets a 74HCT/LVC translator footprint.
 2. **OI-03 stock** for G491VET6 and G474VET6: re-check before Gate B.
 3. **EMFC control lines** are placeholders until the servo study fixes analog / digital / hybrid.

@@ -1,4 +1,4 @@
-"""Extract STM32G491 pin numbers, additional (analog) functions and AF0..AF15 from DS13122.
+"""Extract STM32G491 pin numbers, I/O structure (FT/TT), additional (analog) functions and AF0..AF15 from DS13122.
 
 Source: reference/datasheets/STM32G491_Datasheet.pdf (DS13122 Rev 4), Table 12 (pin definition,
 pages 52-62) and Table 13 (alternate functions, pages 63-69).
@@ -29,6 +29,7 @@ for pno in range(51, 62):  # Table 12
                     nums = cells[i - len(PKG_COLS):i]
                     pins[m.group(1)] = {
                         "name": c,
+                        "io": cells[i + 2] if i + 2 < len(cells) else "",  # I/O structure (FT/TT...)
                         "pkg": {k: v for k, v in zip(PKG_COLS, nums) if v not in ("-", "")},
                         "additional": cells[-1].replace("AD C", "ADC").replace(" ", ""),
                     }

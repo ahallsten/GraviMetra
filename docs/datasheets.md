@@ -22,6 +22,11 @@ For new parts, add a row with the manufacturer URL and revision instead of commi
 | Susumu resistor networks | Matched resistors | Susumu_Precision_Resistor_Networks_Catalog.pdf | — | Aug 2026 copy |
 | A&D FZ-i / FX-i manual | Config S tier-1 driver (frame, commands, RS-232 pinout, function table) | not committed (linked) | https://aandd.jp/products/manual/balances/fz_fx-i.pdf | fetched + text-extracted 2026-11-21 |
 | STM32G491 pin/AF data | Pin budget | derived: `analysis/data/stm32g491_pins.json` | DS13122 Rev 4 (local copy) | extracted 2026-11-21 |
+| Arnold Recoma (SmCo5 / Sm2Co17) summary + grade sheets | Magnet grade (Recoma 28 used) | not committed (linked) | https://www.arnoldmagnetics.com/wp-content/uploads/2017/10/Recoma-Combined-160301.pdf | fetched + text-extracted 2026-11-22; summary Rev. 160205a |
+| Arnold Recoma Stab (temperature-compensated SmCo) | TC grade option (D-059) | not committed (linked) | https://www.arnoldmagnetics.com/wp-content/uploads/2020/02/Recoma-stab-23.01.2020.pdf | fetched 2026-11-22; table columns realigned by (BH)max check |
+| EEC temperature-compensated SmCo material sheet | TC grade option (D-059) | not committed (linked) | https://www.electronenergy.com/hubfs/Electronenergy_December2018/Docs/EEC-SmCo-TC-Material-Sheet.pdf | fetched 2026-11-22; Br column misaligned in extraction, **confirm (OI-27)** |
+| Precision Brand 1095 blue-tempered shim, 3 in × 50 in rolls | Hinge blades (D-054) | distributor listings | Zoro 0.002 in https://www.zoro.com/precision-brand-shim-stock-roll-high-blue-stl-00020-in-23110/i/G2549452/ ($26.45); Zoro 0.003 in ($34.89); Penn Tool C-2 0.002 in ($76.95) | prices seen 2026-11-22 in search results, not confirmed in a cart |
+| SmCo disc listings | Magnet sourcing (OI-29) | distributor listings | First4magnets (Ø25 Sm2Co17 ~$32), Apex Magnets SmCo30 discs, Stanford Advanced Materials 1 × 3/8 in 26M, McMaster-Carr SmCo | seen 2026-11-22; exact 1¼ × ½ in not yet found |
 | Sartorius WZB254-NC | Benchmark weigh cell | Sartorius_WZB254-NC_Benchmark_Datasheet.pdf | — | Aug 2026 copy |
 
 Every row needs re-verification against the current revision before it drives a design decision (CLAUDE.md rule).

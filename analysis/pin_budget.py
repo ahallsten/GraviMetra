@@ -23,6 +23,8 @@ Assumptions (each one is a design choice made here, see docs/phase2/CONTROLLER_I
   A9  Interrupt inputs need distinct EXTI line numbers (EXTI line n is shared by all PxN pins).
   A10 Each pulse output (STEP1..3, CM_STEP, BUZZER) gets its own timer instance, because channels of
       one timer share its period (ARR), which would couple their frequencies.
+  A11 LCD D0..D7 only on 5 V-tolerant (FT*) pins. Why: if the shield's 74HC245s run at 5 V (OI-21, unmeasured),
+      a bus read drives 5 V into the MCU; TT pins are 3.6 V max (DS13122 Table 12 I/O structure column).
 Sanity check: every assignment is re-validated against the AF/ADC tables after solving.
 """
 from __future__ import annotations
@@ -167,7 +169,7 @@ def solve(pkg, funcs, bus):
     for port in "EDCBA":
         for base in (0, 8):
             pins = [f"P{port}{base + i}" for i in range(8)]
-            if all(p in avail for p in pins):
+            if all(p in avail for p in pins) and all(PINS[p].get("io", "").startswith("FT") for p in pins):
                 buses.append(pins)
     if bus is not None:
         buses = [b for b in buses if b[0] == f"P{bus[0]}{bus[1]}"]
