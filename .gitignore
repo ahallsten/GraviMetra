@@ -41,3 +41,6 @@ _autosave-*
 
 # CAD scratch
 mech/**/scratch/
+
+# CAD tooling environment (build123d needs Python < 3.15)
+.venv-cad/

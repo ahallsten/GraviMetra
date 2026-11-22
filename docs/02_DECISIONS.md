@@ -123,7 +123,7 @@ Format: ID · date · decision · status · alternatives considered · evidence.
   - Hardware current limit; COIL_EN gated by SAFE.
   - **On SAFE the command ramps to zero over ~0.5 s (RC soft-off) instead of an instant cut.** A hard cut at full load hits the stop at 3.9 mm/s (8.5 kg-equivalent on a stiff stop); soft-off gives 1.0 mm/s.
   - Closes OI-04: no OPA593.
-  - The soft-off changes how SAF-02/03 "coil disabled" is met, so it needs the user's confirmation (OI-33).
+  - The soft-off changes how SAF-02/03 "coil disabled" is met, so it needs the user's confirmation (OI-33). → **Soft-off CONFIRMED by D-070.**
 
   · **PROPOSED (Gate B)** · evidence: §4, §8.
 - **D-067** 2026-11-22 · Interface requirements from the servo study.
@@ -142,3 +142,13 @@ Format: ID · date · decision · status · alternatives considered · evidence.
   · **PROPOSED (Gate B)** · evidence: §4, §6.
 - **D-069** 2026-11-22 · No HRTIM needed: the measurand is DC (D-064), and the PWM-DAC fallback reaches sub-ppm with sigma-delta on a standard 170 MHz timer. **STM32G491VET6 stays.** Closes the HRTIM part of OI-03; the stock check remains · **PROPOSED (Gate B)**.
 
+- **D-070** 2026-11-22 · User answers on the servo study.
+  - **Coil soft-off on SAFE plus elastomer-faced lever stops: CONFIRMED.** This is how SAF-02/03 "coil disabled on fault" is met:
+    - the hardware current limit stays;
+    - on SAFE (E-stop, lid, watchdog, brown-out), a hardware RC ramps the coil command to zero over ~0.5 s, independent of the MCU, and COIL_EN then opens;
+    - motors still lose power instantly.
+
+    Why: at ~20 mW the coil is no hazard to people, but an instant cut at full load drops the lever onto its stop at ~8.5 kg-equivalent, against the 1 kg MET-11 rating. OI-33 keeps only the rig impact test.
+  - **Coil hand-wound 4 × AWG 37 in hand on a printed winding jig: CONFIRMED.** The jig is tooling, not part of the cell, so D-004 doesn't apply to it. It is designed in Phase 2 (`mech/coil_winder/`); winding and coil tests run on the Phase 3 rig (OI-35). Why: four wires wound together guarantee equal turns in all four windings, which the non-inductive heater needs, and a jig with a turn counter makes the 292-turn count exact.
+
+  · **CONFIRMED** · user 2026-11-22.
