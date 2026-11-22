@@ -124,7 +124,7 @@ Rev A2 · 2026-11-21 (A0 approved at Gate A; A1 adds D-034 display, bench supply
 ## Top technical risk carried into Phase 2
 
 At 520 g on the coil, SmCo's raw tempco (−0.03 to −0.05 %/K) gives 156–260 mg/K. Meeting 2 ppm/K by temperature compensation alone would require knowing the magnet temperature to within about 4–6 mK, which isn't realistic. Phase 2 must close this with a combination of:
-- the counterweight, possibly preloaded so the coil current is bipolar and carries at most half the range;
+- ~~the counterweight, possibly preloaded so the coil current is bipolar and carries at most half the range;~~ **SUPERSEDED by a Phase 2 finding** (`docs/phase2/EMFC_MECHANICS.md` §7, §9). A tared reading is W·(1 − αΔT) for any preload, so preload doesn't reduce span error. It only cuts peak coil power and adds W_pre·α·ΔT of zero drift. The counterweight trims the tare only (option U, D-051);
 - temperature-compensated SmCo grades (Gd/Er-doped "LTC"/"Stab");
 - automatic internal span adjust on temperature change (MET-07);
 - per-unit characterization.
