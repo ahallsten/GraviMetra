@@ -5,7 +5,7 @@
 ## Done
 - Phase 0: Altium audit, used-scale search, scale protocols, BOM audit (`docs/phase0/`, `docs/SCALE_SUPPORT_research.md`). All 15 answers in (D-010..D-024).
 - Phase 1: requirements approved; now Rev A2 (D-048 per-profile tolerance, D-040 LQFP100).
-- Repo: GraviMetra is home (D-036), PlatformIO kept (D-037). **PR #1 `v2-restructure` → `main` open; the user merges** (OI-19).
+- Repo: GraviMetra is home (D-036), PlatformIO kept (D-037). PR #1 (v2 restructure) and PR #2 (Phase 2 so far) merged into `main` 2026-11-22 (D-061). Work continues on `phase2-architecture`; open a new PR for later Phase 2 work.
 - **Phase 2 Config S kickoff:**
   - Pin budget: `docs/phase2/CONTROLLER_IO.md`.
   - System architecture: `docs/phase2/SYSTEM_ARCHITECTURE.md`.
@@ -21,14 +21,14 @@
 - **Phase 2 magnet/coil study** (`docs/phase2/MAGNET_COIL.md`, `analysis/magnet_coil.py`; D-057..D-060, PROPOSED):
   - Fixed SmCo pot (Ø31.75 × 12.7 Sm2Co17), moving coil. Km 4.4 (3.2 with a TC grade) vs 1.6 needed; 6 mW at FS; r = 15 kept. OI-24 closed.
   - Constant coil power required at full range (D-058). Standard Sm2Co17 makes OI-02 a 0.6 % compensation problem; TC grade is a drop-in (D-059).
-- User answers 2026-11-22: shim stock CONFIRMED (D-054); MET-09 approach CONFIRMED (D-055); LCD bus moved to 5 V-tolerant pins so OI-21 no longer blocks (D-056).
+- User answers 2026-11-22: shim stock CONFIRMED (D-054); MET-09 approach CONFIRMED (D-055); LCD bus moved to 5 V-tolerant pins so OI-21 no longer blocks (D-056); coil temperature by winding resistance CONFIRMED (D-060).
+- Magnet drift alternatives (D-062): baseline = OTS Sm2Co17 + in-situ α learned with the check mass; Carpenter TC30 shunt = rig experiment (OI-30); electromagnet rejected (22–180 W).
 
 ## In progress
 - Nothing half-done. Waiting on the user for:
-  - Merge PR #1 (OI-19).
   - **Powder measurements (OI-23). The user asked to be reminded of this at the end of every session.**
   - Buy 1095 shim stock (D-054, OI-26).
-  - Optional: TC SmCo quote (OI-27); confirm coil temperature by winding resistance (D-060).
+  - Optional: TC SmCo quote (OI-27, now a fallback).
   - Later, before B3 layout: DMM check of the shield's 74HC245 pins (OI-21, deferred by D-056).
 
 ## Next 3 actions

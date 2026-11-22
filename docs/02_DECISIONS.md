@@ -80,7 +80,15 @@ Format: ID · date · decision · status · alternatives considered · evidence.
 - **D-059** 2026-11-22 · Magnet grade path.
   - The Rev A rig uses an off-the-shelf 28–30 MGOe Sm2Co17 disc with magnet-temperature compensation.
   - The pot is sized so a temperature-compensated Sm2Co17 (Arnold Recoma 2:17 Stab "0" or EEC 2:17-TC16) is a drop-in.
-  - Request quotes now (OI-27); decide after rig tempco data.
+  - Quotes are optional (OI-27); decide after rig tempco data. Demoted to fallback by D-062.
 
   Why: standard Sm2Co17 needs α to 0.6 % and has ~3.5 ppm sensor lag at 2 K/h; TC needs ~50 % · **PROPOSED (Gate C)**.
-- **D-060** 2026-11-22 · Coil temperature is measured through winding resistance (+3930 ppm/K) by the coil drive, not by a sensor on the moving coil. Magnet and ambient keep TMP117s. This changes the method of the CONFIRMED "coil temperature sensing", so it needs the user's confirmation · **PROPOSED**.
+- **D-060** 2026-11-22 · Coil temperature is measured through winding resistance (+3930 ppm/K) by the coil drive, not by a sensor on the moving coil. Magnet and ambient keep TMP117s. This changes the method of the CONFIRMED "coil temperature sensing" · **CONFIRMED** · user 2026-11-22.
+- **D-061** 2026-11-22 · Merge PR #1 (`v2-restructure` → `main`) and PR #2 (`phase2-architecture` → `main`, retitled to describe the Phase 2 work) with merge commits, so the branch histories stay intact. Work continues on `phase2-architecture`. Closes OI-19 · **CONFIRMED** · user.
+- **D-062** 2026-11-22 · Magnet drift strategy, answering the user's questions.
+  - Baseline: an off-the-shelf standard Sm2Co17 disc, with α of the finished cell **learned in situ** from check-mass adjustments at different temperatures (0.14 % of α at 5 K spacing). Plus lag-compensated magnet temperature, constant coil power (D-058) and auto-adjust.
+  - CANDIDATE: a passive Carpenter Temperature Compensator 30 shunt, tested on the rig (OI-30).
+  - Custom TC magnet (D-059) becomes the fallback.
+  - REJECTED: electromagnet (22–180 W in the cell vs a 6 mW coil budget); magnet + trim winding (≤ 104 mW and still needs the temperature); a second coil to cancel drift (both coils share B).
+
+  · **PROPOSED (Gate B)** · evidence: `analysis/magnet_coil.out.txt` §12, `docs/phase2/MAGNET_COIL.md` §13.

@@ -129,4 +129,32 @@ EMFC magnet/coil first-order study (OI-24).  Inputs tagged [DS]/[MECH]/[ASSUMED]
    - hand Km = B_gap sqrt(f V/rho): all copper at mean gap B 4.77 (upper bound), only the in-gap fraction 3.18 (lower bound); solver 4.43. PASS
    - P_FS at the selected Km is 6 mW vs 47 mW at the 1.6 target (x0.13). PASS
    - TC16 min-Br Km 3.18 vs Recoma 28 nominal 4.43: ratio 0.719 vs Br ratio 0.714 (less saturation helps). INFO
+
+12. Alternatives to a plain permanent magnet (user questions 2026-11-22)
+   The Ø31.75 x 12.70 mm SmCo disc supplies H_cB x l_m = 10160 A-turns of MMF at zero power.
+   12a. Electromagnet instead of the magnet (soft-iron core in its place, field winding in the cavity,
+        linear steel = lower bound on power, same moving coil and Kf):
+        same pot envelope                  window    70 mm^2: needs   1792 A-turns ->  46.5 A/mm^2,   179.5 W (vs 6 mW coil), surface rise ~1969 K at 10 W/m^2K
+        enlarged pot, OD 100 x 40 mm core  window   863 mm^2: needs   1857 A-turns ->   3.9 A/mm^2,    22.0 W (vs 6 mW coil), surface rise ~69 K at 10 W/m^2K
+        -> 10^3-10^4 x the heat the whole cell budget is built around, inside the cell. Plus: field depends on
+        a second current (1 ppm regulation = the same difficulty as the measurand itself), iron hysteresis
+        (power-up remanence state) and iron permeability vs temperature. Rejected: a bigger accuracy problem.
+   12b. Magnet + trim winding to hold Kf over the 15 K swing (0.50 %): 43 A-turns, up to 104 mW varying with temperature. It still needs the magnet temperature (or a ppm field sensor,
+        which does not exist at this price), so it only moves the firmware correction into hardware. No gain.
+   12c. Two coils on the lever:
+        - opposed pair for constant power: each has half the copper (Km/sqrt2), so constant power is 18 mW vs 9 mW for +/-I0 PWM in one winding (the 80/20 split heater is in between).
+        - drift: both coils sit in the same field, so any force or ratio still carries B(T). A second coil
+          cannot cancel the magnet's temperature coefficient.
+   12d. In-situ alpha from two check-mass adjustments 2 K apart: u(alpha) = sqrt2 x 1.7 ppm / 2 K = 1.20 ppm/K = 0.36 % of alpha (needed: 0.6 %).
+   12d. In-situ alpha from two check-mass adjustments 5 K apart: u(alpha) = sqrt2 x 1.7 ppm / 5 K = 0.48 ppm/K = 0.14 % of alpha (needed: 0.6 %).
+        -> the coefficient of the finished cell (magnet + coil + steel + electronics) is measurable to better
+        than any vendor value; the hard part is the magnet's temperature at each instant (lag, gradients).
+   12e. Passive shunt of temperature-compensator alloy (Carpenter Temperature Compensator 30, 30 % Ni-Fe,
+        permeability falls with temperature, -51..71 C; stock strip/bar). It diverts flux fraction s from the gap
+        and diverts less as it warms. First order: s x k = |alpha_net|, k = relative change of shunt flux per K:
+        k 0.5 %/K -> shunt carries 6.7 % of gap flux -> Km loss ~6.7 %
+        k 1.0 %/K -> shunt carries 3.4 % of gap flux -> Km loss ~3.4 %
+        k 2.0 %/K -> shunt carries 1.7 % of gap flux -> Km loss ~1.7 %
+        k is not published (Carpenter's pages give no curves): measure on the rig. Trimmed by shunt cross-section.
+        Residual after trimming is set by the curvature of mu(T) over 15-30 C [ASSUMED +/-10-30 ppm/K until measured].
    - Runtime 34 s.

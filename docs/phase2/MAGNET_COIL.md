@@ -1,6 +1,6 @@
 # EMFC magnet and coil, first-order design (Phase 2, OI-24)
 
-Rev 0 · 2026-11-22
+Rev 1 · 2026-11-22 (§13 added: alternatives the user asked about)
 - Numbers come from `analysis/magnet_coil.py`, output in `analysis/magnet_coil.out.txt` (§ numbers below match it).
 - Method (outside method, not from the user's textbook): 2-D axisymmetric finite-volume magnetostatics with a linear recoil-line magnet. Steel is linear (μr 1000) in the sweep. The selected design is re-solved with non-linear steel on an ASSUMED conservative mild-steel B-H curve.
 - The solver matches closed forms to within 0.05 %: a bare magnet's on-axis field and a thick solenoid's centre field. Force by the Lorentz integral matches dλ/dz within 0.02 %.
@@ -177,3 +177,13 @@ Moving-coil leads: two AWG 44 loops about 10 mm long, crossing at the fulcrum ax
 - Geometric tempco +14 ppm/K.
 - Garage ramp 2 K/h.
 - Headroom 1.2.
+
+## 13. Alternatives the user asked about (output §12)
+
+| Idea | Result | Verdict |
+|---|---|---|
+| Buy a standard SmCo with a known/measured drift | Vendors publish only a typical α (Arnold −0.035 %/K), not a per-part tolerance. We don't need one: two check-mass adjustments 5 K apart measure α of the **finished cell** to 0.14 % (0.36 % at 2 K), better than the 0.6 % needed and including coil, steel and electronics | **Baseline** (D-062). The remaining limit is the magnet's temperature at each instant (lag ~3.5 ppm at 2 K/h), not the coefficient |
+| Passive shunt of temperature-compensator alloy (Carpenter Temperature Compensator 30, 30 % Ni-Fe, stock strip/bar) | Shunt diverts flux fraction s and diverts less as it warms. s × k = 336 ppm/K → 1.7–6.7 % of gap flux for k = 2–0.5 %/K, costing the same % of Km (Km has 2.7× margin). k is unpublished. Residual set by the curvature of μ(T), ASSUMED ±10–30 ppm/K | **CANDIDATE rig experiment** (OI-30). Off-the-shelf alternative to a custom TC magnet |
+| Two coils on the lever | Opposed pair for constant power: 18 mW vs 9 mW for ±I0 PWM (half the copper each). For drift: both coils sit in the same field, so any force or ratio still carries B(T) | No help for drift. Constant power stays with D-058's options |
+| Electromagnet with closed-loop field current | Needs ~1 800 A-turns for the same Kf. **22 W** in an enlarged OD 100 mm pot, 180 W (burns out) in the same envelope, against a 6 mW coil budget. The SmCo disc gives the equivalent 10 160 A-turns of MMF for free. Also: the field depends on a second ppm-regulated current, plus iron hysteresis (power-up state) and iron permeability vs temperature | **Rejected**: a far bigger accuracy problem (heat) |
+| Magnet + trim winding | 43 A-turns, up to 104 mW, varying with temperature. Still needs the magnet temperature (a ppm field sensor isn't available at this price), so it only moves the firmware correction into hardware | **Rejected** |

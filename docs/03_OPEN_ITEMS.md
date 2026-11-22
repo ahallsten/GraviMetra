@@ -20,7 +20,7 @@
 | OI-16 | ~~Eccentric-load target basis~~ → RESOLVED by D-055: MET-09 stays the full-range goal (Phase 7); rig exit uses the dosing case plus OI-25 | CLOSED | — | — |
 | OI-17 | Which bought balance to buy for Config S bring-up (see `phase0/SCALE_SEARCH.md`) | UNRESOLVED | Phase 3 | User |
 | OI-18 | MCU pin budget: done (`docs/phase2/CONTROLLER_IO.md`). LQFP64 −11 for S+E → LQFP100 PROPOSED (D-040); CubeMX confirmation of the candidate map pending | PROPOSED | Gate B | Phase 2 |
-| OI-19 | Home repo migration: `v2-restructure` pushed; Claude opens the PR to `main` (D-049); **user merges** | IN PROGRESS | Before Phase 2 work lands | User |
+| OI-19 | ~~Merge the v2 restructure PR~~ → DONE by D-061 (PR #1 and PR #2 merged into `main` 2026-11-22) | CLOSED | — | — |
 | OI-20 | GraviMetra firmware deltas: 520 g, 3 stages, Nextion → RM68140/LVGL, Config S scale drivers, SmCo multi-sensor compensation | UNRESOLVED | Phase 4 | Phase 4 |
 | OI-21 | Display shield: driven by an Arduino Uno (5 V), 2× 74HC245. LCD data now on 5 V-tolerant PE8–PE15 (D-056), so a 5 V read can't damage the MCU. Remaining question is V_IH margin only if the 245s run at 5 V (most such shields run them at 3.3 V to drive the 3.3 V panel). **DMM check before B3 layout:** pin 20 (VCC) of each 245, and what pins 1 (DIR) and 19 (OE) connect to | DEFERRED | Phase 4 (B3 layout) | User |
 | OI-22 | ~~Long-kernel tolerance contradiction~~ → RESOLVED by D-048 (per-profile tol + warning < 1.1 × kernel mass) | CLOSED | — | — |
@@ -28,6 +28,7 @@
 | OI-24 | ~~Magnet/coil Km ≥ 1.6~~ → RESOLVED by D-057: Km 4.4 (Recoma 28) / 3.2 (TC16 min Br); 6 mW at FS; r = 15 kept. Confirm on the rig (gap B, Kf, L) | CLOSED (PROPOSED design) | — | — |
 | OI-25 | Corner-adjuster lock-in stability at the ~0.1–0.5 µm level after thermal cycling (empirical) | UNRESOLVED | Gate C | Phase 3 rig |
 | OI-26 | Shim blade sourcing: the user buys Precision Brand 1095 blue-tempered rolls (D-054). Remaining: thickness check with a micrometer (±5 % drives blade K ±15 %), optional cert with E/UTS, optional photo-etch quote for dog-bone blades | IN PROGRESS | Gate C (rig) | User |
-| OI-27 | Temperature-compensated SmCo quote: Ø31.75 × 12.7 and Ø25.4 × 12.7 axial discs in Arnold Recoma 2:17 Stab "0" / EEC 2:17-TC16. Need price, MOQ, lead time, RTC tolerance and Br min. Also confirm the EEC TC table values (extraction was misaligned) | UNRESOLVED | Gate C | User (vendor contact; Claude can draft the RFQ) |
+| OI-27 | Temperature-compensated SmCo quote: Ø31.75 × 12.7 and Ø25.4 × 12.7 axial discs in Arnold Recoma 2:17 Stab "0" / EEC 2:17-TC16. Need price, MOQ, lead time, RTC tolerance and Br min. Also confirm the EEC TC table values (extraction was misaligned) | OPTIONAL (fallback per D-062) | Gate C | User (vendor contact; Claude can draft the RFQ) |
 | OI-28 | Pot steel: SendCutSend mild-steel grade (CR 1008/1010 vs A36), thicknesses 3/16 and 1/4 in, cut-diameter tolerance, B-H data or cert. Sets the clearance and the B-H assumption | UNRESOLVED | Gate B | Phase 2 (sourcing) |
 | OI-29 | SmCo disc sourcing, Ø31.75 × 12.7 mm (1¼ × ½ in) Sm2Co17 axial (fallback Ø25.4 × 12.7): stock and price | UNRESOLVED | Gate C | Phase 3 (rig purchase) |
+| OI-30 | Passive temperature-compensator shunt experiment: Carpenter Temperature Compensator 30 strip across the pot (D-062). Get the datasheet curves (Type 1/2/3) and a small-quantity source, then measure k = d(shunt flux)/dT and the residual tempco on the rig | UNRESOLVED | Gate C | Phase 3 rig |

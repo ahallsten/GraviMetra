@@ -689,6 +689,85 @@ def main():
     assert out[(TC_GRADE, "min")]["km"] > 0
     w(f"   - TC16 min-Br Km {out[(TC_GRADE, 'min')]['km']:.2f} vs Recoma 28 nominal {km_b:.2f}: ratio "
       f"{out[(TC_GRADE, 'min')]['km'] / km_b:.3f} vs Br ratio {gtc['Br_min'] / g28['Br']:.3f} (less saturation helps). INFO")
+    w("")
+
+    # ------------------------------------------------------------ 12. alternatives (user questions 2026-11-22)
+    w("12. Alternatives to a plain permanent magnet (user questions 2026-11-22)")
+    smco_mmf = GRADES[BASE_GRADE]["HcB"] * pot.hm
+    w(f"   The Ø{pot.Dm / mm:.2f} x {pot.hm / mm:.2f} mm SmCo disc supplies H_cB x l_m = {smco_mmf:.0f} A-turns of MMF "
+      f"at zero power.")
+    kf_target = kf1
+
+    def field_window(p, top_gap=2.2 * mm):
+        return (p.rm + 0.5 * mm, p.r_wi - 0.5 * mm, p.tb + 0.5 * mm, p.zp0 - top_gap)
+
+    def kf_per_at(p, core_mu, window):
+        r_, z_ = p.grid()
+        nu_, br_, _ = materials(r_, z_, p.regions(Br=0.0, mu_rec=core_mu))
+        a_w = (window[1] - window[0]) * (window[3] - window[2])
+        ps = solve(r_, z_, nu_, br_, jint=(1.0 / a_w) * cv_overlap(r_, z_, window))
+        Fx = Field(r_, z_, ps)
+        _, k = best_position(Fx, p, hc)
+        return k, a_w
+
+    w("   12a. Electromagnet instead of the magnet (soft-iron core in its place, field winding in the cavity,")
+    w("        linear steel = lower bound on power, same moving coil and Kf):")
+    envs = [("same pot envelope", Pot(pot.Dm, pot.hm, pot.tp, pot.tc, tb=pot.tb, Ro=pot.Ro)),
+            ("enlarged pot, OD 100 x 40 mm core", Pot(pot.Dm, 40 * mm, pot.tp, pot.tc, tb=pot.tb, Ro=50 * mm))]
+    envs[1][1].r_wi = 40 * mm
+    em_rows = []
+    for label, p in envs:
+        win = field_window(p)
+        k_at, a_w = kf_per_at(p, MUR_STEEL, win)
+        ni = kf_target / k_at
+        mlt = math.pi * (win[0] + win[1])
+        p_em = ni**2 * RHO_CU * mlt / (FILL * a_w)
+        j_dens = ni / (FILL * a_w) / 1e6
+        hgt = p.zp1
+        a_surf = 2 * math.pi * p.Ro * hgt + 2 * math.pi * p.Ro**2
+        dT = p_em / (10.0 * a_surf)
+        em_rows.append((label, ni, p_em))
+        w(f"        {label:<34} window {a_w * 1e6:5.0f} mm^2: needs {ni:6.0f} A-turns -> {j_dens:5.1f} A/mm^2, "
+          f"{p_em:7.1f} W (vs {p_fs * 1e3:.0f} mW coil), surface rise ~{dT:.0f} K at 10 W/m^2K")
+    w("        -> 10^3-10^4 x the heat the whole cell budget is built around, inside the cell. Plus: field depends on")
+    w("        a second current (1 ppm regulation = the same difficulty as the measurand itself), iron hysteresis")
+    w("        (power-up remanence state) and iron permeability vs temperature. Rejected: a bigger accuracy problem.")
+    # 12b permanent magnet + trim winding
+    p_tr = Pot(pot.Dm, pot.hm, pot.tp, pot.tc, tb=pot.tb, Ro=pot.Ro)
+    win = field_window(p_tr)
+    k_tr, a_w = kf_per_at(p_tr, GRADES[BASE_GRADE]["mu_rec"], win)
+    shift = abs(GRADES[BASE_GRADE]["alpha"] + geo) * 15
+    ni_tr = shift * kf_target / k_tr
+    mlt = math.pi * (win[0] + win[1])
+    p_tr_w = ni_tr**2 * RHO_CU * mlt / (FILL * a_w)
+    w(f"   12b. Magnet + trim winding to hold Kf over the 15 K swing ({shift * 100:.2f} %): {ni_tr:.0f} A-turns, up to "
+      f"{p_tr_w * 1e3:.0f} mW varying with temperature. It still needs the magnet temperature (or a ppm field sensor,")
+    w("        which does not exist at this price), so it only moves the firmware correction into hardware. No gain.")
+    # 12c two coils
+    w("   12c. Two coils on the lever:")
+    w(f"        - opposed pair for constant power: each has half the copper (Km/sqrt2), so constant power is "
+          f"{2 * (F_MAX.m / km_b)**2 * 1e3:.0f} mW vs {(F_MAX.m / km_b)**2 * 1e3:.0f} mW for +/-I0 PWM in one winding "
+          f"(the 80/20 split heater is in between).")
+    w("        - drift: both coils sit in the same field, so any force or ratio still carries B(T). A second coil")
+    w("          cannot cancel the magnet's temperature coefficient.")
+    # 12d in-situ alpha
+    u_cm = 1.7e-6
+    for dT_ in (2.0, 5.0):
+        u_a = math.sqrt(2) * u_cm / dT_
+        w(f"   12d. In-situ alpha from two check-mass adjustments {dT_:.0f} K apart: u(alpha) = sqrt2 x {u_cm * 1e6:.1f} ppm / "
+          f"{dT_:.0f} K = {u_a * 1e6:.2f} ppm/K = {u_a / abs(GRADES[BASE_GRADE]['alpha'] + geo) * 100:.2f} % of alpha "
+          f"(needed: 0.6 %).")
+    w("        -> the coefficient of the finished cell (magnet + coil + steel + electronics) is measurable to better")
+    w("        than any vendor value; the hard part is the magnet's temperature at each instant (lag, gradients).")
+    # 12e passive shunt
+    w("   12e. Passive shunt of temperature-compensator alloy (Carpenter Temperature Compensator 30, 30 % Ni-Fe,")
+    w("        permeability falls with temperature, -51..71 C; stock strip/bar). It diverts flux fraction s from the gap")
+    w("        and diverts less as it warms. First order: s x k = |alpha_net|, k = relative change of shunt flux per K:")
+    for k_ in (0.005, 0.01, 0.02):
+        s_ = abs(GRADES[BASE_GRADE]["alpha"] + geo) / k_
+        w(f"        k {k_ * 100:.1f} %/K -> shunt carries {s_ * 100:.1f} % of gap flux -> Km loss ~{s_ * 100:.1f} %")
+    w("        k is not published (Carpenter's pages give no curves): measure on the rig. Trimmed by shunt cross-section.")
+    w("        Residual after trimming is set by the curvature of mu(T) over 15-30 C [ASSUMED +/-10-30 ppm/K until measured].")
     w(f"   - Runtime {time.time() - t_start:.0f} s.")
     (ROOT / "analysis/magnet_coil.out.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
