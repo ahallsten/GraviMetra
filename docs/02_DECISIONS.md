@@ -43,3 +43,10 @@ Format: ID · date · decision · status · alternatives considered · evidence.
 
 - **D-036** Home repo = `github.com/ahallsten/GraviMetra`; working copy outside OneDrive; restructure on branch `v2-restructure` per `GRAVIMETRA_REPO_REVIEW.md`; Claude prepares the branch in the cloud and opens the PR · **CONFIRMED**.
 - **D-037** Firmware toolchain = keep GraviMetra's PlatformIO (`native` Unity tests + `gravimetra_g491` STM32Cube target + GitHub Actions CI). SUPERSEDES FW-01's "CMake" default (ST-Link V3 and HAL/LL unchanged) · **CONFIRMED** · evidence: existing CI and 67 tests; user already uses PlatformIO.
+
+## Phase 2 (started 2026-11-21)
+
+- **D-038** 2026-11-21 · Phase 2 work goes on branch `phase2-architecture`, cut from `v2-restructure` (that PR is still unmerged, OI-19), so the restructure PR stays reviewable on its own · CONFIRMED (process) · Claude.
+- **D-039** 2026-11-21 · Analysis environment = repo-local `.venv` (gitignored) pinned by `analysis/requirements.txt`; run scripts with `.venv/Scripts/python` · CONFIRMED (process) · Claude.
+- **D-040** 2026-11-21 · MCU package → **LQFP100 (STM32G491VET6)**, replacing RET6 (LQFP64). LQFP64 is −11 pins short for Config S+E; LQFP100 leaves +16 after every Rev-B net. Same die and firmware. Alternatives considered: LQFP80 (+3, no room for Rev-B nets), LQFP64 + I²C expander (puts safety lines behind a bus; conflicts with SAF-03). G474VET6 stays open for OI-03 · **PROPOSED (Gate B)** · evidence: `analysis/pin_budget.out.txt`, `docs/phase2/CONTROLLER_IO.md`. Stock UNVERIFIED.
+- **D-041** 2026-11-21 · Stepper EN through a 2-to-4 decoder gated by the hardware safety chain gives hardware one-motor-at-a-time (SAF-04) at the same pin cost as three EN lines. Shared DIR, per-channel STEP timers, one TMC2209 UART bus addressed by MS1/MS2, DIAGs OR-ed · **PROPOSED (Gate B)** · evidence: TMC2209 DS Rev 1.08 pin table and §4.

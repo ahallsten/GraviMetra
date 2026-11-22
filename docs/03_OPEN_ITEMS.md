@@ -19,6 +19,7 @@
 | OI-15 | Counterweight sizing against the 520 g range: fixed tare vs mid-range preload with bipolar coil | UNRESOLVED | Gate B | Phase 2 |
 | OI-16 | Eccentric-load target basis (MET-09 currently equals linearity) | PROPOSED | Gate B | Phase 2 |
 | OI-17 | Which bought balance to buy for Config S bring-up (see `phase0/SCALE_SEARCH.md`) | UNRESOLVED | Phase 3 | User |
-| OI-18 | MCU pin budget with an 8-bit parallel display (~13 GPIO + 2 ADC) plus 3 TMC2209 UARTs, RS-232, SPI (ADS1262), I2C, USB, SWD, safety I/O; LQFP64 vs a larger package | UNRESOLVED | Gate B | Phase 2 |
+| OI-18 | MCU pin budget: done (`docs/phase2/CONTROLLER_IO.md`). LQFP64 −11 for S+E → LQFP100 PROPOSED (D-040); CubeMX confirmation of the candidate map pending | PROPOSED | Gate B | Phase 2 |
 | OI-19 | Home repo migration: branch `v2-restructure` prepared; needs push + PR merge (GitHub not yet linked to Claude) | IN PROGRESS | Before Phase 2 work lands | User/Claude |
 | OI-20 | GraviMetra firmware deltas: 520 g, 3 stages, Nextion → RM68140/LVGL, Config S scale drivers, SmCo multi-sensor compensation | UNRESOLVED | Phase 4 | Phase 4 |
+| OI-21 | Display shield logic level and touch pin mapping: buffer chip on the shield (none / 74HC245 at 5 V / LVC245), and which MCU drove it in Kaboom-Konveyor. Decides whether the display carrier needs a level translator | UNRESOLVED | Gate B | User |
