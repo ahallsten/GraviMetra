@@ -9,7 +9,7 @@
 | OI-05 | Reference (LTC6655LNB-2.5 candidate) and shunt (VCS1625Z drop-in, stock unknown) | UNRESOLVED | Gate D | Phase 2/4 |
 | OI-06 | TMC2209-LA availability (21 at LCSC) | UNRESOLVED | Gate D | Phase 4 |
 | OI-07 | Internal check-mass value and actuator | UNRESOLVED | Gate B | Phase 2 |
-| OI-08 | Board count and partition (mains / controller+LV power / EMFC module) | UNRESOLVED | Gate B | Phase 2 |
+| OI-08 | Board count and partition: 4 boards PROPOSED (D-042), B2/B3 merge open | PROPOSED | Gate B | Phase 2 |
 | OI-09 | Power budget and Mean Well IRM derating; verify the IRM datasheets | UNRESOLVED | Gate B | Phase 2 |
 | OI-10 | Verify Torbal AD520-specific manual specs (only the AD-series manual was reachable; it mentions internal auto-cal) | UNRESOLVED | Gate A note | Phase 2 |
 | OI-11 | ~~Masses plan~~ → CONFIRMED D-030 | CLOSED | — | — |
