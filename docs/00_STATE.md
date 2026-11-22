@@ -5,7 +5,7 @@
 ## Done
 - Phase 0: Altium audit, used-scale search, scale protocols, BOM audit (`docs/phase0/`, `docs/SCALE_SUPPORT_research.md`). All 15 answers in (D-010..D-024).
 - Phase 1: requirements approved; now Rev A2 (D-048 per-profile tolerance, D-040 LQFP100).
-- Repo: GraviMetra is home (D-036), PlatformIO kept (D-037). PR #1 (v2 restructure) and PR #2 (Phase 2 so far) merged into `main` 2026-11-22 (D-061). Work continues on `phase2-architecture`; open a new PR for later Phase 2 work.
+- Repo: GraviMetra is home (D-036), PlatformIO kept (D-037). PR #1 (v2 restructure) and PR #2 (Phase 2 so far) merged into `main` 2026-11-22 (D-061). Work continues on `phase2-architecture` (commits from abb7f28 are not in `main` yet); open a new PR for them at the next checkpoint the user wants merged.
 - **Phase 2 Config S kickoff:**
   - Pin budget: `docs/phase2/CONTROLLER_IO.md`.
   - System architecture: `docs/phase2/SYSTEM_ARCHITECTURE.md`.

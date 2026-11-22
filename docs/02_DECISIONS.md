@@ -84,7 +84,7 @@ Format: ID · date · decision · status · alternatives considered · evidence.
 
   Why: standard Sm2Co17 needs α to 0.6 % and has ~3.5 ppm sensor lag at 2 K/h; TC needs ~50 % · **PROPOSED (Gate C)**.
 - **D-060** 2026-11-22 · Coil temperature is measured through winding resistance (+3930 ppm/K) by the coil drive, not by a sensor on the moving coil. Magnet and ambient keep TMP117s. This changes the method of the CONFIRMED "coil temperature sensing" · **CONFIRMED** · user 2026-11-22.
-- **D-061** 2026-11-22 · Merge PR #1 (`v2-restructure` → `main`) and PR #2 (`phase2-architecture` → `main`, retitled to describe the Phase 2 work) with merge commits, so the branch histories stay intact. Work continues on `phase2-architecture`. Closes OI-19 · **CONFIRMED** · user.
+- **D-061** 2026-11-22 · PRs merged into `main` with merge commits, so the branch histories stay intact. PR #1 (`v2-restructure`) was merged by Claude on the user's approval at 18:36:34 UTC. PR #2 (`phase2-architecture` up to 9bfb2cf) shows as merged from the user's GitHub account 14 s later; Claude did not issue that merge, and its title was corrected afterwards to describe the Phase 2 work. Later Phase 2 commits (from abb7f28) go in a new PR. Closes OI-19 · **CONFIRMED** · user.
 - **D-062** 2026-11-22 · Magnet drift strategy, answering the user's questions.
   - Baseline: an off-the-shelf standard Sm2Co17 disc, with α of the finished cell **learned in situ** from check-mass adjustments at different temperatures (0.14 % of α at 5 K spacing). Plus lag-compensated magnet temperature, constant coil power (D-058) and auto-adjust.
   - CANDIDATE: a passive Carpenter Temperature Compensator 30 shunt, tested on the rig (OI-30).
