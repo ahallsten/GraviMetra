@@ -1,6 +1,6 @@
 # 01 — Requirements (Phase 1, Gate A approved)
 
-Rev A1 · 2026-11-21 (A0 approved at Gate A; A1 adds D-034 display, bench supply, D-037 note) · Numbers derived in `analysis/req_numbers.py` (output in `analysis/req_numbers.out.txt`).
+Rev A2 · 2026-11-21 (A0 approved at Gate A; A1 adds D-034 display, bench supply, D-037 note; A2 adds D-048 per-profile tolerance and D-040 MCU package) · Numbers derived in `analysis/req_numbers.py` (output in `analysis/req_numbers.out.txt`).
 
 **Status:** CONFIRMED (approved by user) · CANDIDATE (preferred, still being validated) · PROPOSED (needs Gate A approval) · UNRESOLVED · SUPERSEDED.
 **Verification:** T = test · A = analysis · I = inspection · D = demonstration.
@@ -56,8 +56,8 @@ Rev A1 · 2026-11-21 (A0 approved at Gate A; A1 adds D-034 display, bench supply
 | DSP-01 | Three channels (coarse, medium, fine), each a belt-driven stepper turning a tube/shaft. Only one motor runs at a time | CONFIRMED | Handoff §7 | I/T |
 | DSP-02 | Powder forms: spherical, extruded (including long-kernel), flake | CONFIRMED (Q4) | User | T per form |
 | DSP-03 | Charge range 5–150 gr (0.324–9.72 g) | CONFIRMED (Q4) | User | T |
-| DSP-04 | Accept a charge when the stable reading is within [target, target + tol]. Default tol = +0.02 gr / −0, user-settable. True-mass uncertainty is bounded by the scale (3σ about 3 mg ≈ 0.046 gr for AD520-class) | PROPOSED (Gate A #2) | Reloader "never under" practice | T |
-| DSP-05 | Overthrow (above target + tol): stop, alarm and ask the user to dump the pan. Goal ≤ 5 % of throws for spherical, ≤ 10 % for extruded | PROPOSED | — | T (≥ 50 throws per form) |
+| DSP-04 | Accept a charge when the stable reading is within [target, target + tol]. Default tol = +0.02 gr / −0, **set per powder profile**. The HMI warns when tol < 1.1 × the profile's measured mean kernel mass (D-048). True-mass uncertainty is bounded by the scale (3σ about 3 mg ≈ 0.046 gr for AD520-class) | CONFIRMED (D-031, D-048) | Reloader "never under" practice; kernel quantization (OI-22) | T |
+| DSP-05 | Overthrow (above target + tol): stop, alarm and ask the user to dump the pan. Goal ≤ 5 % of throws for spherical, ≤ 10 % for extruded, **applying only when tol ≥ 1.1 × mean kernel mass** (D-048) | PROPOSED | Single-kernel overshoot model, `analysis/trickler_sizing.py` | T (≥ 50 throws per form) |
 | DSP-06 | Cycle time ≤ 30 s per charge | CONFIRMED (Q4) | User | T |
 | DSP-07 | Motors-off settle window before final acceptance. Trickler frame mechanically isolated from the scale | CONFIRMED | Prompt | T/I |
 | DSP-08 | One hopper feeding all three channels, ≤ 1 lb (453.6 g) resident, quick-empty | CONFIRMED (Q5) | User | I |
@@ -93,7 +93,7 @@ Rev A1 · 2026-11-21 (A0 approved at Gate A; A1 adds D-034 display, bench supply
 | FW-01 | Headless build + CI with PlatformIO (`native` Unity tests + `gravimetra_g491` target), STM32Cube HAL/LL, ST-Link V3 | CONFIRMED (Q14, D-037) | User; GraviMetra repo | D (CI build) |
 | FW-02 | Original code, no GPL-derived code (OpenTrickler used for ideas only) | CONFIRMED (Q14) | User | I |
 | FW-03 | Scale-driver abstraction, scale simulator, host unit tests | CONFIRMED | Prompt | T |
-| FW-04 | MCU STM32G491RET6 | CANDIDATE | Stock risk; G474 HRTIM option (Phase 2) | A |
+| FW-04 | MCU STM32G491**VET6** (LQFP100); SUPERSEDES RET6 (LQFP64 is −11 pins for Config S+E). G474VET6 stays an alternative until OI-03 closes | CONFIRMED package (D-040) / part CANDIDATE | `analysis/pin_budget.out.txt`; stock unverified (OI-03) | A |
 
 ## 8. Fabrication
 

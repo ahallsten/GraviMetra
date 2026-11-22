@@ -20,8 +20,8 @@
 | OI-16 | Eccentric-load target basis (MET-09 currently equals linearity) | PROPOSED | Gate B | Phase 2 |
 | OI-17 | Which bought balance to buy for Config S bring-up (see `phase0/SCALE_SEARCH.md`) | UNRESOLVED | Phase 3 | User |
 | OI-18 | MCU pin budget: done (`docs/phase2/CONTROLLER_IO.md`). LQFP64 −11 for S+E → LQFP100 PROPOSED (D-040); CubeMX confirmation of the candidate map pending | PROPOSED | Gate B | Phase 2 |
-| OI-19 | Home repo migration: branch `v2-restructure` prepared; needs push + PR merge (GitHub not yet linked to Claude) | IN PROGRESS | Before Phase 2 work lands | User/Claude |
+| OI-19 | Home repo migration: `v2-restructure` pushed; Claude opens the PR to `main` (D-049); **user merges** | IN PROGRESS | Before Phase 2 work lands | User |
 | OI-20 | GraviMetra firmware deltas: 520 g, 3 stages, Nextion → RM68140/LVGL, Config S scale drivers, SmCo multi-sensor compensation | UNRESOLVED | Phase 4 | Phase 4 |
-| OI-21 | Display shield logic level and touch pin mapping: buffer chip on the shield (none / 74HC245 at 5 V / LVC245), and which MCU drove it in Kaboom-Konveyor. Decides whether the display carrier needs a level translator | UNRESOLVED | Gate B | User |
-| OI-22 | **Contradiction:** a long extruded kernel (≈1.6–2.5 mg, ASSUMED) exceeds the +0.02 gr window, so DSP-04's default tol and DSP-05's ≤10 % extruded overthrow can't both hold (P(in window) 52–81 %). Recommended: per-profile tol with a warning below 1.1 × kernel mass | UNRESOLVED | Gate B | User |
+| OI-21 | Display shield: user reports it was driven by an **Arduino Uno (5 V)** and carries **2× 74HC245**. If the 245s run on 5 V, 3.3 V drive is below HC V_IH (≈3.5 V at 5 V) and a read puts 5 V on the bus. PE7 (LCD_D7 in the candidate map) is TT_a (3.6 V max). **Next check (user, DMM, shield on the Uno):** voltage on pin 20 (VCC) of each 245; what pin 1 (DIR) and pin 19 (OE) connect to. If VCC = 5 V, B3 gets a level translator with OE for the touch phase (Phase 4) | IN PROGRESS | Gate B | User |
+| OI-22 | ~~Long-kernel tolerance contradiction~~ → RESOLVED by D-048 (per-profile tol + warning < 1.1 × kernel mass) | CLOSED | — | — |
 | OI-23 | Powder measurements per powder used: kernel d × L (20 kernels), mass of 100 kernels, bulk density (10 cm³ scoop). Replaces the ASSUMED inputs in `analysis/trickler_sizing.py` | UNRESOLVED | Gate C | User |

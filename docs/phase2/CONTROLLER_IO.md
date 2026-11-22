@@ -79,6 +79,6 @@ Points the CubeMX pass must check:
 
 ## Open points raised here
 
-1. **Shield logic level [UNRESOLVED, user].** MCUFRIEND-style shields differ. Some have no buffer, some a 74HC245 on 5 V, which is marginal at 3.3 V drive (V_IH ≈ 3.5 V at 5 V), and some an LVC245 or a 3.3 V regulator. Kaboom-Konveyor isn't on this machine. **Ask:** the chip markings on the back of the shield, and which MCU board Kaboom-Konveyor drove it with. Fallback: a 74LVC8T245 level-translator footprint on the display carrier.
+1. **Shield logic level [IN PROGRESS, OI-21].** Driven by an Arduino Uno (5 V) and carries 2× 74HC245. If their VCC is 5 V, 3.3 V drive is below HC V_IH and reads put 5 V on the bus. **PE7 is TT_a (3.6 V max)**, so either B3 isolates the bus with a translator (preferred) or LCD_D7 moves to an FT pin. Pending: the DMM check on the 245 VCC, DIR and OE pins.
 2. **OI-03 stock** for G491VET6 and G474VET6: re-check before Gate B.
 3. **EMFC control lines** are placeholders until the servo study fixes analog / digital / hybrid.
