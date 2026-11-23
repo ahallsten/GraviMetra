@@ -105,13 +105,13 @@ k = 1 standard uncertainties, combined RSS; limits compared at k = 2 unless stat
    alpha from two adjusts    5 K apart (learning only when |dT/dt| < 0.5 K/h): u = 0.065 ppm/K (0.019 % of alpha); x10 vibration 0.318 ppm/K
    alpha from two adjusts   10 K apart (learning only when |dT/dt| < 0.5 K/h): u = 0.033 ppm/K (0.010 % of alpha); x10 vibration 0.159 ppm/K
    span tempco paths besides the magnet (all learned with alpha while they track the magnet sensor):
-     electronics alpha_e typ 1.55 / max 6.20 ppm/K; coil axial position +/-50 um (MC) 3.95, +/-20 um (EB) 1.58 ppm/K; optical null via theta0 0.40 ppm/K
+     electronics alpha_e typ 1.70 / max 6.60 ppm/K; coil axial position +/-50 um (MC) 3.95, +/-20 um (EB) 1.58 ppm/K; optical null via theta0 0.40 ppm/K
    residual coefficient = what does NOT track (fraction 20% [ASSUMED]) + learning error + curvature:
-     as designed now (linear model, alpha_e typ, coil +/-50 um) learn 0.07, curvature 2.50, electronics 0.31, mech 0.79, sensor hyst 0.26 -> 2.65 ppm/K (k=1), 5.31 (k=2) FAIL
-     after >= 10 K of history (quadratic model)                 learn 0.07, curvature 0.50, electronics 0.31, mech 0.79, sensor hyst 0.26 -> 1.02 ppm/K (k=1), 2.05 (k=2) FAIL
+     as designed now (linear model, alpha_e typ, coil +/-50 um) learn 0.07, curvature 2.50, electronics 0.34, mech 0.79, sensor hyst 0.26 -> 2.66 ppm/K (k=1), 5.32 (k=2) FAIL
+     after >= 10 K of history (quadratic model)                 learn 0.07, curvature 0.50, electronics 0.34, mech 0.79, sensor hyst 0.26 -> 1.03 ppm/K (k=1), 2.07 (k=2) FAIL
      + B4 heat test + coil set +/-20 um                         learn 0.07, curvature 0.50, electronics 0.10, mech 0.33, sensor hyst 0.26 -> 0.66 ppm/K (k=1), 1.33 (k=2) OK
-     worst electronics (alpha_e max), quadratic model           learn 0.07, curvature 0.50, electronics 1.24, mech 0.79, sensor hyst 0.26 -> 1.58 ppm/K (k=1), 3.16 (k=2) FAIL
-   TC16 magnet, linear model only: curvature 0.75 ppm/K [ASSUMED] -> 1.13 ppm/K (k=1)
+     worst electronics (alpha_e max), quadratic model           learn 0.07, curvature 0.50, electronics 1.32, mech 0.79, sensor hyst 0.26 -> 1.64 ppm/K (k=1), 3.28 (k=2) FAIL
+   TC16 magnet, linear model only: curvature 0.75 ppm/K [ASSUMED] -> 1.14 ppm/K (k=1)
    -> With Recoma 28, MET-06 (static) needs the quadratic term, i.e. >= 10 K of adjust history; until then the
       linear-model curvature error (2.5 ppm/K on a 20-30 C test) fails it and MET-07 carries
       the accuracy.  Commissioning can force the history with a deliberate +10 K enclosure soak.
@@ -126,16 +126,18 @@ k = 1 standard uncertainties, combined RSS; limits compared at k = 2 unless stat
    magnetic hysteresis after FS / pan-absent excursions                             0.30 ppm
    coil-power regulation error not seen by the sensor                               0.29 ppm
    shunt PCR not settled at the read time                                           0.26 ppm
-   total (k=1)                                                                      0.89 ppm = 0.46 mg at 520 g; k=2 0.93 mg vs +/-2 mg OK
+   B4 load-dependent heat (46 mW, option C) after B4 TMP117 compensation            0.16 ppm
+   total (k=1)                                                                      0.91 ppm = 0.47 mg at 520 g; k=2 0.94 mg vs +/-2 mg OK
    sensitivity (k=2 at 520 g, mg):
-     baseline (0.5 K trigger, 2 K/h, two-sided lag, x1 vib, smooth typ INL)    0.93
-     one-sided lag (19 s)                                                      1.35
-     bad ramp 5 K/h                                                            1.52
-     x10 floor vibration                                                       1.47
-     rough max INL drifting                                                    1.56
-     trigger 0.25 K                                                            0.91
-     trigger 1.0 K                                                             0.99
-     trigger 2.0 K                                                             1.22
+     baseline (0.5 K trigger, 2 K/h, two-sided lag, x1 vib, smooth typ INL)    0.94
+     one-sided lag (19 s)                                                      1.36
+     bad ramp 5 K/h                                                            1.53
+     x10 floor vibration                                                       1.48
+     rough max INL drifting                                                    1.57
+     trigger 0.25 K                                                            0.93
+     trigger 1.0 K                                                             1.01
+     trigger 2.0 K                                                             1.24
+     P0 30 mW (rig magnet 30 x 10 + realistic coil fill, F-01)                 1.03
    auto-adjust load on dosing throughput (45 s each):
      ramp nominal  1.0 K/h, trigger 0.5 K:  2.0 adjusts/h ->  2.5 % of the time
      ramp nominal  1.0 K/h, trigger 2.0 K:  0.5 adjusts/h ->  0.6 % of the time
@@ -154,15 +156,17 @@ k = 1 standard uncertainties, combined RSS; limits compared at k = 2 unless stat
 
 10. MET-10 warm-up (<= 60 min to full spec)
    pot + magnet: C 159 J/K x 8 K/W -> tau 21.2 min; constant coil power 18 mW warms it 144 mK (48 ppm before compensation); left after 60 min: 8.5 mK, tracked by the sensor
-   enclosure: 2 W internal, UA 0.8 W/K, tau 90 min [ASSUMED, power budget pending] -> rise 2.5 K, ramp at 60 min 0.86 K/h, inside the 2 K/h design ramp
-   enclosure: 4 W internal, UA 0.8 W/K, tau 90 min [ASSUMED, power budget pending] -> rise 5.0 K, ramp at 60 min 1.71 K/h, inside the 2 K/h design ramp
-   enclosure: 8 W internal, UA 1.0 W/K, tau 120 min [ASSUMED, power budget pending] -> rise 8.0 K, ramp at 60 min 2.43 K/h, OUTSIDE the 2 K/h design ramp
+   internal heat while dosing (Config E, option C) [PB]: B1 mains box 1.00-1.70, B2 controller 0.67-1.02, trickler motors (cycle avg) 1.69, display (front panel) 1.12-2.00, B4 module 0.32, cell (coil+heater+LED) 0.04 W -> 4.8-6.8 W
+   all internal heat in one volume (typ)                       4.8 W -> rise  6.1 K, ramp at 60 min 2.07 K/h, OUTSIDE the 2 K/h design ramp
+   all in one volume (high)                                    6.8 W -> rise  8.5 K, ramp at 60 min 2.90 K/h, OUTSIDE the 2 K/h design ramp
+   cell compartment separated: B4 + cell + 30 % of the rest    1.7 W -> rise  2.1 K, ramp at 60 min 0.73 K/h, inside the 2 K/h design ramp
+   (UA 0.8 W/K and tau 90 min ASSUMED until the packaging study.)  The cell compartment may receive at most 4.7 W for <= 2 K/h at 60 min.
    -> Dosing is usable after ~10-20 min (B4 electronics settle; zero is re-tared each throw).  Full-range spec at
-      60 min holds only if the cell compartment sees <= 2 K/h by then: keep the mains, controller and motor heat
-      out of the cell compartment (power budget heat map), and run auto-adjust through warm-up.
+      60 min holds only if the cell compartment sees <= 2 K/h by then: separate it from the mains, controller,
+      motor and display heat (packaging study), and run auto-adjust through warm-up.
 
 11. Dosing accuracy (DSP-04): one charge, re-tared, read in the settling profile after the motor stops
-   baseline 10.000 g: zero 0.44, noise 0.032, linearity 0.063, eccentric 0.163, ESD 0.10 [ASSUMED], span 0.027 -> 3 sigma 1.44 mg = 0.0223 gr (DSP-04 assumed 3 mg)
+   baseline 10.000 g: zero 0.44, noise 0.032, linearity 0.063, eccentric 0.163, ESD 0.10 [ASSUMED], span 0.027 -> 3 sigma 1.45 mg = 0.0223 gr (DSP-04 assumed 3 mg)
    baseline  0.324 g: zero 0.44, noise 0.032, linearity 0.020, eccentric 0.005, ESD 0.10 [ASSUMED], span 0.001 -> 3 sigma 1.35 mg = 0.0208 gr (DSP-04 assumed 3 mg)
    light    10.000 g: zero 0.23, noise 0.032, linearity 0.063, eccentric 0.163, ESD 0.10 [ASSUMED], span 0.027 -> 3 sigma 0.93 mg = 0.0143 gr (DSP-04 assumed 3 mg)
    light     0.324 g: zero 0.23, noise 0.032, linearity 0.020, eccentric 0.005, ESD 0.10 [ASSUMED], span 0.001 -> 3 sigma 0.76 mg = 0.0118 gr (DSP-04 assumed 3 mg)
@@ -185,11 +189,11 @@ k = 1 standard uncertainties, combined RSS; limits compared at k = 2 unless stat
    MET-03 SD at 500 g, x1 / x10 floor      0.31 / 0.90 mg (0.9 s window at x10)                                  <= 1 mg         OK if fine corners + floor <= ~10x
    MET-04 linearity (p95)                  1.17 mg typ INL 3-pt; max INL: 1.92 smooth 5-pt, 0.87 rough 9-pt      +/-2 mg         OK with 9-pt baseline
    MET-06 static, now / best practice      5.3 / 1.3 ppm/K (k=2)                                                 +/-2 ppm/K      after history only
-   Span at 520 g in use (MET-07)           0.93 mg (k=2)                                                         within +/-2 mg  OK
+   Span at 520 g in use (MET-07)           0.94 mg (k=2)                                                         within +/-2 mg  OK
    MET-08 zero over 60 s, baseline / light 0.87 / 0.46 mg (k=2)                                                  <= 1 mg         OK (null drift <= 100 nm)
    MET-09 eccentric                        1.41 mg mech + adjust stability                                       +/-2 mg         needs fine adjusters (OI-25)
    MET-05 settling                         1.14 s at 10 g; ~2.7 s at 500 g with the 0.9 s window                 3 s (goal 1.5)  OK
-   DSP-04 dosing 3 sigma, 10 g             1.44 / 0.93 mg                                                        ~3 mg assumed   better than assumed
+   DSP-04 dosing 3 sigma, 10 g             1.45 / 0.93 mg                                                        ~3 mg assumed   better than assumed
 
 Sanity checks
    - SM reproduced: settling SD 10 g 0.032 mg, 500 g 0.172 mg (within 5 %). PASS
@@ -200,4 +204,4 @@ Sanity checks
    - FS shunt voltage 1.56 V matches SM §1. PASS
    - buoyancy: 1 % air density x net volume moment / a gives the printed mg value. PASS
    - ramp-fit estimator: endpoint SD 2 sigma/sqrt(N) matches a direct least-squares simulation. PASS
-   - runtime 0 s
+   - runtime 1 s

@@ -1,0 +1,175 @@
+1. Stepper supply power from motor power (TMC2209 chopper at 12 V; idle motors are DISABLED, ENN high via
+   the 2-to-4 decoder (D-041): zero phase current, only the driver's VS quiescent 7 typ / 10 max mA each)
+   Trickler motor ASSUMED 17HS08-1004S class: 1.0 A rated, 3.7 ohm at 20 C. Rsense 220 mohm (PROPOSED) -> hardware ceiling 0.958 A rms (CS = 31) [DS formula]
+   Run current PROPOSED 0.50 A rms typ (torque needed 1.25 mN.m vs ~130 mN.m holding at rated).
+   stage   corner  I_rms  copper   iron   mech   FETs     Rs     sw     Iq  P_sup W  I_sup A I_sup/I_ph
+   coarse  typ     0.500   1.995  0.150  0.036  0.204  0.110  0.036  0.090     2.62    0.218       0.44
+   coarse  max     0.958   8.918  0.300  0.036  1.117  0.403  0.244  0.120    11.14    0.928       0.97
+   medium  typ     0.500   1.995  0.047  0.011  0.204  0.110  0.036  0.090     2.49    0.208       0.42
+   medium  max     0.958   8.918  0.095  0.011  1.117  0.403  0.244  0.120    10.91    0.909       0.95
+   fine    typ     0.500   1.995  0.013  0.003  0.204  0.110  0.036  0.090     2.45    0.204       0.41
+   fine    max     0.958   8.918  0.025  0.003  1.117  0.403  0.244  0.120    10.83    0.903       0.94
+   Check-mass motor ASSUMED NEMA 8 + planetary gearbox (0.6 A, 10 ohm). Rsense 680 mohm (PROPOSED) -> ceiling 0.328 A rms, run 0.25 A typ:
+      typ: motor (copper+iron) 1.38 W in the CELL zone, driver 0.24 W, supply 1.62 W = 0.135 A at 12 V; energy per span check (4 s of motion) 5.5 J into the cell zone
+      max: motor (copper+iron) 2.89 W in the CELL zone, driver 0.48 W, supply 3.37 W = 0.281 A at 12 V; energy per span check (4 s of motion) 11.6 J into the cell zone
+   Supply power ~IRUN^2: 0.3 A -> 1.1 W, 0.5 A -> 2.6 W, 0.7 A -> 4.9 W (typ corner, coarse). Run the trickler motors at the lowest reliable current.
+
+2. Rail currents by configuration and state (typ / max). Max = every IC at its max, motors at the hardware
+   current ceiling, buzzer sounding, coil at +120 % FS, TC16 heater power, LED 30 mA, display 400 mA.
+   States: idle = SAFE armed, motors disabled, display on, (E) servo at an empty pan. dispense_x = that trickler
+   motor running. cm_lift = check-mass motor running. weigh_full = 520 g on the pan. worst = coarse motor AND
+   check-mass motor at their ceilings simultaneously (only possible if the CM driver is not on the decoder).
+   -- Config S (B1+B2+B3)
+   rail                                   unit          idle   disp_coarse   disp_medium     disp_fine         worst
+   12 V motor branch (behind eFuse M)        A   0.021/0.030   0.232/0.948   0.222/0.929   0.218/0.923   0.232/0.948
+   IRM-30-12 output                          A   0.021/0.031   0.233/0.952   0.222/0.933   0.219/0.926   0.233/0.952
+   5 V display branch (B3)                   A   0.224/0.400   0.224/0.400   0.224/0.400   0.224/0.400   0.224/0.400
+   5 V system (after mux)                    A   0.053/0.113   0.053/0.113   0.053/0.113   0.053/0.113   0.053/0.113
+   B2 3V3 (MCU, logic)                      mA         53/82         53/82         53/82         53/82         53/82
+   IRM-20-5 output                           A   0.277/0.513   0.277/0.513   0.277/0.513   0.277/0.513   0.277/0.513
+   AC input power (W)                        W       2.5/4.3      5.7/17.4      5.6/17.1      5.5/17.0      5.7/17.4
+   -- Config E, option A as drawn (B4 LDOs from 12 V, CM driver on B4)
+   rail                                   unit          idle   disp_coarse   disp_medium     disp_fine       cm_lift    weigh_full         worst
+   12 V motor branch (behind eFuse M)        A   0.021/0.030   0.232/0.948   0.222/0.929   0.218/0.923   0.021/0.030   0.021/0.030   0.232/0.948
+   12 V B4 branch (behind eFuse E)           A   0.067/0.102   0.067/0.102   0.067/0.102   0.067/0.102   0.199/0.376   0.075/0.110   0.204/0.381
+   B4 5V_A analog (LT3045)                  mA         56/84         56/84         56/84         56/84         60/87         64/92         65/92
+   B4 3V3_D digital                         mA           2/2           2/2           2/2           2/2           2/2           2/2           2/2
+   IRM-30-12 output                          A   0.089/0.133   0.300/1.055   0.290/1.035   0.286/1.029   0.221/0.408   0.096/0.141   0.437/1.335
+   5 V display branch (B3)                   A   0.224/0.400   0.224/0.400   0.224/0.400   0.224/0.400   0.224/0.400   0.224/0.400   0.224/0.400
+   5 V system (after mux)                    A   0.051/0.113   0.051/0.113   0.051/0.113   0.051/0.113   0.051/0.113   0.051/0.113   0.051/0.113
+   B2 3V3 (MCU, logic)                      mA         51/82         51/82         51/82         51/82         51/82         51/82         51/82
+   IRM-20-5 output                           A   0.275/0.513   0.275/0.513   0.275/0.513   0.275/0.513   0.275/0.513   0.275/0.513   0.275/0.513
+   AC input power (W)                        W       3.5/5.8      6.7/18.8      6.6/18.5      6.5/18.4       5.5/9.9       3.6/6.0      8.6/22.6
+   -- Config E, option C PROPOSED (6.0 V pre-reg on B2, CM driver on B2)
+   rail                                   unit          idle   disp_coarse   disp_medium     disp_fine       cm_lift    weigh_full         worst
+   12 V motor branch (behind eFuse M)        A   0.028/0.040   0.239/0.958   0.229/0.939   0.225/0.933   0.156/0.311   0.028/0.040   0.368/1.229
+   12 V B4 branch (behind eFuse E)           A   0.035/0.057   0.035/0.057   0.035/0.057   0.035/0.057   0.037/0.059   0.040/0.063   0.040/0.063
+   6.0 V pre-reg out -> B4 (option C)        A   0.060/0.092   0.060/0.092   0.060/0.092   0.060/0.092   0.063/0.095   0.068/0.100   0.068/0.100
+   B4 5V_A analog (LT3045)                  mA         56/84         56/84         56/84         56/84         60/87         64/92         65/92
+   B4 3V3_D digital                         mA           2/2           2/2           2/2           2/2           2/2           2/2           2/2
+   IRM-30-12 output                          A   0.064/0.098   0.276/1.020   0.265/1.001   0.262/0.994   0.194/0.372   0.069/0.104   0.409/1.299
+   5 V display branch (B3)                   A   0.224/0.400   0.224/0.400   0.224/0.400   0.224/0.400   0.224/0.400   0.224/0.400   0.224/0.400
+   5 V system (after mux)                    A   0.051/0.113   0.051/0.113   0.051/0.113   0.051/0.113   0.051/0.113   0.051/0.113   0.051/0.113
+   B2 3V3 (MCU, logic)                      mA         51/82         51/82         51/82         51/82         51/82         51/82         51/82
+   IRM-20-5 output                           A   0.275/0.513   0.275/0.513   0.275/0.513   0.275/0.513   0.275/0.513   0.275/0.513   0.275/0.513
+   AC input power (W)                        W       3.2/5.3      6.4/18.3      6.2/18.0      6.2/18.0       5.1/9.3       3.2/5.4      8.2/22.1
+   Fault (not a sizing case): decoder failed, all three trickler motors at the ceiling -> see eFuse section.
+
+   B2 3V3 detail (typ/max mA): MCU 48.2/62.7 (Table 21 + 21.7 mA peripherals from Table 34 at 170 MHz), MAX3232E 2.5(S)/0.3(E)/8.2
+
+3. Mean Well IRM derating and margin (PWR-04: >= 25 % on each module, derated per datasheet)
+   Air-rise estimate (typ, highest-power state): enclosure 8.6 W / (4.0 W/m2K x 0.64 m2) = +3.4 K; mains box 2.00 W / (5.0 x 0.068 m2) = +5.9 K
+   -> module ambient ~39.3 C at a 30 C garage; design value T_int = 45 C (ASSUMED, +5.7 K allowance)
+   IRM-30-12: rating 2.5 A; k_T(45 C) = 1.00; k_V(120 VAC) = 1.00, k_V(108 VAC) = 1.000 -> available 2.50 A
+      worst load 1.335 A (E/A/worst, max corner) / 0.975 = 1.369 A -> margin 45% (need >= 25 %); 25 % holds up to 61 C module ambient
+   IRM-20-5: rating 4.0 A; k_T(45 C) = 1.00; k_V(120 VAC) = 1.00, k_V(108 VAC) = 0.953 -> available 3.81 A
+      worst load 0.513 A (E/C/idle, max corner) / 0.975 = 0.526 A -> margin 86% (need >= 25 %); 25 % holds up to 81 C module ambient
+   Universal input (PWR-02): both modules accept 85-305 VAC, 47-440 Hz [DS]; IRM-20 derates below 115 VAC (80 % at 85 VAC), IRM-30 below 100 VAC.
+
+4. Hold-up, cold-start inrush and time-lag fuses
+   IRM-30-12 hold-up 12 ms at full load, 115 VAC [DS]; at our loads: E idle (A) 1.1 W -> 286 ms; E idle (C) 0.8 W -> 385 ms; dosing peak 2.8 W -> 114 ms
+   IRM-20-5 hold-up 8 ms at full load, 115 VAC [DS]; at our loads: E idle (A) 1.4 W -> 100 ms; E idle (C) 1.4 W -> 100 ms; dosing peak 1.4 W -> 99 ms
+   IRM-30-12: inrush 26.1 A pk at 120 VAC, tau ~0.31 ms (C_bulk 47 uF ASSUMED) -> I2t 0.104 A2s; x3/0.22 -> fuse melting I2t >= 1.42 A2s
+      full-load input 0.75 A at 115 VAC -> 0.80 A at 108 VAC; / 0.712 -> I_n >= 1.12 A  => T1.25A 250 V ceramic (5HT class: 3.0 A2s)
+   IRM-20-5: inrush 20.9 A pk at 120 VAC, tau ~0.27 ms (C_bulk 33 uF ASSUMED) -> I2t 0.058 A2s; x3/0.22 -> fuse melting I2t >= 0.80 A2s
+      full-load input 0.60 A at 115 VAC -> 0.64 A at 108 VAC; / 0.712 -> I_n >= 0.90 A  => T1A 250 V ceramic (5HT class: 1.7 A2s)
+   Inlet (both modules start together): I2t 0.318 A2s -> need melting I2t >= 4.34 A2s and I_n >= 2.02 A => T2.5A 250 V ceramic in the C14 drawer
+   Selectivity indicator: inlet / module melting I2t >= 5.7 (a module fault usually clears its own fuse; not guaranteed, both are inside the same enclosure anyway)
+   Cross-check: IRM-30 full-load P_in 34.7 W at 115 VAC / 0.75 A [DS] -> implied power factor 0.40 (capacitor-input, no PFC: 0.35-0.65 expected)
+   Why ceramic high-breaking (1500 A): a US 15/20 A branch can deliver far more than the 35 A breaking capacity
+   of a glass 5x20 fuse. 250 V fuses cover 100-240 VAC, not 277 VAC.
+
+5. TPS25947 eFuse settings [DS SLVSFC9C May 2026: R_ILM = 3334/I_LIM, R_ILM 549-6650 ohm, +-10 % above 1 A,
+   ~+-15 % at 0.5-1 A; fast trip at 2 x I_LIM; dV/dt: C(pF) = 2000/SR(V/ms); t_ITIMER(ms) = V(V)*C(nF)/I(uA)]
+   Motor branch max: 0.958 A with the CM driver on decoder code 3 (PROPOSED: one motor of four);
+   1.229 A if the CM motor can run together with a trickler motor.
+   eFuse M, CM on the decoder (PROPOSED): branch max 0.958 A -> R_ILM 2490 ohm (E96) -> I_LIM 1.34 A nominal (1.21-1.47 A), fast trip ~2.7 A; C_load 400 uF at 0.20 A inrush -> SR 0.500 V/ms, C_dVdt ~4.0 nF, rise 24 ms
+   eFuse M, CM not interlocked (alternative): branch max 1.229 A -> R_ILM 1910 ohm (E96) -> I_LIM 1.75 A nominal (1.57-1.92 A), fast trip ~3.5 A; C_load 400 uF at 0.20 A inrush -> SR 0.500 V/ms, C_dVdt ~4.0 nF, rise 24 ms
+   Decoder-failure fault (3 motors at the ceiling): 2.78 A > I_LIM,max 1.47 A -> the eFuse trips. At typ run current (3 x 0.22 A) it does NOT: the eFuse
+   is a fault limit, not a one-motor interlock (the decoder is).
+   C_dVdt > 10 nF gets a 100 ohm series resistor [DS note]. ITIMER: ~12 nF -> ~10 ms blanking (~1.6 V / 1.8 uA)
+   for acceleration transients. Variant: TPS259474L
+   (circuit breaker, latch-off) with FLT into the SAFE latch reset, so a motor-rail fault needs the ARM button.
+   eFuse E (B4, option A, incl. CM motor): branch max 0.381 A -> R_ILM 5900 ohm (E96) -> I_LIM 0.57 A nominal (0.48-0.65 A), fast trip ~1.1 A; C_load 47 uF at 0.10 A inrush -> SR 2.128 V/ms, C_dVdt ~0.9 nF, rise 6 ms
+   eFuse E (B4, option C, feeds hold-up C + pre-reg): branch max 0.063 A -> R_ILM 6650 ohm (E96) -> I_LIM 0.50 A nominal (0.43-0.58 A), fast trip ~1.0 A; C_load 6800 uF at 0.10 A inrush -> SR 0.015 V/ms, C_dVdt ~136.0 nF, rise 816 ms
+   Option C: the 0.5 A floor is ~10x the load, so the LT3045 programmable current limits are the tight layer.
+   EN of eFuse E from its own UVLO divider (not from logic), so B4 stays up while the 5 V domain resets.
+
+6. Linear-regulator dissipation (typ / max load; LDO loss at high line 12.3 V for the max column)
+   B4 loads: 5V_A 56.1 typ / 92.2 max mA; 3V3_D 1.5 / 2.3 mA
+   A: LT3045 from 12 V on B4        LDO loss on B4 0.433 / 0.762 W; LT3045 Tj ~60 C (theta_JA 34 C/W)
+   C: LT3045 from 6.0 V pre-reg     LDO loss on B4 0.074 / 0.132 W; LT3045 Tj ~39 C (theta_JA 34 C/W)
+   B: 57 ohm dropping resistor on B2 (no switcher): B4 input 8.6 V typ, LDO loss on B4 0.229 W; resistor 0.20 W on B2
+      option B B4 heat 0.555 W at an empty pan, 0.591 W at 520 g (delta +36 mW)
+   C costs a TPS62170-class buck on B2: 0.063 W loss at the rear (eta 0.85 ASSUMED), 2.25 MHz ripple rejected by the LT3045 plus an LC at B4 entry.
+   B2 3V3 LDO from 5 V: 51 / 82 mA -> 0.09 / 0.15 W (SOT-223-class theta ~60 C/W -> +9 K): no buck needed
+   Display 3V3 (if the shield feeds its backlight from the header 3.3 V pin, as newer MCUFRIEND boards do):
+   up to 400 mA -> 0.68 W in an LDO at the front panel; a 3.3 V buck there cuts ~0.53 W. It must NOT load the B2 MCU 3V3 rail.
+
+7. USB-only service mode (mains off; VBUS -> TPS2121 -> 3V3 LDO; display, 12 V, motors, B4 unpowered)
+   VBUS current 53 typ / 113 max mA (max incl. buzzer 30 mA)
+   vs USB 2.0 / Type-C Default: 100 mA before configuration (1 unit load), 500 mA after; 1.5/3.0 A only if the
+   source advertises it on CC (not sensed: CC has bare 5.1 kohm Rd, UCPD unused).
+   Pre-enumeration: typ PASS vs 100 mA; max 113 mA exceeds it only with the buzzer on -> no buzzer before enumeration.
+   Back-powering rule: with V5_MAIN absent the firmware holds the LCD bus (PE8-15, WR, RS, RD, CS) and every
+   B4 line low or Hi-Z; otherwise current flows through the unpowered 74HC245/ADS1263 clamp diodes.
+
+8. Coil soft-off on mains loss / brown-out (D-070 CONFIRMED: SAFE incl. brown-out -> RC ramp ~0.5 s)
+   Module hold-up at E idle: 5 V 100 ms, 12 V 286 ms (A) / 385 ms (C), vs 1.5 s needed (3 x tau 0.5 s, ASSUMED) -> without local
+   hold-up a mains dropout is a HARD coil cut at whatever load is on the pan.
+   Option A: energy 0.475 J with load shedding -> C_hold >= 11.9 mF at 12 V (window 10.5 -> 5.55 V); without shedding 45 mF
+   Option C: energy 0.184 J with load shedding -> C_hold >= 4.8 mF at 12 V (window 10.5 -> 5.8 V); without shedding 29 mF
+   Option B: 26 mA through the 57 ohm resistor -> window 10.5 -> 7.05 V -> C_hold >= 11.5 mF
+   PROPOSED: PWR_FAIL = 12 V-UV comparator on B2 (before eFuse E), sent to B4 and to an MCU EXTI; on PWR_FAIL B4
+   starts the soft-off in hardware and sheds LED, ADS1263 (PWDN), TIAs. 6.8 mF / 16 V after eFuse E (reverse
+   blocking), before the pre-reg (option C). Alternative: elastomer stops <= 2 kN/m (D-067), which survive a
+   hard cut; the OI-33 rig impact test decides.
+
+9. Heat map by zone (typ corner, W). Peak = coarse motor running. Average over the 30 s dosing cycle =
+   coarse 12 s + medium 6 s + fine 6 s + 6 s motors off (back-to-back throws, DSP-06 worst case).
+   zone                                             S idle   S peak    S avg E-A idle E-A peak  E-A avg E-C idle E-C peak  E-C avg
+   B1 mains box (rear, metal)                        0.869    1.564    1.409    1.086    1.720    1.583    1.005    1.669    1.526
+   B2 controller (rear)                              0.524    0.881    0.810    0.519    0.876    0.804    0.666    1.024    0.952
+   trickler motors (frame, rear of tubes)            0.000    2.181    1.685    0.000    2.181    1.685    0.000    2.181    1.685
+   display + B3 (front panel)                        1.120    1.120    1.120    1.120    1.120    1.120    1.120    1.120    1.120
+   B4 EMFC module (beside cell; location TBD)        0.000    0.000    0.000    0.760    0.762    0.762    0.316    0.318    0.317
+   cell in draft shield (coil, LED, CM motor)        0.000    0.000    0.000    0.043    0.043    0.043    0.043    0.043    0.043
+   total = AC input                                   2.51     5.75     5.02     3.53     6.70     6.00     3.15     6.35     5.64
+   Per trickler motor in the dosing cycle (motor body, TRK zone; driver heat is on B2):
+      coarse  2.18 W while running (12 s of 30 s = 40% duty) -> 0.87 W average
+      medium  2.05 W while running (6 s of 30 s = 20% duty) -> 0.41 W average
+      fine    2.01 W while running (6 s of 30 s = 20% duty) -> 0.40 W average
+   Option A: B4 0.760 W at an empty pan, 0.851 W at 520 g (delta +91 mW); cell 43.0 -> 43.0 mW
+   Option C: B4 0.316 W at an empty pan, 0.362 W at 520 g (delta +46 mW); cell 43.0 -> 43.0 mW
+   Cell (constant): coil + heater P0 18 mW (35 with TC16) + LED 25 mW (ASSUMED 20 mA) = 43 mW. The LED is as large as P0: fix its current in OI-31 and keep it DC.
+   Check-mass lift: 5.5 J into the cell zone per span check (typ), 9 mW averaged at one check per 10 min; it lands just before the span reading.
+   Error-budget hook: B4 heat rises with load by 91 mW (A) / 46 mW (C) from empty to 520 g. With an ASSUMED 10-20 K/W local coupling to the reference/ADC and the ~2.5 ppm/K electronics span
+   tempco (SERVO_MEASURAND sec. 7), that is 2.3-4.6 ppm (A) / 1.1-2.3 ppm (C) at full load, a slow load-dependent bow vs MET-04 3.85 ppm.
+
+10. Sanity checks
+   - energy balance (zone heat = AC input) in all 38 config/option/state/corner cases: PASS
+   - stepper coarse/typ: supply current < phase rms current (chopper energy balance): PASS
+   - stepper coarse/max: supply current < phase rms current (chopper energy balance): PASS
+   - stepper medium/typ: supply current < phase rms current (chopper energy balance): PASS
+   - stepper medium/max: supply current < phase rms current (chopper energy balance): PASS
+   - stepper fine/typ: supply current < phase rms current (chopper energy balance): PASS
+   - stepper fine/max: supply current < phase rms current (chopper energy balance): PASS
+   - microstep copper loss R*(IA^2+IB^2) = 2*R*I_rms^2 at every microstep: PASS
+   - estimated B1 module ambient below the design T_int: PASS
+   - IRM-30-12 margin >= 25 % at 45 C and 108 VAC: PASS
+   - IRM-20-5 margin >= 25 % at 45 C and 108 VAC: PASS
+   - IRM-30-12 fuse T1.25A: rating and I2t both cover the need: PASS
+   - IRM-20-5 fuse T1A: rating and I2t both cover the need: PASS
+   - inlet fuse rating and I2t cover both modules: PASS
+   - IRM-30 datasheet AC current implies a plausible PF (0.35-0.65): PASS
+   - eFuse M: I_LIM,min >= 1.25 x branch max (CM on the decoder): PASS
+   - eFuse M alternative: I_LIM,min >= 1.25 x branch max (CM simultaneous): PASS
+   - eFuse M trips on the 3-motor decoder fault at the ceiling: PASS
+   - B4 LT3045 Tj < 125 C (A): PASS
+   - B4 LT3045 Tj < 125 C (C): PASS
+   - B2 3V3 LDO dissipation < 0.3 W at max: PASS
+   - USB-only mode <= 500 mA (configured, USB 2.0 / Type-C Default): PASS
+   - USB-only mode typ <= 100 mA (pre-enumeration unit load): PASS
+   - finding reproduced: unbuffered 12 V hold-up (385 ms) < 1.5 s soft-off need: PASS
+   - option C hold-up fits one 6.8 mF / 16 V electrolytic with >= 25 % margin: PASS
+   62/62 PASS

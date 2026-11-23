@@ -20,7 +20,7 @@ Rev 0 · 2026-11-22 · Effort: max · Numbers: `analysis/error_budget.py` → `a
 | MET-03 SD at 10 g | 0.07 mg | ≤ 1 mg | OK | — |
 | MET-03 SD at 500 g | 0.31 mg (assumed floor); 0.90 mg at 10× the floor with a 0.9 s window | ≤ 1 mg | OK, floor-dependent | Fine corner adjust; floor ≤ 5.7× (0.33 s window) or ≤ 11× (0.9 s window) of the assumed spectrum (OI-32) |
 | MET-04 linearity (p95, incl. 0.2 mg hysteresis) | 0.67–0.87 mg with a 9-point adjust; 1.17 mg with 3 points if the INL is typical | ±2 mg | OK with 9 points | D-030 masses only; INL shape (OI-34) |
-| Span error at 520 g in use (MET-07 auto-adjust) | 0.93 mg (k = 2) | ±2 mg | OK | 0.5 K auto-adjust trigger |
+| Span error at 520 g in use (MET-07 auto-adjust) | 0.94 mg (k = 2) | ±2 mg | OK | 0.5 K auto-adjust trigger |
 | MET-06 static (no recalibration) | 5.3 ppm/K today → 1.3 ppm/K with best practice (k = 2) | ±2 ppm/K | Only with conditions (§6.2) | ≥ 10 K of learned history, B4 heat test, coil set ±20 µm |
 | MET-08 zero over 60 s | 0.87 mg (baseline hinges) / 0.46 mg (light hinges), k = 2 | ≤ 1 mg | OK | Optical-null drift ≤ 100 nm per 60 s (OI-31) |
 | MET-09 eccentric | 1.0 mg in x + 1.0 mg in y at the adjuster resolution | ±2 mg | Needs the fine adjusters | Lock-in stability (OI-25) |
@@ -28,7 +28,7 @@ Rev 0 · 2026-11-22 · Effort: max · Numbers: `analysis/error_budget.py` → `a
 | Dosing, 3σ of a 10 g charge | 1.44 / 0.93 mg = 0.022 / 0.014 gr | DSP-04 assumed 3 mg | Better than assumed | Null drift; static charge (ASSUMED) |
 
 ### OI-02 (span tempco, the top risk): closed by analysis for the operating spec, with the standard Sm2Co17 magnet
-- With auto-adjust at ΔT ≥ 0.5 K, the span error at 520 g is 0.93 mg (k = 2). The worst single change (rough max INL drifting, 5 K/h ramps or a 10× floor) keeps it ≤ 1.6 mg.
+- With auto-adjust at ΔT ≥ 0.5 K, the span error at 520 g is 0.94 mg (k = 2). The worst single change (rough max INL drifting, 5 K/h ramps or a 10× floor) keeps it ≤ 1.6 mg.
 - A TC magnet isn't needed and stays the fallback (D-062).
 - MET-06 as written (static, no recalibration) is met only under the §6.2 conditions. That is a Gate B wording question.
 
@@ -131,7 +131,7 @@ p95 of the maximum error over 0–520 g, including 0.2 mg of hysteresis:
 - **α from two adjusts 5 K apart:** 0.065 ppm/K = 0.02 % of α; 0.32 ppm/K at a 10× floor. Only adjusts made while |dT/dt| < 0.5 K/h are used.
 - **One coefficient covers every span path that tracks the magnet sensor:**
   - magnet −336 ppm/K;
-  - electronics α_e 1.6 typ / 6.2 max ppm/K;
+  - electronics α_e 1.7 typ / 6.6 max ppm/K (the shunt is the Z201: 0.2 ppm/K typical, ±0.6 worst case, per `research/GATE_B_SOURCING.md`);
   - coil axial position in the gap: 1.6 ppm/K with the coil set ±20 µm from the Kf maximum, 4.0 with ±50 µm;
   - optical null via θ0: 0.4 ppm/K.
 
@@ -145,7 +145,7 @@ p95 of the maximum error over 0–520 g, including 0.2 mg of hysteresis:
 | As designed today: linear model, α_e typ, coil ±50 µm | 5.3 ppm/K FAIL |
 | Quadratic model (≥ 10 K of history) | 2.05 ppm/K, marginal |
 | Plus B4 heat test (α_e measured separately) and coil set ±20 µm | **1.33 ppm/K OK** |
-| Worst electronics (α_e max), quadratic model | 3.2 ppm/K FAIL |
+| Worst electronics (α_e max), quadratic model | 3.3 ppm/K FAIL |
 | TC16 magnet, linear model | 2.3 ppm/K |
 
 ### 6.3 Span error at 520 g in use, with auto-adjust (MET-07)
@@ -161,14 +161,16 @@ p95 of the maximum error over 0–520 g, including 0.2 mg of hysteresis:
 | Magnetic hysteresis after full-scale or pan-absent excursions (ASSUMED) | 0.30 |
 | Coil-power regulation error not seen by the sensor | 0.29 |
 | Shunt PCR not settled at read time | 0.26 |
-| **Total** | **0.89 ppm = 0.46 mg; k = 2: 0.93 mg** |
+| B4 heat that rises with load (46 mW with option C), after B4 TMP117 compensation | 0.16 |
+| **Total** | **0.91 ppm = 0.47 mg; k = 2: 0.94 mg** |
 
 **Sensitivity (k = 2 at 520 g):**
 - one-sided lag: 1.35 mg;
 - 5 K/h ramps: 1.52 mg;
 - 10× floor: 1.47 mg;
 - rough max INL drifting: 1.56 mg;
-- trigger at 1 K: 0.99 mg; at 2 K: 1.22 mg.
+- trigger at 1 K: 0.99 mg; at 2 K: 1.22 mg;
+- coil power 30 mW (the Ø30 × 10 rig magnet plus a realistic coil fill, review finding F-01): 1.01 mg.
 
 **Throughput:** at 2 K/h, a 0.5 K trigger means 4 adjusts per hour (5 % of the time at 45 s each); a 2 K trigger means 1.2 %. **Dosing loads see 1/50 of every span term**, so the dosing profile can use a 2 K trigger.
 
@@ -192,7 +194,15 @@ p95 of the maximum error over 0–520 g, including 0.2 mg of hysteresis:
 
 ### Warm-up
 - **Pot and magnet:** τ = 21 min. The 18 mW constant coil power warms them by 144 mK. The sensor tracks this, and 8.5 mK remains at 60 min.
-- **Enclosure:** with 2–4 W of internal heat, the cell's ramp at 60 min is 0.9–1.7 K/h, inside the 2 K/h design ramp. At 8 W it is not. These values are ASSUMED until the power budget is in.
+- **Enclosure** (heat map from `POWER_BUDGET.md`): 4.8–6.8 W of internal heat while dosing:
+  - B1 1.0–1.7 W;
+  - B2 0.67–1.02 W;
+  - motors 1.69 W averaged over the cycle;
+  - display 1.12–2.0 W;
+  - B4 0.32 W;
+  - cell 0.04 W.
+
+  In one shared volume, the cell's ramp at 60 min is 2.1–2.9 K/h, just outside the 2 K/h design ramp. With a separated cell compartment, which takes B4, the cell and ~30 % of the rest, it is 0.7 K/h. The cell compartment can take at most ~4.7 W. UA and τ are ASSUMED until the packaging study.
 - → Keep mains, controller and motor heat out of the cell compartment.
 - Dosing is usable after ~10–20 min, because the zero is re-tared every throw.
 
@@ -228,7 +238,8 @@ p95 of the maximum error over 0–520 g, including 0.2 mg of hysteresis:
 | 8 | 9-point linearity adjustment with the D-030 masses, degree-5 fit | MET-04 | Commissioning |
 | 9 | Load-adaptive settling window: 0.33 s below ~100 g, up to 0.9 s above | MET-03 at 500 g | Firmware (D-068) |
 | 10 | B4 burn-in ≥ 100 h before commissioning | Reference aging 0.13 ppm per 4 h after burn-in | Build procedure |
-| 11 | Cell compartment ramp ≤ 2 K/h after 60 min; no heat sources inside the draft shield; air at the pan ≤ ~1 cm/s | MET-10, drafts | Packaging, power budget |
+| 11 | Cell compartment ramp ≤ 2 K/h after 60 min, i.e. ≤ ~4.7 W into it; motors, display and mains heat stay outside it. No heat sources inside the draft shield; air at the pan ≤ ~1 cm/s | MET-10, drafts | Packaging, power budget |
+| 13 | B4 layout: coil driver and heater H-bridge thermally away from the reference, ADC and shunt, with the B4 TMP117 at the reference. Load-dependent B4 heat is 46 mW with option C, 91 mW with 12 V LDOs | Span term 0.16 ppm after compensation | Phase 4 B4 layout |
 | 12 | Conductive, PE-bonded pan and a dissipative shield; measure the static term | Dosing static (0.1 mg ASSUMED) | Rig |
 
 ## 11. Contradictions and changes to log
@@ -241,6 +252,11 @@ p95 of the maximum error over 0–520 g, including 0.2 mg of hysteresis:
 6. **D-068's single settling window** becomes load-adaptive above ~100 g.
 7. **MET-06's "without recalibration"** holds only after the in-situ model has learned α's curvature (≥ 10 K). → Gate B wording decision (OI-38).
 8. **MAGNET_COIL §7's 19 s lag** is the one-sided bound. The two-sided estimate is 9 s.
+9. **Review finding F-01:** the 4 × 292-turn coil doesn't fit its window when hand-wound randomly. The turn count will be set from a wound test section, ~240–255 per wire.
+   - Km(A+B) becomes 2.7–2.95 and P0 20–24 mW; with the Ø30 × 10 rig magnet, ~30 mW.
+   - The budget holds: 1.01 mg at 520 g (k = 2).
+11. **Power budget:** B4's heat rises with load: 46 mW from empty to 520 g with the proposed 6 V supply (option C), 91 mW with the drawn 12 V LDOs. That makes it a span term, worth 0.16 ppm after B4 TMP117 compensation.
+10. **Sourcing:** D-064's shunt "TCR ≤ 0.2 ppm/K" is a typical value. No catalogue foil part guarantees it as a maximum; the Z201's worst case is ±0.6 ppm/K. The B4 heat test and auto-adjust cover it.
 
 ## 12. Rig checks (Phase 3)
 

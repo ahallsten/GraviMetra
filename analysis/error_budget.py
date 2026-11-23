@@ -124,7 +124,7 @@ NTC_RATE = 2.5             # Hz effective (ADC2 shared with coil V and 2 more ch
 # --- electronics [DS]
 ADC_GAIN_TC = (0.5e-6, 4e-6)    # /K typ, max (ADS126x ADC1, PGA bypassed)
 REF_TC = (1.0e-6, 2.0e-6)       # /K LTC6655B typ, max (box method)
-SHUNT_TC = (0.05e-6, 0.2e-6)    # /K VPG foil family
+SHUNT_TC = (0.2e-6, 0.6e-6)     # /K VPG Z201 (Z-foil): 0.2 typ; +/-0.6 worst-case spread -55..125 C [DS via GATE_B_SOURCING]
 AE_CHAR = 0.1e-6           # /K residual after a B4-only heat test at commissioning [EB proposal]
 REF_AGING = 20e-6          # first 1000 h, LS8 [DS], sqrt(t) law [ASSUMED shape]
 BURN_IN_H = 100.0          # h burn-in before commissioning [EB]
@@ -137,6 +137,12 @@ REL_FS = 144e-6            # reluctance-force quadratic at FS, relative to FS fo
 REL_TC = 0.0005 + 336e-6   # /K: steel permeability 0.05 %/K [ASSUMED] + relative to Kf (alpha)
 DT_LIN = 7.5               # K max distance from the linearity-adjust temperature (15-30 C, adjusted at 22.5 C)
 KFX_QUAD_FS = 1.75e-6      # Kf(x) quadratic at FS: c*x0*dz with ~1 um coil shift at FS, x0 20 um [EB from MC/SM]
+B4_LOAD_HEAT = 0.046       # W extra B4 dissipation empty -> 520 g, option C 6 V supply [PB POWER_BUDGET.md]
+R_B4 = 10.0                # K/W B4 board to ambient (60 x 80 mm, 4-layer, still air) [ASSUMED]
+# heat map, W [PB]: (low, high) typical; motors are the 30 s-cycle average while dosing
+HEAT = {"B1 mains box": (1.0, 1.7), "B2 controller": (0.67, 1.02), "trickler motors (cycle avg)": (1.69, 1.69),
+        "display (front panel)": (1.12, 2.0), "B4 module": (0.32, 0.32), "cell (coil+heater+LED)": (0.043, 0.043)}
+UA_ENC, TAU_ENC = 0.8, 90.0   # W/K enclosure to garage, min [ASSUMED until the packaging study]
 
 # --- check mass and calibration masses [MECH §8, D-030, OIML R111]
 W_CM = 200.0               # g internal check mass
@@ -559,7 +565,7 @@ def main() -> None:
     nl_rms = float(np.sqrt(np.mean(nl_drift_fs[("smooth", 3.0)] ** 2))) / (W_FS * 1e3)
     nl_rms_w = float(np.sqrt(np.mean(nl_drift_fs[("rough", 12.0)] ** 2))) / (W_FS * 1e3)
 
-    def op_budget(trigger_K, ramp, tau_key, vib_key, nl):
+    def op_budget(trigger_K, ramp, tau_key, vib_key, nl, p0=P0["Recoma 28"]):
         terms = {
             "check-mass value (external E2 500 g transfer), systematic": u_cm,
             "one adjust, random (200 g, 10 readings, temperature noise)": sig_adj[vib_key],
@@ -568,8 +574,10 @@ def main() -> None:
             "nonlinearity drift extrapolated 200 g -> 520 g": nl,
             f"aging between adjusts ({ADJ_TIME_H:.0f} h trigger, after {BURN_IN_H:.0f} h burn-in)": t_age,
             "magnetic hysteresis after FS / pan-absent excursions": MAG_HYST,
-            "coil-power regulation error not seen by the sensor": p_term,
+            "coil-power regulation error not seen by the sensor": a28 * P_ERR * p0 * R_POT * P_UNCOMP,
             "shunt PCR not settled at the read time": PCR_FS * PCR_UNSETTLED,
+            "B4 load-dependent heat (46 mW, option C) after B4 TMP117 compensation":
+                NONTRACK * (ADC_GAIN_TC[0] + REF_TC[0] + SHUNT_TC[0]) * B4_LOAD_HEAT * R_B4,
         }
         return terms, rss(*terms.values())
 
@@ -587,7 +595,9 @@ def main() -> None:
                 ("rough max INL drifting", (0.5, "design", "two-sided, bonded faces [EB]", "x1 (SM quiet slab)", nl_rms_w)),
                 ("trigger 0.25 K", (0.25, "design", "two-sided, bonded faces [EB]", "x1 (SM quiet slab)", nl_rms)),
                 ("trigger 1.0 K", (1.0, "design", "two-sided, bonded faces [EB]", "x1 (SM quiet slab)", nl_rms)),
-                ("trigger 2.0 K", (2.0, "design", "two-sided, bonded faces [EB]", "x1 (SM quiet slab)", nl_rms))]
+                ("trigger 2.0 K", (2.0, "design", "two-sided, bonded faces [EB]", "x1 (SM quiet slab)", nl_rms)),
+                ("P0 30 mW (rig magnet 30 x 10 + realistic coil fill, F-01)",
+                 (0.5, "design", "two-sided, bonded faces [EB]", "x1 (SM quiet slab)", nl_rms, 30e-3))]
     OPS = {}
     for lab, args in variants:
         _, tot = op_budget(*args)
@@ -626,15 +636,27 @@ def main() -> None:
       f"{P0['Recoma 28'] * 1e3:.0f} mW warms it {dT_coil * 1e3:.0f} mK "
       f"({dT_coil * a28 * 1e6:.0f} ppm before compensation); left after 60 min: "
       f"{dT_coil * math.exp(-3600 / tau_pot) * 1e3:.1f} mK, tracked by the sensor")
-    for P_int, UA, tau_enc in ((2.0, 0.8, 90.0), (4.0, 0.8, 90.0), (8.0, 1.0, 120.0)):
-        rise = P_int / UA
-        ramp60 = rise / (tau_enc / 60) * math.exp(-60 / tau_enc)
-        w(f"   enclosure: {P_int:.0f} W internal, UA {UA:.1f} W/K, tau {tau_enc:.0f} min [ASSUMED, power budget pending] -> "
-          f"rise {rise:.1f} K, ramp at 60 min {ramp60:.2f} K/h, "
-          f"{'inside' if ramp60 <= RAMP['design'] else 'OUTSIDE'} the 2 K/h design ramp")
+    tot_lo = sum(v[0] for v in HEAT.values())
+    tot_hi = sum(v[1] for v in HEAT.values())
+    w("   internal heat while dosing (Config E, option C) [PB]: " + ", ".join(f"{k} {v[0]:.2f}" + (f"-{v[1]:.2f}" if v[1] != v[0] else "")
+                                                                 for k, v in HEAT.items()) + f" W -> {tot_lo:.1f}-{tot_hi:.1f} W")
+
+    def ramp60(P):
+        return P / UA_ENC / (TAU_ENC / 60) * math.exp(-60 / TAU_ENC)
+
+    p_max = RAMP['design'] * UA_ENC * (TAU_ENC / 60) * math.exp(60 / TAU_ENC)
+    sep = HEAT["B4 module"][0] + HEAT["cell (coil+heater+LED)"][0] + 0.3 * (tot_lo - HEAT["B4 module"][0]
+                                                                          - HEAT["cell (coil+heater+LED)"][0])
+    for lab, P in (("all internal heat in one volume (typ)", tot_lo), ("all in one volume (high)", tot_hi),
+                   ("cell compartment separated: B4 + cell + 30 % of the rest", sep)):
+        r60 = ramp60(P)
+        w(f"   {lab:<58} {P:4.1f} W -> rise {P / UA_ENC:4.1f} K, ramp at 60 min {r60:.2f} K/h, "
+          f"{'inside' if r60 <= RAMP['design'] else 'OUTSIDE'} the 2 K/h design ramp")
+    w(f"   (UA {UA_ENC} W/K and tau {TAU_ENC:.0f} min ASSUMED until the packaging study.)  The cell compartment may receive at most "
+      f"{p_max:.1f} W for <= 2 K/h at 60 min.")
     w("   -> Dosing is usable after ~10-20 min (B4 electronics settle; zero is re-tared each throw).  Full-range spec at")
-    w("      60 min holds only if the cell compartment sees <= 2 K/h by then: keep the mains, controller and motor heat")
-    w("      out of the cell compartment (power budget heat map), and run auto-adjust through warm-up.")
+    w("      60 min holds only if the cell compartment sees <= 2 K/h by then: separate it from the mains, controller,")
+    w("      motor and display heat (packaging study), and run auto-adjust through warm-up.")
     w("")
 
     # ------------------------------------------------------------------ 11. dosing

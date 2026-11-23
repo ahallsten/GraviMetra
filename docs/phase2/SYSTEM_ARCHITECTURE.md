@@ -57,6 +57,14 @@ Alternative kept open: merge B3 into B2 by mounting B2 directly behind the displ
 
 ## 3. Power tree (topology only; numbers come in the OI-09 power budget)
 
+> **Update 2026-11-22 (power budget, D-076/D-077):**
+> - B4 is fed from a 6.0 V buck on B2 (option C), not from 12 V LDOs.
+> - The check-mass TMC2209 moves to B2, as decoder code 3.
+> - The shield may have no 3.3 V regulator of its own (OI-21), so B3 provides one.
+> - A mains loss needs PWR_FAIL plus hold-up for the coil soft-off (OI-40).
+>
+> See `POWER_BUDGET.md`.
+
 ```
 IRM-30-12 ── 12 V ──┬─ eFuse (EN = SAFE_CHAIN_OK) ── VM to 3× TMC2209      [motors can't run without SAFE]
                     └─ (Config E) eFuse ── B4: LDOs → precision rails, coil-driver supply

@@ -189,3 +189,35 @@ Format: ID · date · decision · status · alternatives considered · evidence.
   - Cell compartment ramp ≤ 2 K/h after 60 min, and no heat sources inside the draft shield.
 
   · **PROPOSED (Gate B)** · evidence: §3, §5, §6, §9, §10.
+- **D-075** 2026-11-22 · Gate B sourcing results (`docs/phase2/research/GATE_B_SOURCING.md`).
+  - **MCU:** keep the STM32G491VET6 and reserve 4 at JLC now (17 in stock there; 0 at Digi-Key with a 52-week lead time). Fallback G474VET6 after a CubeMX pin re-map.
+  - **TMC2209-LA-T** (C2150710, ~24k at JLC) closes OI-06.
+  - **LTC6655BHMS8-2.5:** buy at Digi-Key and consign to JLC (0 at JLC).
+  - **Shunt: VPG Z201 150 Ω ±0.01 %** (Y1453150R000T9L), through-hole; FRSM1206 as the SMD alternative; VSMP/VFCP are end-of-life. D-064's "TCR ≤ 0.2 ppm/K" is read as typical (worst case ±0.6 ppm/K), which the B4 heat test and auto-adjust cover (D-072).
+  - **Pot steel:** SendCutSend A36/A1018 HRP&O, the only low-carbon grade cut at 3/16 and 1/4 in. The ASSUMED B-H curve is conservative, and Km is only ~0.25 % sensitive to it.
+  - **Rig magnet:** First4Magnets Ø30 × 10 mm, the only stocked large SmCo disc (sweep Km 3.98 vs 4.42), pending the seller's written grade. Production Ø31.75 × 12.7 by RFQ (OI-27/29).
+  - **OPR2100** stays the detector: Active, Digi-Key 770. Its fine split is a gap between separate chips, so the drift test is on the rig.
+
+  Why: these are the parts in stock today. The two magnet sizes we specified aren't stocked anywhere we checked · **PROPOSED (Gate B)**; the MCU reservation is a user action.
+- **D-076** 2026-11-22 · Power budget (`docs/phase2/POWER_BUDGET.md`, closes OI-09).
+  - **PWR-04 met:** IRM-30-12 has a 45 % margin (1.34 A worst against 2.50 A), IRM-20-5 86 % (0.51 A against 3.81 A derated). This is at 45 °C module ambient and 108 VAC. The local IRM datasheets are identical to meanwell.com's current revisions.
+  - **Fuses:** 5×20 mm time-lag ceramic, 1500 A breaking: inlet T2.5A, IRM-30-12 T1.25A, IRM-20-5 T1A. Glass fuses (35 A breaking) are rejected for a US branch circuit.
+  - **eFuses (TPS25947):**
+    - motor branch: R_ILM 2.49 kΩ (1.34 A), latch-off, FLT to the SAFE latch reset;
+    - B4 branch: R_ILM 6.65 kΩ, its own undervoltage enable.
+  - **B4 supply option C:** a 6.0 V buck on B2 feeds B4, replacing the drawn 12 V LDO feed. Heat beside the cell falls from 0.76 to 0.32 W, and its load-dependent part from 91 to 46 mW.
+  - **Check-mass TMC2209 moves to B2,** on the SAFE motor eFuse, as decoder code 3. This amends D-041, where code 3 selected no driver. Check-mass motion becomes hardware-exclusive with dosing.
+  - **Power-domain rules:**
+    - the display is fed ahead of the USB mux, so it is dark in USB-only mode;
+    - the shield gets its own 3.3 V regulator, never the MCU rail;
+    - no buzzer before USB enumeration;
+    - the B4 interface is power-off protected.
+  - **Trickler run current:** start at 0.5 A rms (2.2 W while running) and set the lowest reliable value on the rig.
+  - **USB-only service mode** draws 53 mA typical, 113 mA max.
+
+  Why: these are measured margins on the modules the user already owns, and the changes take heat and chopper current away from the cell · **PROPOSED (Gate B)** · evidence: `analysis/power_budget.out.txt` (62 checks pass).
+- **D-077** 2026-11-22 · **Gap found in D-070: mains loss.** After a mains dropout the IRM-30-12 holds 12 V for only 0.29–0.39 s, but the coil soft-off needs ~1.5 s, so a mains loss is currently a hard coil cut (8.5 kg-equivalent on a stiff stop). Two options:
+  - (a) a PWR_FAIL comparator on B2 starts the soft-off in hardware and sheds the LED, ADS1263 and TIAs, with a 6.8 mF / 16 V hold-up capacitor on the B4 branch;
+  - (b) elastomer stops ≤ 2 kN/m at the coil radius, so a hard cut is survivable.
+
+  Recommendation: (a), keeping the stops as soft as the layout allows. Why: the parts cost a few dollars, and it protects the flexures in the one case the safety chain doesn't control · **UNRESOLVED, user decision at Gate B (OI-40)**.
