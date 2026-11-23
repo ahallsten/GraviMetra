@@ -25,6 +25,12 @@ Rev 0 · 2026-11-22
 
 ## 1. Bottom line (all PROPOSED for Gate B)
 
+> **Update 2026-11-22 (error budget, D-072/D-073):**
+> - The linearity adjustment becomes **9 points** (D-030 masses), not "≥ 3". It holds MET-04 even for a rough INL at the datasheet max.
+> - The settling window becomes **load-adaptive**: 0.33 s below ~100 g, up to 0.9 s above. The 500 g SD then tolerates 11× the assumed floor.
+>
+> See `ERROR_BUDGET.md`.
+
 - **Digital position loop in the STM32G491 at 10 kHz.** PID + lead + low-pass, with a notch slot.
   - 25 Hz crossover, 46° phase margin, 15 dB gain margin. The non-collocated coil-bracket mode sits 44 dB down.
   - Built analog, the same law gains only 1.3° of phase. The digital loop wins on everything that matters for a rig-first DIY build: retune, notch, acquisition, anti-windup, host tests.

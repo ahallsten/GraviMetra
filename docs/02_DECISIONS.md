@@ -152,3 +152,40 @@ Format: ID · date · decision · status · alternatives considered · evidence.
   - **Coil hand-wound 4 × AWG 37 in hand on a printed winding jig: CONFIRMED.** The jig is tooling, not part of the cell, so D-004 doesn't apply to it. It is designed in Phase 2 (`mech/coil_winder/`); winding and coil tests run on the Phase 3 rig (OI-35). Why: four wires wound together guarantee equal turns in all four windings, which the non-inductive heater needs, and a jig with a turn counter makes the 292-turn count exact.
 
   · **CONFIRMED** · user 2026-11-22.
+- **D-071** 2026-11-22 · Error/noise budget result (`docs/phase2/ERROR_BUDGET.md`).
+  - Config E meets the AD520-class numbers on paper in the assumed environment, under the conditions in its §10.
+  - **OI-02 closed by analysis for the operating spec, with the standard Sm2Co17 magnet:** span error at 520 g in use is 0.93 mg (k = 2) with auto-adjust at ΔT ≥ 0.5 K. The TC magnet stays the fallback.
+  - MET-06 as written (static, no recalibration) holds only after the in-situ model has ≥ 10 K of history, a B4 heat test and the coil set ±20 µm from the Kf maximum (1.3 ppm/K, k = 2). Wording question for Gate B (OI-38).
+  - **r = 15 stays** and the light hinge set becomes the baseline (pivots 0.04 × 8 mm, guide 0.075 mm, truss lever): MET-08 0.46 mg (k = 2), vs 0.70 mg at r = 20 with baseline hinges. Why: it gets more zero stability than r = 20 without a longer cell, a heavier counterweight or lower lever modes.
+  - Dosing 3σ of a 10 g charge: 0.93 mg (0.014 gr), set by null drift and static, not by span.
+
+  · **PROPOSED (Gate B)** · evidence: `analysis/error_budget.out.txt` §4–13.
+- **D-072** 2026-11-22 · Calibration and auto-adjust scheme.
+  - **9-point linearity adjustment** (0, 70, 120, 170, 250, 320, 370, 500, 520 g, D-030 masses only, degree-5 fit) as the commissioning baseline. It holds MET-04 to ≤ 0.87 mg (p95) even for a rough INL at the datasheet maximum; 3 points suffice only for a typical, smooth INL. Supersedes D-064's "≥ 3-point".
+  - **Auto-adjust (MET-07) enabled as an explicit policy.** Triggers:
+    - precision profile: ΔT_magnet ≥ 0.5 K;
+    - dosing profile: ≥ 2 K;
+    - ΔT_B4 ≥ 1 K;
+    - 4 h elapsed;
+    - after an overload or pan-absent event;
+    - at power-up after warm-up.
+
+    Learning uses only adjusts made while |dT/dt| < 0.5 K/h. Bounds and an audit log as `CALIBRATION.md` requires.
+  - In-situ span model S0·(1 + α1ΔT + α2ΔT²) + α_e·ΔT_B4. α_e comes from a B4-only heat test at commissioning.
+  - B4 burn-in ≥ 100 h before commissioning.
+
+  Why: one check-mass adjust is 0.15 ppm, not 1.7 ppm, so in-situ learning reaches α to 0.02 %. What doesn't track the sensor is the error, not the coefficient. Conflicts with `CALIBRATION.md`'s "verification by default", so this needs the user at Gate B (OI-37) · **PROPOSED (Gate B)** · evidence: §6–8.
+- **D-073** 2026-11-22 · Sensing and readout from the budget.
+  - Magnet temperature: TMP117 bonded to the pot base directly under the magnet, or on the magnet face through a Ø3–4 mm laser-cut hole. Continuous conversion, 8× averaging, 8 Hz, then a 120 s ramp-fit estimator with lag compensation: 0.25 mK. An NTC on ADS1263 ADC2 is the upgrade path.
+  - Readout: load-adaptive settling window, 0.33 s below ~100 g and up to 0.9 s above (~2.7 s settling at 500 g, MET-05 allows 3 s). The 500 g SD then tolerates 11× the assumed floor instead of 5.7×. Refines D-068.
+
+  · **PROPOSED (Gate B)** · evidence: §2–4.
+- **D-074** 2026-11-22 · Requirements on the mechanics from the budget (Phase 4 inputs, rig checks).
+  - Optical-null drift ≤ 100 nm per 60 s and a null-to-vane thermal path ≤ 0.5 µm/K.
+  - Coil on the Kf maximum within ±20 µm, found by spans measured at ±0.3 mm offsets.
+  - Reference the optical sensor to the pot, or match the sensor post's expansion to the pot's.
+  - The y corner adjuster is set even for dosing: unadjusted it gives 125 mg at 10 g.
+  - The fine corner adjust is needed for MET-03 at 500 g, not only for MET-09.
+  - Cell compartment ramp ≤ 2 K/h after 60 min, and no heat sources inside the draft shield.
+
+  · **PROPOSED (Gate B)** · evidence: §3, §5, §6, §9, §10.

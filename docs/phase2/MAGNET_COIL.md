@@ -8,6 +8,14 @@ Rev 1 · 2026-11-22 (§13 added: alternatives the user asked about)
 
 ## 1. Bottom line
 
+> **Update 2026-11-22 (error budget, D-071):**
+> - OI-02 is closed by analysis for the operating spec with Recoma 28: span error 0.93 mg at 520 g (k = 2) with auto-adjust.
+> - §13's α to 0.14 % becomes 0.02 %, because one adjust is 0.15 ppm, not 1.7 ppm.
+> - §7's 19 s lag is the one-sided bound; two-sided it is ~9 s.
+> - The coil must sit within ±20 µm of the Kf maximum.
+>
+> See `ERROR_BUDGET.md`.
+
 - **Km is not the constraint.** A fixed SmCo pot with a moving coil gives Km 4.4 N/√W (Recoma 28, nominal Br) and 3.2 N/√W (temperature-compensated EEC TC16 at minimum Br), against the 1.6 N/√W needed. The pot uses an Ø31.75 × 12.7 mm (1¼ × ½ in) disc, 56 mm OD.
   - Full-scale coil power is **6 mW** (12 mW with the TC grade), against 45 mW assumed in the mechanics study.
   - r = 15 stands, and **OI-24 is closed (PROPOSED)**.

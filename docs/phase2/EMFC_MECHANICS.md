@@ -6,6 +6,14 @@ No textbook index is in the repo, so **every method here is an outside method** 
 
 ## 1. Bottom line
 
+> **Update 2026-11-22 (error budget, D-071..D-074):**
+> - r = 15 stays, and the light hinge set (§2b) becomes the baseline for MET-08 margin.
+> - §8's 1.7 ppm per check-mass adjust used σ = 1 mg (the MET-03 limit). The loop predicts 0.15 ppm.
+> - §3's dosing eccentric case covered x only. **y must be adjusted for dosing too**: 125 mg at 10 g unadjusted.
+> - The fine corner adjust is also needed for MET-03 at 500 g.
+>
+> See `ERROR_BUDGET.md`.
+
 > **Update 2026-11-22 (D-057):** the magnet/coil study (`MAGNET_COIL.md`) reaches Km 4.4 N/√W (3.2 with a temperature-compensated grade), so the r = 15 condition (Km ≥ 1.6) is met with margin and full-scale coil power is ~6 mW, not 45 mW. Coil + bobbin is 13.8 g (15 g assumed here).
 
 1. **A DIY flat-part EMFC cell can reach AD520 class, but not with SendCutSend flexures.**

@@ -1,0 +1,203 @@
+EMFC error and noise budget (Config E).  Tags [MECH]/[MC]/[SM]/[DS]/[REQ]/[ASSUMED]/[EB].
+k = 1 standard uncertainties, combined RSS; limits compared at k = 2 unless stated.
+
+1. Operating point and conversions
+   force winding Kf 33.31 N/A; 1 mg on the pan = 19.63 nA = 2.944 uV on 150 ohm; 1 ppm of ADC FSR = 1.698 mg
+   ADC1 input (normalised to VREF): empty pan 0.0122, 520 g 0.6246 (1.561 V); 1 ppm of FS = 0.52 mg
+
+2. Noise per reading (SM loop + noise model; sinc^k readout after the ADS at 1200 SPS)
+   profile                     vibration                  0 g      10 g     100 g     200 g     500 g   settle 10 g / 500 g
+   dispensing sinc^2 x 0.10 s  x1 (SM quiet slab)       0.202     0.242     0.856     1.604     3.869   0.59 s (SM)
+   dispensing sinc^2 x 0.10 s  x3                       0.301     0.499     2.515     4.783    11.595   0.59 s (SM)
+   dispensing sinc^2 x 0.10 s  x10 (SM bad case)        0.809     1.556     8.361    15.931    38.644   0.59 s (SM)
+   settling sinc^3 x 0.33 s    x1 (SM quiet slab)       0.031     0.032     0.048     0.077     0.172   1.15 / 1.35 s
+   settling sinc^3 x 0.33 s    x3                       0.033     0.037     0.114     0.212     0.510   1.15 / 1.35 s
+   settling sinc^3 x 0.33 s    x10 (SM bad case)        0.047     0.075     0.368     0.700     1.695   1.15 / 1.35 s
+   high-load sinc^3 x 0.66 s   x1 (SM quiet slab)       0.022     0.023     0.031     0.047     0.104   1.96 / 2.16 s
+   high-load sinc^3 x 0.66 s   x3                       0.023     0.025     0.069     0.127     0.304   1.96 / 2.16 s
+   high-load sinc^3 x 0.66 s   x10 (SM bad case)        0.030     0.046     0.220     0.417     1.010   1.96 / 2.16 s
+   high-load sinc^3 x 0.90 s   x1 (SM quiet slab)       0.019     0.019     0.027     0.040     0.088   2.54 / 2.74 s
+   high-load sinc^3 x 0.90 s   x3                       0.020     0.022     0.059     0.108     0.259   2.54 / 2.74 s
+   high-load sinc^3 x 0.90 s   x10 (SM bad case)        0.026     0.039     0.188     0.356     0.863   2.54 / 2.74 s
+   (mg SD).  MET-05: settling profile 1.14 s at 10 g (goal 1.5 s); a 0.90 s window settles a 500 g step in
+   ~2.7 s (requirement 3 s), so a load-adaptive window is allowed at high load.
+   zero change over 60 s from noise alone (settling profile, empty pan): 0.044 mg SD
+
+3. Magnet temperature estimate (feeds every span-temperature term)
+   TMP117, continuous, AVG 8 (8 results/s, 3.9 mK each), 120 s ramp-fit estimator (value at the window end, no ramp lag): 0.25 mK -> 0.08 ppm (0.044 mg at 520 g)
+   10k NTC on ADS1263 ADC2 (shared, 2.5 SPS effective), same estimator: 0.031 mK -> 0.010 ppm.  TMP117 noise ~2 LSB p-p dithers its 7.8 mK quantisation; the NTC is the
+   upgrade path if the rig shows quantisation steps.  Both are self-heated by a constant amount (tracked offset).
+   Lag of the magnet volume behind a sensor on the pot steel, ramp r (K/h) -> span error |alpha| r tau:
+   tau                                    r   uncompensated    compensated (x0.3)
+   two-sided, bonded faces [EB] 9.0 s   1.0         0.84 ppm               0.25 ppm
+   two-sided, bonded faces [EB] 9.0 s   2.0         1.68 ppm               0.50 ppm
+   two-sided, bonded faces [EB] 9.0 s   5.0         4.20 ppm               1.26 ppm
+   one-sided, sensor on base [MC] 19.0 s   1.0         1.77 ppm               0.53 ppm
+   one-sided, sensor on base [MC] 19.0 s   2.0         3.55 ppm               1.06 ppm
+   one-sided, sensor on base [MC] 19.0 s   5.0         8.87 ppm               2.66 ppm
+   Two-sided: in an ambient ramp the steel pot is ~isothermal and heats the magnet through both bonded
+   faces (volume lag L^2/12a = 4 s plus ~0.32 K/W bond lines x 29 J/K / 2 = 5 s).  Keep the sensor on the pot
+   base directly under the magnet (or on the magnet face through a laser-cut hole in the base).
+
+4. MET-03 repeatability (SD of 10 loadings; zero re-checked between loadings [ASSUMED test practice])
+   eccentric sensitivity after the fine corner adjust (MET-09 level): x 0.229, y 0.228 ppm/mm; after the coarse (dosing) adjust: x 5.95, y 5.56 ppm/mm
+   placement scatter 1.5 mm per axis [ASSUMED]
+   load / corners / vibration / profile                          noise  place   temp  draft   total  vs 1 mg
+   10 g / fine / x1 (SM quiet slab) / settling sinc^3 x 0.3      0.045  0.005  0.001  0.050   0.067  OK
+   500 g / fine / x1 (SM quiet slab) / settling sinc^3 x 0.3     0.175  0.242  0.042  0.050   0.306  OK
+   500 g / fine / x1 (SM quiet slab) / high-load sinc^3 x 0.     0.090  0.242  0.042  0.050   0.267  OK
+   500 g / fine / x3 / settling sinc^3 x 0.3                     0.511  0.242  0.042  0.050   0.569  OK
+   500 g / fine / x3 / high-load sinc^3 x 0.                     0.260  0.242  0.042  0.050   0.361  OK
+   500 g / fine / x10 (SM bad case) / settling sinc^3 x 0.3      1.696  0.242  0.042  0.050   1.715  FAIL
+   500 g / fine / x10 (SM bad case) / high-load sinc^3 x 0.      0.863  0.242  0.042  0.050   0.899  OK
+   500 g / coarse / x1 (SM quiet slab) / settling sinc^3 x 0.3   0.175  6.107  0.042  0.050   6.109  FAIL
+   floor vibration at which the 500 g SD reaches 1 mg (settling sinc^3 x 0.33 s): 5.7 x the SM spectrum
+   floor vibration at which the 500 g SD reaches 1 mg (high-load sinc^3 x 0.66 s): 9.6 x the SM spectrum
+   floor vibration at which the 500 g SD reaches 1 mg (high-load sinc^3 x 0.90 s): 11.2 x the SM spectrum
+   -> 10 g: large margin.  500 g: needs the FINE corner adjust (placement scatter alone is 6.1 mg with the dosing-level adjust)
+      and a floor within 5.7x of the SM spectrum, or 11.2x with a 0.9 s window above ~100 g (load-adaptive, MET-05 allows 3 s).
+
+5. MET-08 zero stability over a 60 s dosing cycle (stable temperature = |dT/dt| <= 0.5 K/h at the cell)
+   air buoyancy of the unbalanced lever volumes: net volume moment 1083 cm^3 mm -> 1.30 mg per 1 % air density, 0.44 mg/K [ASSUMED densities]; tared every throw
+   baseline hinges (pivots 0.05 x 10, guide 0.10)             null 0.420, noise 0.044, thermal 0.021 (zero tempco 2.54 mg/K), dosing drafts 0.10, tare 0.031
+                                                              total 0.436 mg (k=1), 0.87 mg (k=2) vs 1 mg OK
+   light hinges (pivots 0.04 x 8, guide 0.075, truss lever)   null 0.200, noise 0.044, thermal 0.012 (zero tempco 1.44 mg/K), dosing drafts 0.10, tare 0.031
+                                                              total 0.230 mg (k=1), 0.46 mg (k=2) vs 1 mg OK
+   -> the optical-null drift dominates.  Requirement on the sensor: <= 100 nm per 60 s (rig, OI-31) and <= 0.5 um/K thermal path.
+
+6. MET-04 linearity after the N-point linearity adjustment (Monte Carlo, 4000 draws per case)
+   ADC INL = A x random sine series on [-FSR, +FSR] (endpoint-zero), normalised to peak A; 'smooth' sigma_k ~ 1/k^2, 'rough' ~ 1/k, k = 1..8.
+   Plus theta0 (0.36 mg) and lever (0.08 mg) tension-stiffening shapes, reluctance (76 mg quadratic), Kf(x) and PCR quadratics; masses per D-030 (E2 certified, F1 nominal); 5 repeats per point.
+   what drives the typical case (smooth INL, A = 3 ppm FSR, 3-point), p95 of max |error| (mg):
+     INL only                            0.95
+     mechanics + magnetics only          0.01
+     calibration-mass errors only        0.27
+     repeatability noise only            0.28
+     all together                        0.99
+   INL family A ppm FSR  adjustment                                median     p95  max |error| over 0..520 g (mg)
+   smooth             3  3-point (0, 250, 520 g)                     0.33    0.97
+   smooth             3  5-point (0, 120, 250, 370, 520 g)           0.23    0.50
+   smooth             3  9-point (0..520 g, D-030 combinations)      0.24    0.47
+   smooth            12  3-point (0, 250, 520 g)                     1.04    4.01
+   smooth            12  5-point (0, 120, 250, 370, 520 g)           0.43    1.72
+   smooth            12  9-point (0..520 g, D-030 combinations)      0.25    0.49
+   rough              3  3-point (0, 250, 520 g)                     0.94    2.40
+   rough              3  5-point (0, 120, 250, 370, 520 g)           0.45    1.29
+   rough              3  9-point (0..520 g, D-030 combinations)      0.25    0.48
+   rough             12  3-point (0, 250, 520 g)                     3.79    9.76
+   rough             12  5-point (0, 120, 250, 370, 520 g)           1.70    5.10
+   rough             12  9-point (0..520 g, D-030 combinations)      0.34    0.67
+   + ascending/descending hysteresis 0.2 mg [ASSUMED] added linearly; smallest set meeting +/-2 mg at p95:
+     smooth  INL, A =    3 ppm FSR: 1.17, 0.70, 0.67 mg (3/5/9-point) -> 3-point (0, 250, 520 g)
+     smooth  INL, A =   12 ppm FSR: 4.21, 1.92, 0.69 mg (3/5/9-point) -> 5-point (0, 120, 250, 370, 520 g)
+     rough   INL, A =    3 ppm FSR: 2.60, 1.49, 0.68 mg (3/5/9-point) -> 5-point (0, 120, 250, 370, 520 g)
+     rough   INL, A =   12 ppm FSR: 9.96, 5.30, 0.87 mg (3/5/9-point) -> 9-point (0..520 g, D-030 combinations)
+   -> Typical INL: 3 points.  Datasheet-max INL: 5 points if smooth, 9 points if rough.  The 9-point set uses
+      only the D-030 masses, so make it the commissioning baseline and keep the M3 PWM-DAC fallback for an INL
+      that even 9 points cannot follow.  OI-34 measures the shape first.
+
+7. Span-temperature model learned in situ (D-062) and MET-06 (static, after compensation, no recalibration)
+   one auto-adjust, vibration x1 (SM quiet slab)  : SD at 200 g 0.077 mg, /sqrt(10) -> 0.12 ppm; with temperature noise 0.15 ppm
+   one auto-adjust, vibration x3                  : SD at 200 g 0.212 mg, /sqrt(10) -> 0.34 ppm; with temperature noise 0.35 ppm
+   one auto-adjust, vibration x10 (SM bad case)   : SD at 200 g 0.700 mg, /sqrt(10) -> 1.11 ppm; with temperature noise 1.11 ppm
+   (EMFC_MECHANICS §8 used the MET-03 limit, 1 mg, giving 1.7 ppm; the predicted SD is 5-10x smaller.)
+   alpha from two adjusts    2 K apart (learning only when |dT/dt| < 0.5 K/h): u = 0.164 ppm/K (0.049 % of alpha); x10 vibration 0.794 ppm/K
+   alpha from two adjusts    5 K apart (learning only when |dT/dt| < 0.5 K/h): u = 0.065 ppm/K (0.019 % of alpha); x10 vibration 0.318 ppm/K
+   alpha from two adjusts   10 K apart (learning only when |dT/dt| < 0.5 K/h): u = 0.033 ppm/K (0.010 % of alpha); x10 vibration 0.159 ppm/K
+   span tempco paths besides the magnet (all learned with alpha while they track the magnet sensor):
+     electronics alpha_e typ 1.55 / max 6.20 ppm/K; coil axial position +/-50 um (MC) 3.95, +/-20 um (EB) 1.58 ppm/K; optical null via theta0 0.40 ppm/K
+   residual coefficient = what does NOT track (fraction 20% [ASSUMED]) + learning error + curvature:
+     as designed now (linear model, alpha_e typ, coil +/-50 um) learn 0.07, curvature 2.50, electronics 0.31, mech 0.79, sensor hyst 0.26 -> 2.65 ppm/K (k=1), 5.31 (k=2) FAIL
+     after >= 10 K of history (quadratic model)                 learn 0.07, curvature 0.50, electronics 0.31, mech 0.79, sensor hyst 0.26 -> 1.02 ppm/K (k=1), 2.05 (k=2) FAIL
+     + B4 heat test + coil set +/-20 um                         learn 0.07, curvature 0.50, electronics 0.10, mech 0.33, sensor hyst 0.26 -> 0.66 ppm/K (k=1), 1.33 (k=2) OK
+     worst electronics (alpha_e max), quadratic model           learn 0.07, curvature 0.50, electronics 1.24, mech 0.79, sensor hyst 0.26 -> 1.58 ppm/K (k=1), 3.16 (k=2) FAIL
+   TC16 magnet, linear model only: curvature 0.75 ppm/K [ASSUMED] -> 1.13 ppm/K (k=1)
+   -> With Recoma 28, MET-06 (static) needs the quadratic term, i.e. >= 10 K of adjust history; until then the
+      linear-model curvature error (2.5 ppm/K on a 20-30 C test) fails it and MET-07 carries
+      the accuracy.  Commissioning can force the history with a deliberate +10 K enclosure soak.
+
+8. Span error at 520 g in use, with auto-adjust (MET-07) - the number that matters for full-range accuracy
+   check-mass value (external E2 500 g transfer), systematic                        0.32 ppm
+   one adjust, random (200 g, 10 readings, temperature noise)                       0.15 ppm
+   drift since the last adjust (<= 0.5 K x residual coefficient, uniform)           0.20 ppm
+   magnet lag after a ramp change (compensated)                                     0.50 ppm
+   nonlinearity drift extrapolated 200 g -> 520 g                                   0.35 ppm
+   aging between adjusts (4 h trigger, after 100 h burn-in)                         0.13 ppm
+   magnetic hysteresis after FS / pan-absent excursions                             0.30 ppm
+   coil-power regulation error not seen by the sensor                               0.29 ppm
+   shunt PCR not settled at the read time                                           0.26 ppm
+   total (k=1)                                                                      0.89 ppm = 0.46 mg at 520 g; k=2 0.93 mg vs +/-2 mg OK
+   sensitivity (k=2 at 520 g, mg):
+     baseline (0.5 K trigger, 2 K/h, two-sided lag, x1 vib, smooth typ INL)    0.93
+     one-sided lag (19 s)                                                      1.35
+     bad ramp 5 K/h                                                            1.52
+     x10 floor vibration                                                       1.47
+     rough max INL drifting                                                    1.56
+     trigger 0.25 K                                                            0.91
+     trigger 1.0 K                                                             0.99
+     trigger 2.0 K                                                             1.22
+   auto-adjust load on dosing throughput (45 s each):
+     ramp nominal  1.0 K/h, trigger 0.5 K:  2.0 adjusts/h ->  2.5 % of the time
+     ramp nominal  1.0 K/h, trigger 2.0 K:  0.5 adjusts/h ->  0.6 % of the time
+     ramp design   2.0 K/h, trigger 0.5 K:  4.0 adjusts/h ->  5.0 % of the time
+     ramp design   2.0 K/h, trigger 2.0 K:  1.0 adjusts/h ->  1.2 % of the time
+     ramp bad      5.0 K/h, trigger 0.5 K: 10.0 adjusts/h -> 12.5 % of the time
+     ramp bad      5.0 K/h, trigger 2.0 K:  2.5 adjusts/h ->  3.1 % of the time
+   -> Full-range accuracy at 520 g is ~1 mg (k=2) with the 0.5 K trigger.  Dosing loads (<= 10 g) see 1/50 of
+      every span term, so the dosing profile can use a 2 K trigger and lose < 2 % throughput.
+
+9. MET-09 eccentric load and placement (mechanics allocation 1.0 mg of the 2 mg limit) [MECH §3]
+   fine adjust (dh 0.96 um, dy 0.41 um): 1.00 mg (x) and 1.00 mg (y) at 175 g, e = 25 mm; adjuster lock-in stability is the open risk (OI-25)
+   dosing (10 g, centroid within 5 mm): coarse adjust x 0.30 mg, y 0.28 mg;  y UNADJUSTED (4.5 mm roll-centre offset): 125 mg
+   -> EMFC_MECHANICS gave the dosing case for x only.  The y adjuster must be set (<= ~10 um) for dosing too,
+      and the fine adjust is needed for MET-03 at 500 g (§4), not only for MET-09.
+
+10. MET-10 warm-up (<= 60 min to full spec)
+   pot + magnet: C 159 J/K x 8 K/W -> tau 21.2 min; constant coil power 18 mW warms it 144 mK (48 ppm before compensation); left after 60 min: 8.5 mK, tracked by the sensor
+   enclosure: 2 W internal, UA 0.8 W/K, tau 90 min [ASSUMED, power budget pending] -> rise 2.5 K, ramp at 60 min 0.86 K/h, inside the 2 K/h design ramp
+   enclosure: 4 W internal, UA 0.8 W/K, tau 90 min [ASSUMED, power budget pending] -> rise 5.0 K, ramp at 60 min 1.71 K/h, inside the 2 K/h design ramp
+   enclosure: 8 W internal, UA 1.0 W/K, tau 120 min [ASSUMED, power budget pending] -> rise 8.0 K, ramp at 60 min 2.43 K/h, OUTSIDE the 2 K/h design ramp
+   -> Dosing is usable after ~10-20 min (B4 electronics settle; zero is re-tared each throw).  Full-range spec at
+      60 min holds only if the cell compartment sees <= 2 K/h by then: keep the mains, controller and motor heat
+      out of the cell compartment (power budget heat map), and run auto-adjust through warm-up.
+
+11. Dosing accuracy (DSP-04): one charge, re-tared, read in the settling profile after the motor stops
+   baseline 10.000 g: zero 0.44, noise 0.032, linearity 0.063, eccentric 0.163, ESD 0.10 [ASSUMED], span 0.027 -> 3 sigma 1.44 mg = 0.0223 gr (DSP-04 assumed 3 mg)
+   baseline  0.324 g: zero 0.44, noise 0.032, linearity 0.020, eccentric 0.005, ESD 0.10 [ASSUMED], span 0.001 -> 3 sigma 1.35 mg = 0.0208 gr (DSP-04 assumed 3 mg)
+   light    10.000 g: zero 0.23, noise 0.032, linearity 0.063, eccentric 0.163, ESD 0.10 [ASSUMED], span 0.027 -> 3 sigma 0.93 mg = 0.0143 gr (DSP-04 assumed 3 mg)
+   light     0.324 g: zero 0.23, noise 0.032, linearity 0.020, eccentric 0.005, ESD 0.10 [ASSUMED], span 0.001 -> 3 sigma 0.76 mg = 0.0118 gr (DSP-04 assumed 3 mg)
+   -> Dosing is set by zero stability (optical-null drift) and electrostatics, not by span or magnet drift.
+
+12. Lever ratio r = 15 vs r = 20 (OI-02 / MAGNET_COIL §10 left this to the error budget)
+                                                           r = 15            r = 20
+   coil arm b                                              150 mm            200 mm
+   constant coil power P0 (Recoma 28)                       18 mW             10 mW
+   zero per 100 nm, baseline / light hinges        0.42 / 0.20 mg    0.33 / 0.16 mg
+   counterweight (option U) [MECH §2]                       187 g             310 g
+   lever bending modes, same section                         1.00            0.56 x
+   cell length                                               base            +50 mm
+   MET-08 (k=2), baseline hinges: r = 15 0.87 mg, r = 20 0.70 mg; light hinges at r = 15: 0.46 mg
+   -> Keep r = 15.  The light hinge set buys more zero stability than r = 20 does, without a longer cell, a
+      heavier counterweight or lower lever modes.  Coil power is already only 18 mW.
+
+13. Summary against the requirements (Recoma 28 baseline, assumed environment)
+   MET-03 SD at 10 g                       0.07 mg (k=1)                                                         <= 1 mg         OK
+   MET-03 SD at 500 g, x1 / x10 floor      0.31 / 0.90 mg (0.9 s window at x10)                                  <= 1 mg         OK if fine corners + floor <= ~10x
+   MET-04 linearity (p95)                  1.17 mg typ INL 3-pt; max INL: 1.92 smooth 5-pt, 0.87 rough 9-pt      +/-2 mg         OK with 9-pt baseline
+   MET-06 static, now / best practice      5.3 / 1.3 ppm/K (k=2)                                                 +/-2 ppm/K      after history only
+   Span at 520 g in use (MET-07)           0.93 mg (k=2)                                                         within +/-2 mg  OK
+   MET-08 zero over 60 s, baseline / light 0.87 / 0.46 mg (k=2)                                                  <= 1 mg         OK (null drift <= 100 nm)
+   MET-09 eccentric                        1.41 mg mech + adjust stability                                       +/-2 mg         needs fine adjusters (OI-25)
+   MET-05 settling                         1.14 s at 10 g; ~2.7 s at 500 g with the 0.9 s window                 3 s (goal 1.5)  OK
+   DSP-04 dosing 3 sigma, 10 g             1.44 / 0.93 mg                                                        ~3 mg assumed   better than assumed
+
+Sanity checks
+   - SM reproduced: settling SD 10 g 0.032 mg, 500 g 0.172 mg (within 5 %). PASS
+   - lag model reproduces MC §7: 3.54 ppm at 2 K/h with tau = 4h^2/(pi^2 a) = 19 s. PASS
+   - 3-point adjustment removes a pure quadratic exactly (residual < 1e-9 mg). PASS
+   - in-situ alpha formula reproduces MC §12d: 0.14 % at 5 K with sigma_adj 1.7 ppm. PASS
+   - 1 mg on the pan = 19.6 nA (MECH §10: 131 nA at Kf 5 N/A, scaled to 33.3 N/A). PASS
+   - FS shunt voltage 1.56 V matches SM §1. PASS
+   - buoyancy: 1 % air density x net volume moment / a gives the printed mg value. PASS
+   - ramp-fit estimator: endpoint SD 2 sigma/sqrt(N) matches a direct least-squares simulation. PASS
+   - runtime 0 s
